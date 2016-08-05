@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}BASE{% endblock %}</title>
+
+    <link rel="shortcut icon" href="{% static 'img/fav.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+
+</head>
+<body>
+
+{% block content %} {% endblock %}
+
+    <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
