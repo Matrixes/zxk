@@ -4,19 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="醉心客，博客，文章，论坛">
+    <meta name="description" content="醉心客的个人网站">
+    <meta name="author" content="醉心客">
 
-    <title>{% block title %}BASE{% endblock %}</title>
-
+    <title>{% block title %} BASE {% endblock %}</title>
     <link rel="shortcut icon" href="{% static 'img/fav.ico' %}" type="image/x-icon" />
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
 
+    {% block extrahead %}{% endblock %}
 
+   
 </head>
 <body>
 
+
+
 {% block content %} {% endblock %}
 
-    <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+
+    {% block extrascrript %}  {% endblock %}
+
+    <script src="{% static 'bootstrap/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
