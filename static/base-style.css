@@ -6,6 +6,11 @@ a.navbar-brand img {
 	margin-right: 6px
 }
 
+.navbar {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
 .footer {
 	margin-top: 100px;
 	line-height: 1.0em;

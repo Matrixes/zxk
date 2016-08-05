@@ -32,7 +32,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'home:index' %}">
           <img alt="Brand" src="{% static 'img/logo.jpg' %}">
           醉心客
         </a>
@@ -65,6 +65,7 @@
         </form>
       -->
         <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
             <li>
               <a href="#">
                 <span class="glyphicon glyphicon-envelope"></span>
@@ -82,15 +83,16 @@
               <li><a href="#">安全退出</a></li>
             </ul>
             </li>
-
+        {% else %}
             <li>
-              <a href="#">
+              <a href="/users/login">
                 <span class="glyphicon glyphicon-home"></span>
                 登录
               </a>
             </li>
-          
+        {% endif %}
         </ul>
+        }
       </div><!-- /.navbar-collapse -->
   </nav>
 </div>
@@ -126,8 +128,8 @@
 	</div>
 </div>
 
-
-    {% block extrascrript %}  {% endblock %}
+{% block extrascrript %}  {% endblock %}
+    
 
     <script src="{% static 'bootstrap/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
