@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="{% static 'base-style.css' %}" />
 
-    {% block extrahead %}{% endblock %}
+    {% block extra_head %}{% endblock %}
 
    
 </head>
@@ -92,7 +92,7 @@
             </li>
         {% endif %}
         </ul>
-        }
+        
       </div><!-- /.navbar-collapse -->
   </nav>
 </div>
@@ -102,24 +102,17 @@
 {% block content %} {% endblock %}
 
 
-
-
 <div class="container-fluid footer">
 	<div class="row text-center">
 	    <hr />
-	    <div class="col-md-4 col-sm-4 col-xs-6">
+	    <div class="col-md-6 col-sm-6 col-xs-6">
 		    <br />
 			<p>© 2015-2016</p>
 			<p>Nginx</p>
 			<p>Aliyun</p>
 		</div>
-		<div class="col-md-4 col-sm-4 col-xs-6">
-			<h5>联系</h5>
-			<p>QQ：......</a></p>
-			<p>电邮:......</a></p>
-			<p>电话：......</a></p>
-		</div>
-		<div class="col-md-4 col-sm-4 col-xs-6">
+		
+		<div class="col-md-6 col-sm-6 col-xs-6">
 			<h5>友情链接</h5>
 			<p><a href="http://www.baidu.com" target="_blank">Baidu</a></p>
 			<p><a href="http://www.qq.com" target="_blank">QQ</a></p>
