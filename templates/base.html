@@ -41,7 +41,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="#">文章</a></li>
+          <li><a href="{% url 'blog:post_list' %}">博客</a></li>
           <li><a href="#">论坛</a></li>
           <li><a href="#">图库</a></li>
           <li class="dropdown">
@@ -85,7 +85,7 @@
             </li>
         {% else %}
             <li>
-              <a href="/accounts/login">
+              <a href="#">
                 <span class="glyphicon glyphicon-home"></span>
                 登录
               </a>
