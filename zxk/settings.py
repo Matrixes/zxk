@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #'django.contrib.sites',
     'home',
     'blog',
+    'taggit',
 ]
 
 
@@ -153,8 +154,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Email setting
-EMAIL_HOST = 'smtp.qq.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = os.environ.get("MAIL_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASSWORD")
+# EMAIL_HOST_PASSWORD = "qucibejzibqebhcb"
+EMAIL_PORT = 25
 EMAIL_USE_TLS = True

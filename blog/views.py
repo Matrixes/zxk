@@ -3,12 +3,20 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from django.core.mail import send_mail
 
-from .models import Post
-from .forms import EmailPostForm
+from .models import Post, Comment
+from .forms import EmailPostForm, CommentForm
+
+from taggit.models import Tag
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
 	object_list = Post.published.all()
+
+	tag = None
+	if tag_slug:
+		tag = get_object_or_404(Tag, slug=tag_slug)
+		object_list = object_list.filter(tags__in=[tag])
+
 	paginator = Paginator(object_list, 3)
 	page = request.GET.get('page')
 
@@ -19,7 +27,7 @@ def post_list(request):
 	except EmptyPage:
 		posts = paginator.page(paginator.num_pages)
 
-	context = {'page': page, 'posts': posts}
+	context = {'page': page, 'posts': posts, 'tag': tag}
 
 	return render(request, 'blog/post/list.html', context)
 
@@ -32,14 +40,29 @@ class PostListView(ListView):
 
 
 def post_detail(request, year, month, day, post):
-    post = get_object_or_404(Post, slug=post, 
+
+	new = False
+
+	post = get_object_or_404(Post, slug=post, 
                                    status='P',
                                    publish__year=year,
                                    publish__month=month,
                                    publish__day=day)
-    
-    context = {'post': post}
-    return render(request, 'blog/post/detail.html', context)
+
+	comments = post.comments.all().filter(active=True)
+
+	if request.method == 'POST':
+		comment_form = CommentForm(request.POST)
+		if comment_form.is_valid():
+			new_comment = comment_form.save(commit=False)
+			new_comment.post = post
+			new_comment.save()
+			new = True
+	else:
+		comment_form = CommentForm()
+
+	context = {'post': post, 'comments': comments, 'comment_form': comment_form, 'new': new}
+	return render(request, 'blog/post/detail.html', context)
 
 
 def post_share(request, post_id):
@@ -53,11 +76,11 @@ def post_share(request, post_id):
 			cd = form.cleaned_data
 			post_url = request.build_absolute_uri(post.get_absolute_url())
 			subject = "{}<{}> recommends you reading '{}'".format(cd['name'], cd['email'], post.title)
-			message = "Read '{}' at {}\n\n{}\'s comments: {}".format(postt.title, 
+			message = "Read '{}' at {}\n\n{}\'s comments: {}".format(post.title, 
 				                                                     post_url,
 				                                                     cd['name'],
 				                                                     cd['comments'])
-			send_mail(subject, message, 'admin@admin.com', [cd['to']])
+			send_mail(subject, message, 'kaikty@163.com', [cd['to']])
 			sent = True
 	else:
 		form = EmailPostForm()

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}醉心客 - 博客{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'blog-style.css' %}" />
+{% endblock %}
 
 
 {% block content %}
@@ -18,21 +24,21 @@
 <div class="container">
 
     {% for post in posts %}
-
     <div class="row">
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-            <h2>
-                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-            </h2>
+            <article>
+                <h2>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                </h2>
+                <p class="text-right author">
+                    Published {{ post.publish }} by {{ post.author }}
+                </p>
 
-            <p class="text-right">
-                Published {{ post.publish }} by {{ post.author }}
-            </p>
-
-            <p>{{ post.body|truncatewords:30|linebreaks }}</p>
-
+                <p class="body">{{ post.body|truncatewords:30|linebreaks }}</p>
+            </article>
         </div>
     </div>
+    
 
     {% endfor %}
     
@@ -41,8 +47,33 @@
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
             {% include "./pagination.html" with page=posts %}
         </div>
+        {% if tag %}
+ <h2>Posts tagged with "{{ tag.name }}"</h2>
+{% endif %}
     </div>
 
+
+ 
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 sidebar">
+        <div class="well">
+             <h4>搜索</h4>
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>    
+
+        <div class="well">
+            <h4>公告</h4>
+            <p class="tags">Tags: {{ post.tags.all|join:", " }}</p>
+        </div>
+    </div>
+
+      
 </div>
 
 {% endblock %}

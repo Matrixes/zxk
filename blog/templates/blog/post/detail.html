@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}{{ post.title }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'blog-detail.css' %}" />
+{% endblock %}
 
 
 {% block content %}
@@ -24,7 +30,7 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <p class="text-right">
+            <p class="text-right author">
                 Published {{ post.publish }} by {{ post.author }}
             </p>
         </div>
@@ -38,11 +44,50 @@
 
     <div class="row">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-md-offset-10">
-            <p class="pull-right">
-                <a href="{%  url 'blog:post_share' post.id %}">邮件分享</a>
+            <p class="pull-right share">
+                <a href="{%  url 'blog:post_share' post.id %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </button>
+                </a>
             </p>
         </div>
     </div>
+
+    {% with comments.count as total_comments %}
+
+    <h2>
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+
+    {% endwith %}
+
+    {% for comment in comments %}
+
+    <div class="comment">
+        <p class="info">
+            Comment {{ forloop.counter }} by {{ comment.name }}
+            {{ comment.created }}
+        </p>
+
+        {{ comment.body|linebreaks }}
+    </div>
+
+    {% empty %}
+        <p>There are no comments yet.</p>
+
+    {% endfor %}
+
+    {% if new %}
+ <h2>Your comment has been added.</h2>
+{% else %}
+ <h2>Add a new comment</h2>
+ <form action="." method="post">
+ {{ comment_form.as_p }}
+ {% csrf_token %}
+ <p><input type="submit" value="Add comment"></p>
+ </form>
+{% endif %}
 
 </div>
 {% endblock %}
