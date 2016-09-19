@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'home',
     'blog',
     #'taggit',
+    'social.apps.django_app.default',
 ]
 
 # account 使用Django自带认证系统，使用这个时urls中就不要用namespace了
@@ -169,7 +170,9 @@ EMAIL_USE_TLS = True
 # you can configure Django to write e-mails to the standard output instead 
 # of sending them through an SMTP server. Django provides an e-mail backend 
 # to write e-mails to the console.
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Django authentication views
 
@@ -190,3 +193,15 @@ LOGIN_URL = reverse_lazy('login')
 # Is the URL to redirect the user to log out
 LOGOUT_URL = reverse_lazy('logout')
 
+
+# User Model
+#...
+
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = '9890f2416a5ee83e8da8'
+SOCIAL_AUTH_GITHUB_SECRET = '9ad5f139646112dd848a295b1b708730fe4152f2' 

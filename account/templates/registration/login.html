@@ -29,6 +29,12 @@
 <p><a href="{% url "password_reset" %}">忘记密码</a></p>
 <p><a href="{% url "register" %}">注册</a></p>
 
+<div class="social">
+ <ul>
+ <li class="facebook"><a href="{% url 'social:begin' 'github' %}">Sign in with Facebook</a></li>
+ </ul>
+</div>
+
 {% if form.errors %}
     <div class="row">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
