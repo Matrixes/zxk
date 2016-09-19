@@ -7,12 +7,6 @@
 <div class="container">
 <h2>登录</h2>
 
-{% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-{% else %}
-    <p>Please, use the following form to log-in:</p>
-{% endif %}
-
 <form action="" method="post" class="form-horizonta" role="form">
     {% csrf_token %}
     {% for field in form %}
@@ -31,6 +25,18 @@
     <input type="hidden" name="next" value="{{ next }}" />
     <input type="submit" value="Log-in">
 </form>
+
+<p><a href="{% url "password_reset" %}">忘记密码</a></p>
+<p><a href="{% url "register" %}">注册</a></p>
+
+{% if form.errors %}
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <p>用户名或者密码错误</p>
+        </div>
+    </div>
+{% endif %}
+
 </div>
 
 {% endblock %}

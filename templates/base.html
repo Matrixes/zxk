@@ -65,7 +65,7 @@
         </form>
       -->
         <ul class="nav navbar-nav navbar-right">
-        {% if user.is_authenticated %}
+        {% if request.user.is_authenticated %}
             <li>
               <a href="#">
                 <span class="glyphicon glyphicon-envelope"></span>
@@ -73,9 +73,9 @@
               </a>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人主页 <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }} <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">个人主页</a></li>
+              <li><a href="{% url 'dashboard' %}">个人主页</a></li>
               <li><a href="{% url 'password_change' %}">修改密码</a></li>
               <li><a href="#">忘记密码</a></li>
               <li><a href="#">忘记邮箱</a></li>

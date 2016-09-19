@@ -165,6 +165,13 @@ EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASSWORD")
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
+# 上面的配置是通过SMTP发送邮件，下面的是让邮件发送到终端
+# you can configure Django to write e-mails to the standard output instead 
+# of sending them through an SMTP server. Django provides an e-mail backend 
+# to write e-mails to the console.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Django authentication views
 
 # The reverse_lazy() function reverses URLs just like reverse() does, 
 # but you can use it when you need to reverse URLs before your 
