@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>登录</h2>
+    <p></p>
+    <form action="" method="post" class="form-horizonta" role="">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.errors }}
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                {{ field.label_tag }}
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                {{ field }}
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    
+        <button type="submit" class="btn btn-success">登录</button>
+    </form>
+</div>
+{% endblock %}

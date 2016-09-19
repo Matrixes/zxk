@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}醉心客 - 登录{% endblock %}
+
+{% block content %}
+
+<div class="container">
+<h2>登录</h2>
+
+{% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+{% else %}
+    <p>Please, use the following form to log-in:</p>
+{% endif %}
+
+<form action="" method="post" class="form-horizonta" role="form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.errors }}
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                {{ field.label_tag }}
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    {{ field }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <input type="submit" value="Log-in">
+</form>
+</div>
+
+{% endblock %}

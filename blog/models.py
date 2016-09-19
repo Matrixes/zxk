@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from django.core.urlresolvers import reverse
 
-from taggit.managers import TaggableManager
+#from taggit.managers import TaggableManager
 
 
 class PublishedManager(models.Manager):
@@ -33,7 +33,7 @@ class Post(models.Model):
 	objects = models.Manager()  # default，也要加上，没有的话无法用objects
 	published = PublishedManager()
 
-	tags = TaggableManager()
+	#tags = TaggableManager()
 
 	def get_absolute_url(self):
 		return reverse('blog:post_detail', args=[self.publish.year,

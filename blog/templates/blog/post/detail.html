@@ -55,39 +55,80 @@
     </div>
 
     {% with comments.count as total_comments %}
-
-    <h2>
-        {{ total_comments }} comment{{ total_comments|pluralize }}
-    </h2>
-
+    
+    <div class="row">
+        <div class="col-md-2 col-md-offset-10">
+            <h3>
+                {{ total_comments }} comment{{ total_comments|pluralize }}
+            </h3>
+        </div>
+    </div>
     {% endwith %}
 
     {% for comment in comments %}
 
-    <div class="comment">
-        <p class="info">
-            Comment {{ forloop.counter }} by {{ comment.name }}
-            {{ comment.created }}
-        </p>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <p class="text-info">
+                Comment {{ forloop.counter }} by {{ comment.name }}
+            </p>
+        </div>
 
-        {{ comment.body|linebreaks }}
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <p class="text-info pull-right">
+                {{ comment.created }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            <p class="comment_body">
+                {{ comment.body|linebreaks }}
+            </p>
+        </div>
     </div>
 
     {% empty %}
-        <p>There are no comments yet.</p>
+
+    <p>没有评论</p>
 
     {% endfor %}
 
-    {% if new %}
- <h2>Your comment has been added.</h2>
-{% else %}
- <h2>Add a new comment</h2>
- <form action="." method="post">
- {{ comment_form.as_p }}
- {% csrf_token %}
- <p><input type="submit" value="Add comment"></p>
- </form>
-{% endif %}
+
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>添加评论</h3>
+        </div>
+    </div>
+
+    <form action="." method="post" class="form-horizonta" role="form">
+        {% csrf_token %}
+        {% for field in comment_form %}
+        <div class="form-group">
+            
+            {{ field.errors }}
+            
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    {{ field }}
+                </div> 
+            </div>                           
+        </div>
+
+        {% endfor %}
+    
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <button type="submit" class="btn btn-success btn-lg">评论</button>
+            </div>
+        </div>
+    </form>
+
 
 </div>
 {% endblock %}

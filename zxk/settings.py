@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +41,11 @@ INSTALLED_APPS = [
     #'django.contrib.sites',
     'home',
     'blog',
-    'taggit',
+    #'taggit',
 ]
+
+# account 使用Django自带认证系统，使用这个时urls中就不要用namespace了
+# accounts 自定义的认证系统
 
 
 MIDDLEWARE = [
@@ -160,3 +164,22 @@ EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASSWORD")
 # EMAIL_HOST_PASSWORD = "qucibejzibqebhcb"
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+
+
+# The reverse_lazy() function reverses URLs just like reverse() does, 
+# but you can use it when you need to reverse URLs before your 
+# project's URL configuration is loaded.
+
+from django.core.urlresolvers import reverse_lazy
+
+# Tells Django which URL to redirect after login
+# if the contrib.auth.views.login view gets no next parameter
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+
+# Is the URL to redirect the user to log in (e.g. using the
+# login_required decorator)
+LOGIN_URL = reverse_lazy('login')
+
+# Is the URL to redirect the user to log out
+LOGOUT_URL = reverse_lazy('logout')
+

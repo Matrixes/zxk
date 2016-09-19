@@ -6,16 +6,16 @@ from django.core.mail import send_mail
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
 
-from taggit.models import Tag
+#from taggit.models import Tag
 
 
-def post_list(request, tag_slug=None):
+def post_list(request):  #, tag_slug=None):
 	object_list = Post.published.all()
 
-	tag = None
-	if tag_slug:
-		tag = get_object_or_404(Tag, slug=tag_slug)
-		object_list = object_list.filter(tags__in=[tag])
+	#tag = None
+	#if tag_slug:
+	#	tag = get_object_or_404(Tag, slug=tag_slug)
+	#	object_list = object_list.filter(tags__in=[tag])
 
 	paginator = Paginator(object_list, 3)
 	page = request.GET.get('page')
@@ -27,7 +27,7 @@ def post_list(request, tag_slug=None):
 	except EmptyPage:
 		posts = paginator.page(paginator.num_pages)
 
-	context = {'page': page, 'posts': posts, 'tag': tag}
+	context = {'page': page, 'posts': posts,}  # 'tag': tag}
 
 	return render(request, 'blog/post/list.html', context)
 
@@ -41,7 +41,7 @@ class PostListView(ListView):
 
 def post_detail(request, year, month, day, post):
 
-	new = False
+	# new = False
 
 	post = get_object_or_404(Post, slug=post, 
                                    status='P',
@@ -61,7 +61,7 @@ def post_detail(request, year, month, day, post):
 	else:
 		comment_form = CommentForm()
 
-	context = {'post': post, 'comments': comments, 'comment_form': comment_form, 'new': new}
+	context = {'post': post, 'comments': comments, 'comment_form': comment_form}
 	return render(request, 'blog/post/detail.html', context)
 
 

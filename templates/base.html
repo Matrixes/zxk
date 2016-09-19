@@ -76,16 +76,16 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人主页 <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#">个人主页</a></li>
-              <li><a href="#">修改密码</a></li>
+              <li><a href="{% url 'password_change' %}">修改密码</a></li>
               <li><a href="#">忘记密码</a></li>
               <li><a href="#">忘记邮箱</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">安全退出</a></li>
+              <li><a href="{% url 'logout' %}">安全退出</a></li>
             </ul>
             </li>
         {% else %}
             <li>
-              <a href="#">
+              <a href="{% url 'login' %}">
                 <span class="glyphicon glyphicon-home"></span>
                 登录
               </a>
