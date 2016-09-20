@@ -2,33 +2,43 @@
 
 {% load staticfiles %}
 
-{% block title %}个人资料{% endblock %}
+{% block title %}用户中心{% endblock %}
 
 
 {% block content %}
 <div class="container">
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <h3>用户中心</h3>
+            <a href="{% url 'edit' %}">编辑资料</a> 
+            <a href="{% url 'password_change' %}">修改密码</a>
+            <br />
+            <p>用户名: {{ profile.user.username }}</p>
+            <p>Email: {{ profile.user.email }}</p>
+            <p>Birth: {{ profile.date_of_birth }}</p>
 
-    <h2>个人资料</h2>
-    <a href="{% url 'edit' %}">编辑资料</a> 
-    <a href="{% url 'password_change' %}">修改密码</a>
-    <br />
-    {{ profile.user.username }}
-    {{ profile.user.firstname }}
-    {{ profile.user.email }}
-    {{ profile.date_of_birth }}
-<br />
-      {{ r }} <br>
-      {{ request.POST }}
-{% if messages %}
-<ul class="messages">
-{% for message in messages %}
-<li class="{{ message.tags }}">
-{{ message|safe }}
-<a href="#" class="close">✖</a>
-</li>
-{% endfor %}
-</ul>
-{% endif %}    
+            {% if profile.user.firstname %}
+            <p>用户名: {{ profile.user.firstname }}</p>
+            {% endif %}
 
+            
+        </div>
+
+        <div class="col-md-9 col-lg-9">
+
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">✖</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %} 
+
+        </div>
+        
+    </div>
 </div>
 {% endblock %}

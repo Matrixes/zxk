@@ -50,8 +50,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
 	post = models.ForeignKey(Post, related_name='comments')
-	name = models.CharField(max_length=80)
-	email = models.EmailField()
+	name = models.ForeignKey(User, related_name='comments')
 	body = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateField(auto_now=True)

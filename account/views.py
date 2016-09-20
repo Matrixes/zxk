@@ -14,8 +14,7 @@ from .models import Profile
 @login_required
 def dashboard(request):
 	profile = Profile.objects.get(user=request.user)
-	r = dir(request)
-	return render(request, 'account/dashboard.html', {'profile': profile, 'r': r})
+	return render(request, 'account/dashboard.html', {'profile': profile})
 
 
 def register(request):

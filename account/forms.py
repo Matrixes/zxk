@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class UserRegistrationForm(forms.ModelForm):
-	password = forms.CharField(label="密码", widget=forms.PasswordInput)
+	password = forms.CharField(label="密  码", widget=forms.PasswordInput)
 	password2 = forms.CharField(label="确认密码", widget=forms.PasswordInput)
 
 	class Meta:
