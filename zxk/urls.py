@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^account/', include('account.urls')),  # 使用Django自带试图的话就别加namespace了
     
-    url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
+    # url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

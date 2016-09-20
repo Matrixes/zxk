@@ -6,13 +6,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
 
 @login_required
 def dashboard(request):
-	return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+	profile = Profile.objects.get(user=request.user)
+	r = dir(request)
+	return render(request, 'account/dashboard.html', {'profile': profile, 'r': r})
 
 
 def register(request):
@@ -39,6 +42,9 @@ def edit(request):
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()
+			messages.success(request, '成功啦')
+		else:
+			messages.error(request, '失败了')
 	else:
 		user_form = UserEditForm(instance=request.user)
 		profile_form = ProfileEditForm(instance=request.user.profile)
