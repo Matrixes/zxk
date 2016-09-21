@@ -1,32 +1,60 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}醉心客 - 登录{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'account/login.css' %}" />
+{% endblock %}
 
 {% block content %}
 
 <div class="container">
     <div class="row">
-        <div class="col-md-9 col-lg-9">
+        <!--
+        <div class="col-md-8 col-lg-8">
 
         </div>
-        <div class="col-md-3 col-lg-3">
-            <div class="well well-lg">
-            <h3 class="text-center">登录</h3>
-            <form action="" method="post" class="form-horizonta" role="form">
-                {% csrf_token %}
-
-                {% for field in form %}
-                <div class="form-group">
-
-                    {{ field.label_tag }}
-                    {{ field }}
+        -->
+        {% if request.user.is_authenticated %}
+            <div class="col-md-3 col-lg-3 col-md-offset-9 col-lg-offset-9">
+                <div class="well">
+                    <p>1、说话不要有攻击性，不要有杀伤力，不夸已能，不扬人恶，自然能化敌为友。</p>
                 </div>
-                {% endfor %}
+            </div>
 
-                <div class="row ">
+        {% else %}
+            <div class="col-md-3 col-lg-3 col-md-offset-9 col-lg-offset-9 login">
+                <div class="row">           
+                    <h3 class="text-center">登录</h3>
+                    <form action="" method="post" class="form-horizonta" role="form">
+                        {% csrf_token %}
+
+                        <!--
+                        {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        -->
+            
+                <div class="form-group">
+                    <label for="{{ field.username.id_for_label }}" class="col-sm-3 col-md-3 col-ls-3 control-label">帐 号</label>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ field.password.id_for_label }}" class="col-sm-3 col-md-3 col-ls-3 control-label">密 码</label>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-4 col-lg-4">
                         <input type="hidden" name="next" value="{{ next }}">
-                        <button type="submit" value="Log-in">登录</button>
+                        <button type="submit">登录</button>
                     </div>
 
                     {% if form.errors %}
@@ -35,20 +63,19 @@
                     </div>
                     {% endif %}
                 </div>
-                
-                <br />
-
-                <div class="row">
-                    <div class="col-md-6 col-lg-6">
-                        <a href="{% url "password_reset" %}">忘记密码</a>
-                    </div>
-                    <div class="col-md-6 col-lg-6">
-                        <a href="{% url "register" %}">注册</a>
-                    </div>
-                </div>
-
             </form>
             </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <a href="{% url "password_reset" %}">忘记密码</a>
+                    <a href="{% url "register" %}">注册</a>
+                </div>
+            </div>
+            {% endif %}
+
         </div>
     </div>
 </div>

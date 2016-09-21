@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
@@ -39,6 +40,7 @@ class PostListView(ListView):
 	template_name = 'blog/post/list.html'
 
 
+@login_required
 def post_detail(request, year, month, day, post):
 
 	# new = False

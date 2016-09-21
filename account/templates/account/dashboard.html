@@ -7,19 +7,38 @@
 
 {% block content %}
 <div class="container">
+<br />
     <div class="row">
-        <div class="col-md-3 col-lg-3">
-            <h3>用户中心</h3>
-            <a href="{% url 'edit' %}">编辑资料</a> 
-            <a href="{% url 'password_change' %}">修改密码</a>
-            <br />
-            <p>用户名: {{ profile.user.username }}</p>
-            <p>Email: {{ profile.user.email }}</p>
-            <p>Birth: {{ profile.date_of_birth }}</p>
+        <div class="col-md-2 col-lg-2">
+            
+            <!--
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">个人中心<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            -->
+            
+ 
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#">个人中心</a></li>
+                <li><a href="{% url 'edit' %}">编辑资料</a></li>
+                <li><a href="{% url 'password_change' %}">修改密码</a></li>
+            </ul>
+        </div>
 
-            {% if profile.user.firstname %}
-            <p>用户名: {{ profile.user.firstname }}</p>
-            {% endif %}
+        <div class="col-md-10 col-lg-10">
+
+            <p>用户名: {{ profile.user.username }}</p>
+            <p>昵称: {{ profile.nickname }}</p>
+            <p>Email: {{ profile.user.email }}</p>
+            <p>Birth: {{ profile.birthday }}</p>
+
 
             
         </div>
