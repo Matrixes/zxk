@@ -34,12 +34,15 @@
         </div>
 
         <div class="col-md-10 col-lg-10">
-            <img src="{% media '{{ profile.photo }}' %}">
+            <img src="{{ profile.photo.url }}" height="150" width="150">
 
             <p>用户名: {{ profile.user.username }}</p>
             <p>昵称: {{ profile.nickname }}</p>
-            <p>Email: {{ profile.user.email }}</p>
-            <p>Birth: {{ profile.birthday }}</p>
+            <p>邮箱: {{ profile.user.email }}</p>
+            <p>生日: {{ profile.birthday }}</p>
+            <p>最后登录: {{ profile.user.last_login }}</p>
+            <p>注册时间: {{ profile.user.date_joined }}</p>
+
 
 
             
