@@ -8,13 +8,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
+
+from django.contrib.auth.models import User
 from .models import Profile
+from blog.models import Post, Comment
 
 
 @login_required
 def dashboard(request):
 	profile = Profile.objects.get(user=request.user)
-	return render(request, 'account/dashboard.html', {'profile': profile})
+	posts = Post.objects.filter(author=request.user)
+	comments = Comment.objects.filter(name=request.user)
+	return render(request, 'account/dashboard.html', 
+		                   {'profile': profile,
+		                    'posts': posts,
+		                    'comments': comments})
 
 
 def register(request):
