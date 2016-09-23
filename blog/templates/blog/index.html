@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}醉心客 - 博客{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'blog-index.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="/">首页</a></li>
+                <li class="active">博客</li>
+            </ol>
+        </div>
+    </div>
+
+    {% for post in posts %}
+    <div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+            <article>
+                <h2>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                </h2>
+                <p>
+                    
+                </p>
+                <p class="text-right author">
+                    Published {{ post.publish }} by {{ post.author }}
+                </p>
+
+                <p class="body">{{ post.body|truncatewords:3|linebreaks }}</p>
+            <p>
+            {% for i in post.tags.all %}
+                <span class="glyphicon glyphicon-paperclip">{{ i }}</span>
+            {% endfor %}
+            </p>
+
+            </article>
+
+        </div>
+    </div>
+    
+    {% endfor %}
+    
+
+    <div class="row">
+        <div class="col-sm-9 col-md-9 col-lg-9">
+            {% include "./pagination.html" with page=posts %}
+        </div>
+    </div>
+    
+    <!--
+    {% if tag %}
+    <h2>Posts tagged with "{{ tag.name }}"</h2>
+    {% endif %}
+    -->
+
+
+    <div class="col-lg-3 col-md-3 col-sm-3 sidebar">
+        <div class="well">
+             <h4>搜索</h4>
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>    
+
+        <div class="well">
+            <h4>公告</h4>
+            <p>
+                {% for t in tag_list %}
+                    {{ t }} <br />
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+
+      
+</div>
+
+{% endblock %}

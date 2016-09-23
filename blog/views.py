@@ -4,21 +4,23 @@ from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
-from .models import Post, Comment
+from .models import Tag, Post, Comment
 from .forms import EmailPostForm, CommentForm
 
 #from taggit.models import Tag
 
 
 def post_list(request):  #, tag_slug=None):
-	object_list = Post.published.all()
+	post_list = Post.published.all()
 
 	#tag = None
 	#if tag_slug:
 	#	tag = get_object_or_404(Tag, slug=tag_slug)
 	#	object_list = object_list.filter(tags__in=[tag])
+	tag_list = Tag.objects.all()
 
-	paginator = Paginator(object_list, 3)
+
+	paginator = Paginator(post_list, 3)
 	page = request.GET.get('page')
 
 	try:
@@ -28,9 +30,9 @@ def post_list(request):  #, tag_slug=None):
 	except EmptyPage:
 		posts = paginator.page(paginator.num_pages)
 
-	context = {'page': page, 'posts': posts,}  # 'tag': tag}
+	context = {'page': page, 'posts': posts, 'tag_list': tag_list}
 
-	return render(request, 'blog/post/list.html', context)
+	return render(request, 'blog/index.html', context)
 
 
 class PostListView(ListView):

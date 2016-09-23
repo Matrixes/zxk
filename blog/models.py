@@ -10,6 +10,17 @@ from django.core.urlresolvers import reverse
 #from taggit.managers import TaggableManager
 
 
+class Tag(models.Model):
+	name = models.CharField(max_length=10, unique=True, blank=True)
+	created = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.name
+
+	class Meta:
+		ordering = ['name']
+
+
 class PublishedManager(models.Manager):
 	def get_queryset(self):
 		return super(PublishedManager, self).get_queryset().filter(status='P')
@@ -24,6 +35,8 @@ class Post(models.Model):
 	title = models.CharField(max_length=128)
 	slug = models.SlugField(max_length=128, unique_for_date='publish')
 	author = models.ForeignKey(User, related_name='blog_posts')
+	tags = models.ManyToManyField(Tag, related_name='blog_tags')
+
 	body = models.TextField()
 	publish = models.DateTimeField(default=timezone.now)
 	created = models.DateTimeField(auto_now_add=True)
@@ -41,11 +54,16 @@ class Post(models.Model):
                                                  self.publish.strftime('%d'),
                                                  self.slug])
 
+	def __str__(self):
+		return self.title
+
 	class Meta:
 		ordering = ['-publish']
 
-	def __str__(self):
-		return self.title
+	
+
+
+
 
 
 class Comment(models.Model):
@@ -56,8 +74,8 @@ class Comment(models.Model):
 	updated = models.DateField(auto_now=True)
 	active = models.BooleanField(default=True)
 
-	class Meta:
-		ordering = ['created']
-
 	def __str__(self):
 		return "Comment By {} on {}".format(self.name, self.post)
+
+	class Meta:
+		ordering = ['created']

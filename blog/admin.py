@@ -1,5 +1,15 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Tag, Post, Comment
+
+
+class TagAdmin(admin.ModelAdmin):
+	list_display = ('name', 'created')
+
+	fields = ['name',]
+
+	search_fields = ['name']
+
+admin.site.register(Tag, TagAdmin)
 
 
 class PostAdmin(admin.ModelAdmin):
