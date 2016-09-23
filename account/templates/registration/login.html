@@ -81,13 +81,14 @@
 </div>
 
 
-{% comment %}
 <div class="social">
- <ul>
- <li class="facebook"><a href="{% url 'social:begin' 'github' %}">Sign in with Facebook</a></li>
- </ul>
+    <ul>
+        <li class="github">
+            <a href="{% url 'social:begin' 'github' %}" target="_blank">Sign in with Facebook
+            </a>
+        </li>
+    </ul>
 </div>
-{% endcomment %}
 
 
 {% endblock %}
