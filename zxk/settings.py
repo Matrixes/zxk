@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'home',
     'blog',
     #'taggit',
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
 ]
 
 # account 使用Django自带认证系统，使用这个时urls中就不要用namespace了
@@ -75,8 +75,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
 
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
+                # 'social.apps.django_app.context_processors.backends',
+                # 'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -202,10 +202,10 @@ LOGOUT_URL = reverse_lazy('logout')
 #...
 
 
-AUTHENTICATION_BACKENDS = (
-    'social.backends.github.GithubOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'social.backends.github.GithubOAuth2',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 SOCIAL_AUTH_GITHUB_KEY = '9890f2416a5ee83e8da8'
 SOCIAL_AUTH_GITHUB_SECRET = '9ad5f139646112dd848a295b1b708730fe4152f2' 
