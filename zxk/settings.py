@@ -208,5 +208,5 @@ from django.core.urlresolvers import reverse_lazy
 #     'django.contrib.auth.backends.ModelBackend',
 # )
 
-SOCIAL_AUTH_GITHUB_KEY = '9890f2416a5ee83e8da8'
-SOCIAL_AUTH_GITHUB_SECRET = '9ad5f139646112dd848a295b1b708730fe4152f2' 
+#SOCIAL_AUTH_GITHUB_KEY = '9890f2416a5ee83e8da8'
+#SOCIAL_AUTH_GITHUB_SECRET = '9ad5f139646112dd848a295b1b708730fe4152f2' 

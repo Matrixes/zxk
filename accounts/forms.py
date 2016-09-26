@@ -33,14 +33,7 @@ class UserForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-	phone = forms.CharField()
 
 	class Meta:
 		model = UserProfile
-		fields = ('nickname', 'website', 'birthday', 'photo')
-
-	def clean_phone(self):
-		data = self.cleaned_data['phone']
-		if len(data) != 11:
-			raise forms.ValidationError("手机号位数不对")
-		return data
+		fields = ('nickname', 'phone', 'website', 'birthday', 'photo')
