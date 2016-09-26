@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm
 
 
-def user_login(request):
+def login(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
@@ -19,14 +19,14 @@ def user_login(request):
 			if user:
 				if user.is_active:
 					login(request, user)
-					return HttpResponseRedirect(reverse('account:dashboard'))
+					return HttpResponseRedirect(reverse('home:index'))
 				else:
 					return HttpResponse("Disabled account.")
 			else:
 				return HttpResponse("Invalid login")
 	else:
 		form = LoginForm()
-	return render(request, 'account/login.html', {'form': form})
+	return render(request, 'accounts/login.html', {'form': form})
 
 
 @login_required
