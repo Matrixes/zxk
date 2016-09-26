@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load static %}
+
+{% block title %}用户中心{% endblock %}
+
+
+{% block content %}
+<div class="container">
+<br /> {{ request.path }}
+    <div class="row">
+        <div class="col-md-2 col-lg-2">
+            
+            <!--
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">个人中心<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            -->
+            
+ 
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#">个人中心</a></li>
+                <li><a href="#">编辑资料</a></li>
+                <li><a href="#">修改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-3 col-lg-3">
+            <p>用户名: {{ profile.user.username }}</p>
+            <p>昵称: {{ profile.nickname }}</p>
+            <p>邮箱: {{ profile.user.email }}</p>
+            <p>生日: {{ profile.birthday }}</p>
+            <p>最后登录: {{ profile.user.last_login }}</p>
+            <p>注册时间: {{ profile.user.date_joined }}</p>
+            <p>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li class="{{ message.tags }}">
+                            {{ message|safe }}
+                            <a href="#" class="close">✖</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %} 
+
+            </p>
+        </div>
+
+        <div class="col-md-3 col-lg-3">
+            <img src="{{ profile.photo.url }}" alt="XXX" class="img-thumbnail" width="150px", height="150px">
+        </div>      
+    </div>
+
+    <div class="row">
+        <div class="col-md-5 col-lg-5 col-md-offset-2 col-md-offset-2">
+            <h3>发表文章</h3>
+            {% for post in posts %}
+                <a href="{{ post.get_absolute_url }}" target="_blank">
+                    {{ post.title }}
+                </a>
+                <br /><br />
+            {% endfor %}
+        </div>
+
+        <div class="col-md-5 col-lg-5">
+            <h3>发表评论</h3>
+            {% for comment in comments %}
+                <a href="{{ comment.post.get_absolute_url }}" target="_blank">
+                    {{ comment.post.title }}
+                </a>
+                <br />
+                {{ comment.body }} <hr />
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

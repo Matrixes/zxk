@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'account',
+    #'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #'django.contrib.sites',
     'home',
     'blog',
+    'accounts'
     #'taggit',
     #'social.apps.django_app.default',
 ]
@@ -188,14 +189,14 @@ from django.core.urlresolvers import reverse_lazy
 
 # Tells Django which URL to redirect after login
 # if the contrib.auth.views.login view gets no next parameter
-LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+# LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 
 # Is the URL to redirect the user to log in (e.g. using the
 # login_required decorator)
-LOGIN_URL = reverse_lazy('login')
+# LOGIN_URL = reverse_lazy('login')
 
 # Is the URL to redirect the user to log out
-LOGOUT_URL = reverse_lazy('logout')
+# LOGOUT_URL = reverse_lazy('logout')
 
 
 # User Model

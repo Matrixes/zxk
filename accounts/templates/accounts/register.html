@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-3 col-lg-3 col-md-offset-9 col-lg-offset-9">
+        <h3 class="text-center">注 册</h3>
+        <form method="post" class="form-horizontal" role="form">
+            {% csrf_token %}
+            <!--
+            {% for field in user_form %}
+
+                <div class="form-group">
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="col-sm-3 control-label">帐 号</label>
+                <div class="col-sm-9">
+                    {{ form.username }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="col-sm-3 control-label">邮 箱</label>
+                <div class="col-sm-9">
+                    {{ form.email }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="col-sm-3 control-label">密 码</label>
+                <div class="col-sm-9">
+                    {{ form.password }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}" class="col-sm-3 control-label">确 认 密 码</label>
+                <div class="col-sm-9">
+                    {{ form.password2 }}
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-sm-offset-8">
+                <button type="submit">注册</button>
+            </div>
+
+        </form>     
+    </div>
+</div>
+
+{% endblock %}
