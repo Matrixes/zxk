@@ -53,6 +53,14 @@ def post_detail(request, year, month, day, post):
                                    publish__month=month,
                                    publish__day=day)
 
+	viewed = request.session.get('viewed')
+
+	if not viewed:
+		post.viewed += 1
+		post.save()
+	
+	request.session['viewed'] = True
+
 	comments = post.comments.all().filter(active=True)
 
 	if request.method == 'POST':
