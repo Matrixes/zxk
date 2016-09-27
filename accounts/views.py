@@ -92,6 +92,10 @@ def register(request):
 
 
 # github
+
+import os
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 import json
 from requests_oauthlib import OAuth2Session
 
@@ -102,24 +106,41 @@ authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
 redirect_uri = "http://127.0.0.1:8000/accounts/github_auth"
-scope = []
+scope = ['user']
 
 def github_login(request):
-	github = OAuth2Session(client_id)  #, redirect_uri=redirect_uri, scope=scope)
+	github = OAuth2Session(client_id=client_id, scope=scope)  #, redirect_uri=redirect_uri, scope=scope)
 
 	# Redirect user to GitHub for authorization
 	authorization_url, state = github.authorization_url(authorization_base_url)
 
 	request.session['oauth_state'] = state
 
-	print(authorization_url)
+	#print(authorization_url)
 	return HttpResponseRedirect(authorization_url)
 
 
 def github_auth(request):
+	code = request.GET.get('code')
+
 	github = OAuth2Session(client_id, state=request.session['oauth_state'])
-	token = github.fetch_token(token_url, 
+	token = github.fetch_token(token_url, code=code,
 		                       client_secret=client_secret, 
 		                       authorization_response=redirect_uri)
-	r = github.get('https://api.github.com/user')
-	print(r.content)
+	response = github.get('https://api.github.com/user')
+	text = response.text
+	print(type(text))  # str
+	#print(text)
+	
+	#print(t)
+
+	#r = response.content
+	#print(type(r))  # bytes
+	#print(r)
+	print(token)
+	print(token.get('access_token'))
+	return HttpResponse(text)
+	'''
+	text=
+	{"login":"Matrixes","id":13495680,"avatar_url":"https://avatars.githubusercontent.com/u/13495680?v=3","gravatar_id":"","url":"https://api.github.com/users/Matrixes","html_url":"https://github.com/Matrixes","followers_url":"https://api.github.com/users/Matrixes/followers","following_url":"https://api.github.com/users/Matrixes/following{/other_user}","gists_url":"https://api.github.com/users/Matrixes/gists{/gist_id}","starred_url":"https://api.github.com/users/Matrixes/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/Matrixes/subscriptions","organizations_url":"https://api.github.com/users/Matrixes/orgs","repos_url":"https://api.github.com/users/Matrixes/repos","events_url":"https://api.github.com/users/Matrixes/events{/privacy}","received_events_url":"https://api.github.com/users/Matrixes/received_events","type":"User","site_admin":false,"name":null,"company":null,"blog":null,"location":null,"email":"batbike@163.com","hireable":null,"bio":null,"public_repos":21,"public_gists":0,"followers":3,"following":27,"created_at":"2015-07-25T10:40:27Z","updated_at":"2016-09-27T15:01:07Z","private_gists":0,"total_private_repos":0,"owned_private_repos":0,"disk_usage":6641,"collaborators":0,"plan":{"name":"free","space":976562499,"collaborators":0,"private_repos":0}}
+	'''
