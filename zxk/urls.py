@@ -22,11 +22,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('home.urls', namespace='home')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
-    #url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^accounts/', include('accounts.urls', namespace='accounts')),
 
     #url(r'^account/', include('account.urls')),  # 使用Django自带试图的话就别加namespace了
     #url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
-    url(r'^github/', include('github.urls', namespace='github')),
 ]
 
 if settings.DEBUG:

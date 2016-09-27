@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from blog.models import Post, Comment
 
@@ -91,3 +92,34 @@ def register(request):
 
 
 # github
+import json
+from requests_oauthlib import OAuth2Session
+
+client_id = '9890f2416a5ee83e8da8'
+client_secret = '9ad5f139646112dd848a295b1b708730fe4152f2'
+
+authorization_base_url = 'https://github.com/login/oauth/authorize'
+token_url = 'https://github.com/login/oauth/access_token'
+
+redirect_uri = "http://127.0.0.1:8000/accounts/github_auth"
+scope = []
+
+def github_login(request):
+	github = OAuth2Session(client_id)  #, redirect_uri=redirect_uri, scope=scope)
+
+	# Redirect user to GitHub for authorization
+	authorization_url, state = github.authorization_url(authorization_base_url)
+
+	request.session['oauth_state'] = state
+
+	print(authorization_url)
+	return HttpResponseRedirect(authorization_url)
+
+
+def github_auth(request):
+	github = OAuth2Session(client_id, state=request.session['oauth_state'])
+	token = github.fetch_token(token_url, 
+		                       client_secret=client_secret, 
+		                       authorization_response=redirect_uri)
+	r = github.get('https://api.github.com/user')
+	print(r.content)

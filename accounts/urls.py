@@ -10,6 +10,7 @@ urlpatterns = [
 
     url(r'^register', views.register, name='register'),
 
-    url(r'github/$', views.github_auth, name='github_oauth'),
-    url(r'github_login/$', views.githhub_login, name='github_login'),
+    url(r'^github', views.github_login, name='github_login'),
+    url(r'^github-auth', views.github_auth, name='github_auth'),
+
 ]
