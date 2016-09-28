@@ -8,7 +8,7 @@ class UserProfile(models.Model):
 	phone = models.CharField(max_length=11, blank=True)
 	website = models.URLField(blank=True)
 	birthday = models.DateField(blank=True, null=True)
-	photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
+	photo = models.ImageField(upload_to='users/%Y/%m/%d', default='users/default.png')
 
 
 	def __str__(self):
@@ -23,11 +23,14 @@ class SocialUser(models.Model):
 	)
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_user')
-	name = models.CharField(max_length=50)
+	
+	login = models.CharField(max_length=50)
+	social_id = models.IntegerField()
+
 	belong = models.CharField(max_length=10, choices=choices)
 
 	def __str__(self):
-		return "{}-{}".format(self.belong, self.name)
+		return "{}-{}".format(self.belong, self.login)
 
 	class Meta:
-		ordering = ['belong', 'name']
+		ordering = ['belong', 'login']

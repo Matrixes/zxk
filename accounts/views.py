@@ -2,9 +2,13 @@
 
 
 import re
+import random
+import string
+import requests
+from pprint import pprint
 from requests_oauthlib import OAuth2Session
-from django.conf import settings
 
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 # from django.core.urlresolvers import reverse  以前的地点
@@ -13,6 +17,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.mail import send_mail
 
 from blog.models import Post, Comment
 
@@ -116,18 +121,18 @@ def register(request):
 	return render(request, 'accounts/register.html', {'form': form})
 
 
+
 # Social Auth
 
 # github
 
-client_id = '9890f2416a5ee83e8da8'
-client_secret = '9ad5f139646112dd848a295b1b708730fe4152f2'
+client_id = settings.CLIENT_ID
+client_secret = settings.CLIENT_SECRET
+authorization_base_url = settings.AUTHORIZATION_BASE_URL
+token_url = settings.TOKEN_URL
+redirect_uri = settings.RECIRECT_URI
+scope = settings.SCOPE
 
-authorization_base_url = 'https://github.com/login/oauth/authorize'
-token_url = 'https://github.com/login/oauth/access_token'
-
-redirect_uri = "http://127.0.0.1:8000/accounts/github-auth"
-scope = ['user']
 
 def github_login(request):
 	github = OAuth2Session(client_id=client_id, scope=scope)
@@ -146,48 +151,56 @@ def github_auth(request):
 	github = OAuth2Session(client_id, state=request.session['oauth_state'])
 
 	# 下面的code=code这一项卡住很久
-	token = github.fetch_token(token_url, code=code,
-		                       client_secret=client_secret, 
-		                       authorization_response=redirect_uri)
+	token = github.fetch_token(token_url, code=code, client_secret=client_secret)
 	response = github.get('https://api.github.com/user')
 
-	# r = response.content  # bytes
-	text = response.text # str
+	c1 = response.content  # bytes
+	# c2 = response.content()   # Error 'bytes' object is not callable
 
-	a = re.split(r'["{},]')
-	b = [x.strip(':') for x in a if x and x != ':']
+	t1 = response.text  # str
+	# t2 = response.text()  # Error 'str' object is not callable
 
-	name = b[b.index('login')+1]
+	j1 = response.json  # method
+	res = response.json()  # dict
 
-	email = b[b.index('email')+1]
-	if email == "null":
-		email = None
+	login = res.get('login')
+	email = res.get('email') or ''  # if email is protected, then 'email': None
+	github_id = res.get('id')
+	avatar_url = res.get('avatar.url')
 
-	photo = b[b.index('avatar_url')+1]  # 后续该怎么办
+	u = SocialUser.objects.filter(login=login, social_id=github_id)
 
-	#try；
-	#    u = get_object_or_404(SocialUser, name=name)
-	#except Exception:
-	#	u = None
+	if len(u) > 1:
+		# raise 404
+		pass
 
-	u = SocialUser.objects.filter(name=name)
+	# if u is <QuerySet []>: a is None:False, bool(u): False
+	if u:  
+		user = User.objects.get(social_user=u)
+		if user.is_active:
+			login(request, user)
+			return  HttpResponseRedirect(reverse('accounts:profile'))
+		else:
+			return HttpResponse("The account is diabled")
 
-	if u:
-		user = u.user
-		login(request, u)
-		return  HttpResponseRedirect(reverse(profile))
+	# create new acount
 
-	username = name + "_github"
-	password = "suijizifuchuan"
-	nickname=name
-
+	username = login + "_github"
+	password = 'git' + ''.join([random.choice(string.printable[:62]) for i in range(5)])
+	
 	new_user = User(username=username, email=email)
 	new_user.set_password(password)
 	new_user.save()
 
-	UserProfile.objects.create(user=new_user, nickname=nickname) # photo怎么办
-	SocialUser.objects.create(user=new_user, name=name, belong='GH')
+	UserProfile.objects.create(user=new_user, nickname=login) # photo怎么办
+	SocialUser.objects.create(user=new_user, login=login, social_id=github_id, belong='GH')
+
+	if email:
+		subject = "You have created a new account of zuixinke"
+		message = "username: {}, password: {}. or use your github to login".format(username, password)
+		send_mail(subject, message, 'me@zuixinke.xyz', [email])
 
 	login(request, new_user)
+
 	# return  HttpResponseRedirect(reverse('accounts:profile'))
-	return  HttpResponseRedirect(reverse(profile))
+	return  HttpResponseRedirect(reverse('accounts:profile'))

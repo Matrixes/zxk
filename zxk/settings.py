@@ -177,6 +177,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+
 # Django authentication views
 
 # The reverse_lazy() function reverses URLs just like reverse() does, 
@@ -207,10 +208,23 @@ from django.core.urlresolvers import reverse_lazy
 # )
 
 
+
+
 # Social Auth
 
 # github
 
 # 为了使用http也可以，否则会报错
-import os
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+
+# upper
+
+CLIENT_ID= '9890f2416a5ee83e8da8'
+CLIENT_SECRET = '9ad5f139646112dd848a295b1b708730fe4152f2'
+
+AUTHORIZATION_BASE_URL = 'https://github.com/login/oauth/authorize'
+TOKEN_URL = 'https://github.com/login/oauth/access_token'
+
+RECIRECT_URI = "http://127.0.0.1:8000/accounts/github-auth"
+SCOPE = []
