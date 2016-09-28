@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'home',
     'blog',
     'accounts'
-    #'taggit',
-    #'social.apps.django_app.default',
 ]
 
 # account 使用Django自带认证系统，使用这个时urls中就不要用namespace了
@@ -208,5 +206,11 @@ from django.core.urlresolvers import reverse_lazy
 #     'django.contrib.auth.backends.ModelBackend',
 # )
 
-#SOCIAL_AUTH_GITHUB_KEY = '9890f2416a5ee83e8da8'
-#SOCIAL_AUTH_GITHUB_SECRET = '9ad5f139646112dd848a295b1b708730fe4152f2' 
+
+# Social Auth
+
+# github
+
+# 为了使用http也可以，否则会报错
+import os
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'

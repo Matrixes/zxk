@@ -13,3 +13,21 @@ class UserProfile(models.Model):
 
 	def __str__(self):
 		return "{}'s UserProfile".format(self.user.username)
+
+
+class SocialUser(models.Model):
+	choices = (
+		('GH', 'github'),
+		('WX', 'weixin'),
+		('QQ', 'qq'),
+	)
+
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_user')
+	name = models.CharField(max_length=50)
+	belong = models.CharField(max_length=10, choices=choices)
+
+	def __str__(self):
+		return "{}-{}".format(self.belong, self.name)
+
+	class Meta:
+		ordering = ['belong', 'name']

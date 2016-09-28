@@ -37,3 +37,13 @@ class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('nickname', 'phone', 'website', 'birthday', 'photo')
+
+
+class PasswordChangeForm(forms.Form):
+	old_password = forms.CharField(widget=forms.PasswordInput)
+	new_password = forms.CharField(widget=forms.PasswordInput)
+	new_password2 = forms.CharField(widget=forms.PasswordInput)
+
+	#def clean_old_password(self):
+	#	cd = self.cleaned_data
+	#	old_password = cd['old_password']
