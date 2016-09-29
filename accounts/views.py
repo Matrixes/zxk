@@ -188,7 +188,7 @@ def github_auth(request):
 	j1 = response.json  # method
 	res = response.json()  # dict
 
-	# pprint(res)
+	pprint(res)
 
 	log_in = res.get('login')  # login is already existed
 	email = res.get('email') or ''  # if email is protected, then 'email': None

@@ -2,13 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+def upload_path_handler(instance, filename):
+	suffix = filename.split('.')[-1]
+	filename = str(instance.user.username) +  '_.' + suffix
+	return "users/%Y/%m/%d/{}".format(filename)  # Ymd invalid
+
+
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 	nickname = models.CharField(max_length=20, blank=True)
 	phone = models.CharField(max_length=11, blank=True)
 	website = models.URLField(blank=True)
 	birthday = models.DateField(blank=True, null=True)
-	photo = models.ImageField(upload_to='users/%Y/%m/%d', default='users/default.png')
+	photo = models.ImageField(upload_to='users/%Y/%m/%d/', default="users/default.png")
 
 
 	def __str__(self):
