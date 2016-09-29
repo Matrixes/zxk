@@ -10,7 +10,7 @@ from .forms import EmailPostForm, CommentForm
 #from taggit.models import Tag
 
 
-def post_list(request):  #, tag_slug=None):
+def index(request):  #, tag_slug=None):
 	post_list = Post.published.all()
 
 	#tag = None
@@ -20,7 +20,7 @@ def post_list(request):  #, tag_slug=None):
 	tag_list = Tag.objects.all()
 
 
-	paginator = Paginator(post_list, 3)
+	paginator = Paginator(post_list, 2)
 	page = request.GET.get('page')
 
 	try:
@@ -43,7 +43,7 @@ class PostListView(ListView):
 
 
 @login_required
-def post_detail(request, year, month, day, post):
+def post(request, year, month, day, post):
 
 	# new = False
 
@@ -75,7 +75,7 @@ def post_detail(request, year, month, day, post):
 		comment_form = CommentForm()
 
 	context = {'post': post, 'comments': comments, 'comment_form': comment_form}
-	return render(request, 'blog/post/detail.html', context)
+	return render(request, 'blog/post.html', context)
 
 
 def post_share(request, post_id):

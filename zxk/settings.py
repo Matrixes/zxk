@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.sites',
+
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'home',
     'blog',
     'accounts'
@@ -46,6 +48,8 @@ INSTALLED_APPS = [
 
 # account 使用Django自带认证系统，使用这个时urls中就不要用namespace了
 # accounts 自定义的认证系统
+
+SITE_ID = 1
 
 
 MIDDLEWARE = [

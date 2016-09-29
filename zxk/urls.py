@@ -18,11 +18,23 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+from django.contrib.sitemaps.views import sitemap
+from blog.sitemaps import PostSitemap
+
+sitemaps = {
+    'posts': PostSitemap,
+}
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('home.urls', namespace='home')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, 
+        name='django.contrib.sitemaps.views.sitemap'),
 
     #url(r'^account/', include('account.urls')),  # 使用Django自带试图的话就别加namespace了
     #url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
@@ -30,3 +42,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

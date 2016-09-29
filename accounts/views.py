@@ -64,6 +64,14 @@ def profile(request):
 		                    'posts': posts,
 		                    'comments': comments})
 
+def user(request, username):
+	user = get_object_or_404(User, username=username)
+	posts = Post.objects.filter(author=user)
+	comments = Comment.objects.filter(name=user)
+	return render(request, "accounts/user.html", {'user': user, 'posts': posts, 'comments': comments})
+
+
+
 
 @login_required
 def edit(request):

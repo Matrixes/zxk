@@ -6,8 +6,10 @@ urlpatterns = [
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^profile/(?P<username>.*?)/$', views.user, name='user'),
+
     url(r'^edit/$', views.edit, name='edit'),
-    url(r'password-change/$', views.password_change, name='password_change'),
+    url(r'^password-change/$', views.password_change, name='password_change'),
 
     url(r'^register/$', views.register, name='register'),
 

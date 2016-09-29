@@ -19,7 +19,7 @@ class PostAdmin(admin.ModelAdmin):
 	ordering = ['status', 'publish']
 
 	prepopulated_fields = {'slug': ('title',)}
-	raw_id_fields = ['author']
+	raw_id_fields = ['author', 'tags']
 
 	#fieldsets = [
 	#    (None,      {'fields': ['title', 'slug', 'author']}),
