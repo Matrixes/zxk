@@ -36,15 +36,28 @@ def user_login(request):
 			if user:
 				if user.is_active:
 					login(request, user)
-					return HttpResponseRedirect(request.session['login_from'] )
+					return HttpResponseRedirect(request.session['to'])
 				else:
 					return HttpResponse("Disabled account.")
 			else:
 				return HttpResponse("Invalid login")
 	else:
-		request.session['login_from'] = request.META.get('HTTP_REFERER', '/')
+		request.session['to'] = redirect_to(request)
 		form = LoginForm()
 	return render(request, 'accounts/login.html', {'form': form})
+
+
+def redirect_to(request):
+	login_from = request.META.get('HTTP_REFERER', '/')
+
+	next= request.GET.get('next')
+	if next:
+		protocol = "https" if request.is_secure() else "http"
+		host = request.get_host()
+		login_to = protocol + "://" + host + next
+		return login_to
+
+	return login_from
 
 
 @login_required
@@ -142,6 +155,8 @@ redirect_uri = settings.RECIRECT_URI
 scope = settings.SCOPE
 
 
+
+
 def github_login(request):
 	github = OAuth2Session(client_id=client_id, scope=scope)
 
@@ -149,6 +164,8 @@ def github_login(request):
 	authorization_url, state = github.authorization_url(authorization_base_url)
 
 	request.session['oauth_state'] = state
+
+	print(request.session['to'])
 
 	return HttpResponseRedirect(authorization_url)
 
@@ -171,37 +188,40 @@ def github_auth(request):
 	j1 = response.json  # method
 	res = response.json()  # dict
 
-	login = res.get('login')
+	# pprint(res)
+
+	log_in = res.get('login')  # login is already existed
 	email = res.get('email') or ''  # if email is protected, then 'email': None
 	github_id = res.get('id')
 	avatar_url = res.get('avatar.url')
 
-	u = SocialUser.objects.filter(login=login, social_id=github_id)
+	s = SocialUser.objects.filter(login=log_in, social_id=github_id)
 
-	if len(u) > 1:
+	if len(s) > 1:
 		# raise 404
 		pass
 
 	# if u is <QuerySet []>: a is None:False, bool(u): False
-	if u:  
-		user = User.objects.get(social_user=u)
+	if s:  
+		user = User.objects.get(social_user=s[0])
+		# user = s[0].user
 		if user.is_active:
-			login(request, user)
-			return  HttpResponseRedirect(reverse('accounts:profile'))
+			login(request, user) # many times str is not callable because login..shit
+			return  HttpResponseRedirect(request.session['to'])
 		else:
 			return HttpResponse("The account is diabled")
 
 	# create new acount
 
-	username = login + "_github"
+	username = log_in + "_github"
 	password = 'git' + ''.join([random.choice(string.printable[:62]) for i in range(5)])
 	
 	new_user = User(username=username, email=email)
 	new_user.set_password(password)
 	new_user.save()
 
-	UserProfile.objects.create(user=new_user, nickname=login) # photo怎么办
-	SocialUser.objects.create(user=new_user, login=login, social_id=github_id, belong='GH')
+	UserProfile.objects.create(user=new_user, nickname=log_in) # photo怎么办
+	SocialUser.objects.create(user=new_user, login=log_in, social_id=github_id, belong='GH')
 
 	if email:
 		subject = "You have created a new account of zuixinke"
@@ -211,4 +231,4 @@ def github_auth(request):
 	login(request, new_user)
 
 	# return  HttpResponseRedirect(reverse('accounts:profile'))
-	return  HttpResponseRedirect(reverse('accounts:profile'))
+	return  HttpResponseRedirect(request.session['to'])

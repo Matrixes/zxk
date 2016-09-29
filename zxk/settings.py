@@ -192,14 +192,14 @@ from django.core.urlresolvers import reverse_lazy
 
 # Tells Django which URL to redirect after login
 # if the contrib.auth.views.login view gets no next parameter
-# LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+LOGIN_REDIRECT_URL = reverse_lazy('accounts:profile')
 
 # Is the URL to redirect the user to log in (e.g. using the
 # login_required decorator)
-# LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('accounts:login')
 
 # Is the URL to redirect the user to log out
-# LOGOUT_URL = reverse_lazy('logout')
+LOGOUT_URL = reverse_lazy('accounts:logout')
 
 
 # User Model
