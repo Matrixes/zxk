@@ -3,9 +3,8 @@ from django.contrib.auth.models import User
 
 
 def upload_path_handler(instance, filename):
-	suffix = filename.split('.')[-1]
-	filename = str(instance.user.username) +  '_.' + suffix
-	return "users/%Y/%m/%d/{}".format(filename)  # Ymd invalid
+	name = str(instance.user.id) +  '-' + filename
+	return "users/{}".format(name)  # Ymd invalid
 
 
 class UserProfile(models.Model):
@@ -14,7 +13,7 @@ class UserProfile(models.Model):
 	phone = models.CharField(max_length=11, blank=True)
 	website = models.URLField(blank=True)
 	birthday = models.DateField(blank=True, null=True)
-	photo = models.ImageField(upload_to='users/%Y/%m/%d/', default="users/default.png")
+	photo = models.ImageField(upload_to=upload_path_handler, default="users/default.png")
 
 
 	def __str__(self):

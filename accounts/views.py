@@ -223,6 +223,18 @@ def github_auth(request):
 	UserProfile.objects.create(user=new_user, nickname=log_in) # photo怎么办
 	SocialUser.objects.create(user=new_user, login=log_in, social_id=github_id, belong='GH')
 
+	# Get photo
+	r = requests.get(avatar.url, stream=True)
+
+	if r.status_code = 200:
+		photo_name = settings.MEDIA_ROOT + '/avatar/' + 'github_id'
+		with open(photo_name, 'wb') as f:
+			for chunk in r.iter_content(chunk_size=1024):
+				f.write(chunk)
+		photo = settings.MEDIA_URL + 'avatar/' + 'github_id'
+		new_user.profile.photo = photo
+		new_user.profile.save()
+
 	if email:
 		subject = "You have created a new account of zuixinke"
 		message = "username: {}, password: {}. or use your github to login".format(username, password)
