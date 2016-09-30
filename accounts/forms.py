@@ -3,6 +3,7 @@
 
 from django import forms
 from .models import UserProfile
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 
@@ -44,6 +45,12 @@ class PasswordChangeForm(forms.Form):
 	new_password = forms.CharField(widget=forms.PasswordInput)
 	new_password2 = forms.CharField(widget=forms.PasswordInput)
 
-	#def clean_old_password(self):
-	#	cd = self.cleaned_data
-	#	old_password = cd['old_password']
+	def clean_new_password2(self):
+		new_password = self.cleaned_data['new_password']
+		new_password2 = self.cleaned_data['new_password2']
+		if len(new_password) < 6:
+			raise forms.ValidationError("Password too short")
+		return new_password
+		if new_password != new_password2:
+			raise forms.ValidationError("Password does not match.")
+		return new_password2

@@ -118,7 +118,7 @@ def password_change(request):
 				user.save()
 				messages.success(request, '成功啦')
 			else:
-				messages.error(request, '失败了')
+				messages.error(request, '密码错误')
 	else:
 		form = PasswordChangeForm()
 	return render(request, 'accounts/password_change.html', {'form': form})
@@ -226,7 +226,7 @@ def github_auth(request):
 	# Get photo
 	r = requests.get(avatar.url, stream=True)
 
-	if r.status_code = 200:
+	if r.status_code == 200:
 		photo_name = settings.MEDIA_ROOT + '/avatar/' + 'github_id'
 		with open(photo_name, 'wb') as f:
 			for chunk in r.iter_content(chunk_size=1024):

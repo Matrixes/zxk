@@ -63,10 +63,12 @@ class Post(models.Model):
 	class Meta:
 		ordering = ['-publish']
 
-	
-
-
-
+	"""
+	def save(self, *args, **kwargs):
+	if not self.slug:
+		self.slug = slugify(self.title)
+		super(Image, self).save(*args, **kwargs)
+	"""
 
 
 class Comment(models.Model):
