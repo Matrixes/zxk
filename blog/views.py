@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
@@ -56,7 +57,7 @@ def post(request, year, month, day, post):
 	viewed = request.session.get('viewed')
 
 	if not viewed:
-		post.viewed += 1
+		post.views += 1
 		post.save()
 	
 	request.session['viewed'] = True
@@ -76,6 +77,19 @@ def post(request, year, month, day, post):
 
 	context = {'post': post, 'comments': comments, 'comment_form': comment_form}
 	return render(request, 'blog/post.html', context)
+
+
+def post_like(request):
+	post_id = None
+	if request.method == 'GET':
+		post_id = request.GET.get('post_id')
+
+	if post_id:
+		post = get_object_or_404(Post, id=int(post_id))
+		post.likes += 1
+		post.save()
+
+	return HttpResponse(post.likes)
 
 
 def post_share(request, post_id):

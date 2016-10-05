@@ -88,25 +88,25 @@
                     </ul>
                 </li>
             {% else %}
-                <!--
+               
                 <li>
                     <a href="{% url 'accounts:login' %}">
                         <span class="glyphicon glyphicon-home"></span>
                         登录
                     </a>
                 </li>
-                -->
+                
+                <!--
                 <li>
-                    <!--
                     <button class="btn" data-toggle="modal" data-target="#myModal">
                         登录<span class="glyphicon glyphicon-home"></span>
                     </button>
-                    -->
                     <a  href="#" data-toggle="modal" data-target="#myModal">
                         <span class="glyphicon glyphicon-home"></span>
                         登录
                     </a>
                 </li>
+                -->
             {% endif %}
             </ul>
         
@@ -165,17 +165,9 @@
 	</div>
 </div>
 
-
-    <script src="{% static 'bootstrap/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'base.js' %}"></script>
 
-    <script">
-        $.ajaxSetup({
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-        });
-    </script>
-
-    {% block extras_crript %}{% endblock %}
+    {% block extra_script %}{% endblock %}
 </body>
 </html>

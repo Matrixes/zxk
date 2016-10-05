@@ -47,7 +47,16 @@
     </div>
 
     <div class="row">
-        <p>{{ post.viewed }}</p>
+        <p>views: {{ post.views }}</p>
+
+        <p>
+            <button id="likes" data-postid="{{ post.id }}" class="btn btn-primary" type="button">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                Like
+            </button> 
+            <span id="like_count">{{ post.likes }}</span>
+        </p>
+
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-md-offset-10">
             <p class="pull-right share">
                 <a href="{%  url 'blog:post_share' post.id %}" target="_blank">
@@ -143,4 +152,9 @@
 
 
 </div>
+{% endblock %}
+
+
+{% block extra_script %}
+    <script src="{% static 'post.js' %}"></script>
 {% endblock %}
