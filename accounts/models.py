@@ -15,7 +15,6 @@ class UserProfile(models.Model):
 	birthday = models.DateField(blank=True, null=True)
 	photo = models.ImageField(upload_to=upload_path_handler, default="users/default.png")
 
-
 	def __str__(self):
 		return "{}'s UserProfile".format(self.user.username)
 

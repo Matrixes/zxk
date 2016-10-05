@@ -1,10 +1,10 @@
 from django import forms
+from django.core.files.base import ContentFile
+from django.utils.text import slugify
+
 from .models import Image
 
 from urllib import request
-from djano.core.files.base import ContentFile
-from django.utils.text import slugify
-
 
 class ImageCreateForm(forms.ModelForm):
 	class Meta:
