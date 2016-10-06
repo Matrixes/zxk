@@ -16,6 +16,7 @@ $("ul.nav li").on('mouseleave', function(){
 });
 
 
+/*
 var csrftoken = $.cookie('csrftoken');
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
@@ -29,12 +30,30 @@ $.ajaxSetup({
 }
 }
 });
+*/
 
+$("#username").on('blur', function() {
+	var username = $(this).val();
 
-$('#ajax-submit').on('click', function() {
-	$.post('/accounts/ajax-login/',
+	$.post("accounts/ajax-login/",
 	    {
-	    	username: $('#username').val(),
-	    	password: $('#password').val(),
+	    	username: username,
+	    },
+	    function(res) {
+	    	$("#msg").html(res);
+	});
+});
+
+$("#ajax-submit").on('click', function() {
+	var username = $("#username").val()
+	var password = $("#password").val()
+
+	$.post("accounts/ajax-login/",
+	    {
+	    	username: username,
+	    	password: password,
+	    },
+	    function(res) {
+	    	$("#msg").html(res);
 	    });
 });

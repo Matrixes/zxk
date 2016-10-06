@@ -155,6 +155,11 @@
                             <button type="submit" id="ajax-submit">登录</button>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-8">
+                            <p id="msg"></p>
+                        </div>
+                    </div>
                     
                 </form>
             </div>
@@ -197,7 +202,13 @@
     <script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 
-    <script src=" http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js "></script>
+    <script>
+        $.ajaxSetup({
+            //data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            headers: {"X-CSRFToken": '{{ csrf_token }}'}
+        });
+    </script>
+
     <script src="{% static 'base/base.js' %}"></script>
 
     {% block extra_script %}{% endblock %}

@@ -31,18 +31,19 @@ from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
 
 @require_POST
 def ajax_login(request):
-	username = request.POST.get('username')
+	username = request.POST.get('username').strip()
 	password = request.POST.get('password')
-	if username and password:
-		user = authenticate(username='username', password='password')
-		print(user)
+
+	if User.objects.filter(username=username):
+		user = authenticate(username=username, password=password)
 		if user:
 			if user.is_active:
-				login(user)
-				return HttpResponseRedirect(request.session['to'])
+				login(request, user)
+				return HttpResponseRedirect("/")
 		else:
-			return JsonResponse({'res': 'error username or password'})
-	return JsonResponse({'res': 'woca'})
+			return HttpResponse("user error")
+	else:
+		return HttpResponse("username not found")
 
 
 
