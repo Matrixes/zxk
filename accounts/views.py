@@ -11,7 +11,7 @@ from requests_oauthlib import OAuth2Session
 
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # from django.core.urlresolvers import reverse  以前的地点
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.views.decorators.http import require_POST
 
 from blog.models import Post, Comment
 
@@ -26,6 +27,23 @@ from .models import UserProfile, SocialUser
 
 from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
                    PasswordChangeForm
+
+
+@require_POST
+def ajax_login(request):
+	username = request.POST.get('username')
+	password = request.POST.get('password')
+	if username and password:
+		user = authenticate(username='username', password='password')
+		print(user)
+		if user:
+			if user.is_active:
+				login(user)
+				return HttpResponseRedirect(request.session['to'])
+		else:
+			return JsonResponse({'res': 'error username or password'})
+	return JsonResponse({'res': 'woca'})
+
 
 
 def user_login(request):

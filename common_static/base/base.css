@@ -1,0 +1,31 @@
+a.navbar-brand img {
+	height: 34px;
+	width: auto;
+	float: left;
+	margin-top: -8px;
+	margin-right: 6px
+}
+
+a.navbar-brand {
+	font-size: 25px;
+	font-style: italic;
+}
+
+.navbar {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	background-color: #FFFFFF;
+}
+
+ul.nav {
+	font-size: 18px;
+}
+
+ul.dropdown-menu {
+	font-size: 18px;
+}
+
+.footer {
+	margin-top: 100px;
+	line-height: 1.0em;
+}
