@@ -32,6 +32,7 @@ $.ajaxSetup({
 });
 */
 
+/*
 $("#username").on('blur', function() {
 	var username = $(this).val();
 
@@ -44,7 +45,7 @@ $("#username").on('blur', function() {
 	});
 });
 
-$("#ajax-submit").on('click', function() {
+$("#ajax-submit").on('submit', function() {
 	var username = $("#username").val()
 	var password = $("#password").val()
 
@@ -57,3 +58,4 @@ $("#ajax-submit").on('click', function() {
 	    	$("#msg").html(res);
 	    });
 });
+*/

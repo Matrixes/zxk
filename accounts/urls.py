@@ -16,6 +16,6 @@ urlpatterns = [
     url(r'^github/$', views.github_login, name='github_login'),
     url(r'^github-auth/', views.github_auth, name='github_auth'),
 
-    url(r'^ajax-login/$', views.ajax_login, name='ajax-login'),
+    #url(r'^ajax-login/$', views.ajax_login, name='ajax-login'),
 
 ]

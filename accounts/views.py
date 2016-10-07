@@ -10,7 +10,7 @@ from pprint import pprint
 from requests_oauthlib import OAuth2Session
 
 from django.conf import settings
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # from django.core.urlresolvers import reverse  以前的地点
 from django.urls import reverse
@@ -28,7 +28,7 @@ from .models import UserProfile, SocialUser
 from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
                    PasswordChangeForm
 
-
+'''
 @require_POST
 def ajax_login(request):
 	username = request.POST.get('username').strip()
@@ -39,12 +39,13 @@ def ajax_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect("/")
+				print(username, password)
+				return render(request, 'blog/index.html')
 		else:
 			return HttpResponse("user error")
 	else:
 		return HttpResponse("username not found")
-
+'''
 
 
 def user_login(request):
