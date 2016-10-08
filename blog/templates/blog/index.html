@@ -6,7 +6,7 @@
 {% block title %}醉心客 - 博客{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'blog-index.css' %}" />
+<link rel="stylesheet" href="{% static 'blog/index.css' %}" />
 {% endblock %}
 
 
@@ -26,9 +26,9 @@
     <div class="row">
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
             <article>
-                <h2>
+                <h3>
                     <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                </h2>
+                </h3>
                 <p>
                     
                 </p>
@@ -40,11 +40,10 @@
                 </p>
 
                 <p class="body">{{ post.body|truncatewords:3|linebreaks }}</p>
-            <p>
-            {% for i in post.tags.all %}
-                <span class="glyphicon glyphicon-paperclip">{{ i }}</span>
-            {% endfor %}
-            </p>
+                
+                {% for i in post.tags.all %}
+                    <span class="glyphicon glyphicon-paperclip">{{ i }} </span>
+                {% endfor %}
 
             </article>
 

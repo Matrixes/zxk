@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'home',
     'blog',
+    #'pagination',
     'accounts',
     'images',
     #'actions',
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'pagination.middleware.PaginationMiddleware',
 ]
 
 ROOT_URLCONF = 'zxk.urls'
@@ -80,9 +82,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-
-                # 'social.apps.django_app.context_processors.backends',
-                # 'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },

@@ -21,7 +21,7 @@ def index(request):  #, tag_slug=None):
 	tag_list = Tag.objects.all()
 
 
-	paginator = Paginator(post_list, 2)
+	paginator = Paginator(post_list, 1)
 	page = request.GET.get('page')
 
 	try:

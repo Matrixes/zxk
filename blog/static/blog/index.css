@@ -1,0 +1,37 @@
+
+article {
+	background-color: #FFFF66;
+	margin-bottom: 30px;
+	padding: 0 15px 20px 15px;
+
+	border: 1px dotted #585858;
+    border-radius: 25px;
+
+    box-shadow: 5px 5px 5px #A8A8A8;
+}
+
+h3 {
+	text-shadow: 1px 1px 1px #993333;
+}
+
+p.author {
+	font-style: italic;
+	font-size: 10px
+}
+
+article p {
+	font-size: 20px;
+	text-indent: 2em;
+}
+
+.sidebar {
+	position: absolute;
+    top: 120px;
+    right: 20px;
+}
+.sidebar .well {
+    border: 1px dotted #585858;
+    border-radius: 25px;
+
+    box-shadow: 5px 5px 5px #A8A8A8;
+}
