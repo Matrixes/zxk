@@ -1,4 +1,4 @@
-a.navbar-brand img {
+.navbar-brand img {
 	height: 34px;
 	width: auto;
 	float: left;
@@ -6,28 +6,30 @@ a.navbar-brand img {
 	margin-right: 6px
 }
 
-a.navbar-brand {
-	font-size: 25px;
+a.navbar-brand span {
+	font-size: 30px;
 	font-style: italic;
+	color: #cc9900;
 }
 
 .navbar {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	background-color: #FFFFFF;
+	border: none;
 }
 
 ul.nav {
-	font-size: 18px;
+	font-size: 20px;
 }
 
 ul.dropdown-menu {
 	font-size: 18px;
 }
 
-.footer {
+footer {
 	clear: both;
 	padding: 0;
-	margin-top: 100px;
+	margin-top: 200px;
 	line-height: 1.0em;
 }
