@@ -33,7 +33,7 @@
                     
                 </p>
                 <p class="text-right author">
-                    发表于 {{ post.publish }} by 
+                    发表于 {{ post.publish|date:'Y-m-d' }} by 
                     <a href="{% url 'accounts:user' post.author.username %}" target="_blank">
                         {{ post.author.username }}
                     </a>

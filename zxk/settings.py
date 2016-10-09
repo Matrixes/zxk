@@ -234,3 +234,4 @@ TOKEN_URL = 'https://github.com/login/oauth/access_token'
 
 RECIRECT_URI = "http://127.0.0.1:8000/accounts/github-auth"
 SCOPE = []
+

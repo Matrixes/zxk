@@ -21,11 +21,19 @@ class PostAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('title',)}
 	raw_id_fields = ['author', 'tags']
 
+	class Media:
+		js = (
+    		'/static/js/kindeditor/kindeditor-all-min.js',
+    		'/static/js/kindeditor/lang/zh-CN.js',
+    		'/static/js/kindeditor/config.js',
+    	)
+
 	#fieldsets = [
 	#    (None,      {'fields': ['title', 'slug', 'author']}),
 	#    ('Content', {'fields': ['body', 'status']}),
 	#    ('Time',    {'fields': ['publish'], 'classes': ['collapse']}),
     #]
+    
 
 admin.site.register(Post, PostAdmin)
 
