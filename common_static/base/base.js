@@ -1,19 +1,16 @@
-$(".navbar").on('mouseenter', function(){
+$('.navbar').hover(function() {
 	$(this).css('background-color', '#E8E8E8');
-});
-
-$(".navbar").on('mouseleave', function(){
-	$(this).css('background-color', '#FFFFFF');
-});
+    },function(){
+    $(this).css('background-color', '#FFFFFF');
+})
 
 
-$("ul.nav li").on('mouseenter', function(){
+$('.navbar-nav>li').hover(function() {
 	$(this).css({'font-style': 'italic', 'font-weight': 'bold'});
-});
+    },function(){
+    $(this).css({'font-style': 'normal', 'font-weight': 'normal'});
+})
 
-$("ul.nav li").on('mouseleave', function(){
-	$(this).css({'font-style': 'normal', 'font-weight': 'normal'});
-});
 
 
 /*

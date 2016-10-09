@@ -33,7 +33,7 @@
                     
                 </p>
                 <p class="text-right author">
-                    Published {{ post.publish }} by 
+                    发表于 {{ post.publish }} by 
                     <a href="{% url 'accounts:user' post.author.username %}" target="_blank">
                         {{ post.author.username }}
                     </a>
@@ -42,31 +42,26 @@
                 <p class="body">{{ post.body|truncatewords:3|linebreaks }}</p>
                 
                 {% for i in post.tags.all %}
-                    <span class="glyphicon glyphicon-paperclip">{{ i }} </span>
+                    <button class="btn btn-primary btn-xs">
+                        <span class="glyphicon glyphicon-paperclip tags">{{ i }} </span>
+                    </button>
+                    
                 {% endfor %}
 
             </article>
-
         </div>
     </div>
     
     {% endfor %}
     
-
     <div class="row">
         <div class="col-sm-9 col-md-9 col-lg-9">
             {% include "./pagination.html" with page=posts %}
         </div>
     </div>
     
-    <!--
-    {% if tag %}
-    <h2>Posts tagged with "{{ tag.name }}"</h2>
-    {% endif %}
-    -->
 
-
-    <div class="col-lg-3 col-md-3 col-sm-3 sidebar">
+    <div class="col-lg-3 col-md-3 col-sm-3">
         <h4>搜索</h4>
             <div class="input-group">
                 <input type="text" class="form-control">
@@ -105,7 +100,6 @@
             {% endfor %}
 
     </div>
-
       
 </div>
 

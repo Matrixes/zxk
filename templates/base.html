@@ -97,21 +97,7 @@
                         登录
                     </a>
                 </li>
-                
-                
-                <!--
-                <li>
-                    
-                    <button class="btn" data-toggle="modal" data-target="#myModal">
-                        登录<span class="glyphicon glyphicon-home"></span>
-                    </button>
-                    
-                    <a href="#" data-toggle="modal" data-target="#myModal">
-                        <span class="glyphicon glyphicon-home"></span>
-                        登录
-                    </a>
-                </li>
-               -->
+
             {% endif %}
             </ul>
         
@@ -119,69 +105,11 @@
     </nav>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-lableledby="MyModallabel">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>
-                        &times;
-                    </span>
-                </button>
-                <h4 class="modal-title">登录</h4>
-            </div>
-            
-            <div class="modal-body">
-                <form action="" method="post" class="form-horizontal" id="ajax-login">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="username" class="col-sm-3 control-label">帐 号</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="username">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password" class="col-sm-3 control-label">密 码</label>
-                        <div class="col-sm-9">
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-3">
-                            <label>
-                            <input type="checkbox"> 记住</label>
-                        </div>
-                        <div class="col-sm-4 pull-right">
-                            <button type="submit" id="ajax-submit">登录</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 col-sm-offset-8">
-                            <p id="msg"></p>
-                        </div>
-                    </div>
-                    
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <a href="#">
-                    忘记密码
-                </a>
-                <a href="#">
-                    新的用户
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 {% block content %} {% endblock %}
 
-<br /><br /><br /><br />
+
 <footer>
     <div class="container-fluid">
 	    <div class="row text-center">
