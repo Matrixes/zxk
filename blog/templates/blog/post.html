@@ -5,7 +5,7 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'blog-detail.css' %}" />
+<link rel="stylesheet" href="{% static 'blog/post.css' %}" />
 {% endblock %}
 
 
@@ -25,130 +25,119 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h1 class="text-center">{{ post.title }}</h1>
+            <h2 class="text-center">{{ post.title }}</h2>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <p class="text-right author">
-                Published {{ post.publish }} by
+                Published {{ post.publish|date:'Y-m-d H:i' }} By
                 <a href="{% url 'accounts:user' post.author.username %}" target="_blank">
                     {{ post.author.username }}
                 </a>
             </p>
+            <hr />
+                {% for i in post.tags.all %}
+                <span class="label label-info">{{ i }}</span>
+                {% endfor %}
+            <hr />
         </div>
     </div>
     
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            {{ post.body|linebreaks }}
+            <article>
+                {{ post.body|safe|linebreaks }}
+            </article>
         </div>
     </div>
 
     <div class="row">
-        <p>views: {{ post.views }}</p>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+        <p class="text-right">
+            <button class="btn" type="button">
+                
+                阅读 <span class="badge">{{ post.views }}</span>
+            </button>
 
-        <p>
-            <button id="likes" data-postid="{{ post.id }}" class="btn btn-primary" type="button">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-                Like
-            </button> 
-            <span id="like_count">{{ post.likes }}</span>
+            <button id="likes" data-postid="{{ post.id }}" class="btn" type="button" title="点赞">
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                <span id="like_count" class="badge">{{ post.likes }}</span>
+                
+            </button>
+
+            <button class="btn" type="button" title="收藏">
+                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                <span class="badge">？</span>
+            </button>
+
+            {% with comments.count as total_comments %}
+            <button class="btn" type="button">
+                <!--
+                    {{ total_comments }} comment{{ total_comments|pluralize }}
+                -->
+                评论<span class="badge">{{ total_comments }}</span>
+            </button>
+            {% endwith %}
+
+            <a href="{%  url 'blog:post_share' post.id %}" target="_blank">
+                <button type="button" class="btn">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    分享
+                </button>
+            </a>
         </p>
-
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-md-offset-10">
-            <p class="pull-right share">
-                <a href="{%  url 'blog:post_share' post.id %}" target="_blank">
-                    <button type="button" class="btn btn-success">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                        分享
-                    </button>
-                </a>
-            </p>
-        </div>
+        </div>     
     </div>
 
-    <div class="row">
-        {% for i in post.tags.all %}
-            <span class="glyphicon glyphicon-paperclip">{{ i }}</span>
-        {% endfor %}
-
-    </div>
-
-    {% with comments.count as total_comments %}
-    
-    <div class="row">
-        <div class="col-md-2 col-md-offset-10">
-            <h3>
-                {{ total_comments }} comment{{ total_comments|pluralize }}
-            </h3>
-        </div>
-    </div>
-    {% endwith %}
 
     {% for comment in comments %}
-
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <p class="text-info">
-                Comment {{ forloop.counter }} by {{ comment.name }}
-            </p>
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <p class="text-info pull-right">
+            <p>
+                第 {{ forloop.counter }} 楼 by {{ comment.name }}
                 {{ comment.created }}
             </p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-            <p class="comment_body">
+            <p>
                 {{ comment.body|linebreaks }}
             </p>
         </div>
     </div>
 
-
     {% empty %}
-
-    <p>没有评论</p>
-
+    <!--
+    没有评论
+    -->
     {% endfor %}
 
-
-
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h3>添加评论</h3>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <h4>添加评论</h4>
+            <form action="." method="post" class="form-horizonta" role="form">
+                {% csrf_token %}
+                {% for field in comment_form %}
+                <div class="form-group">
+            
+                    {{ field.errors }}
+                    <label for="{{ field.id_for_label }}" class="col-sm-1 control-label">
+                        评论
+                    </label>
+                    <div class="col-sm-11">
+                        {{ field }}
+                    </div>
+                                 
+                </div>
+                {% endfor %}
+                <div class="col-sm-1 col-sm-offset-1">
+                    <button type="submit" class="btn btn-success btn-lg">评论</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <form action="." method="post" class="form-horizonta" role="form">
-        {% csrf_token %}
-        {% for field in comment_form %}
-        <div class="form-group">
-            
-            {{ field.errors }}
-            
-            <div class="row">
-                <div class="col-md-1 col-lg-1">
-                    {{ field.label_tag }}
-                </div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    {{ field }}
-                </div> 
-            </div>                           
-        </div>
-
-        {% endfor %}
     
-   
-         <button type="submit" class="btn btn-success btn-lg">评论</button>
-
-    </form>
 
 
 </div>

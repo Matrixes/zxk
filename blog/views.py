@@ -21,7 +21,7 @@ def index(request):  #, tag_slug=None):
 	tag_list = Tag.objects.all()
 
 
-	paginator = Paginator(post_list, 1)
+	paginator = Paginator(post_list, 3)
 	page = request.GET.get('page')
 
 	try:
@@ -71,9 +71,8 @@ def post(request, year, month, day, post):
 			new_comment.post = post
 			new_comment.name = request.user
 			new_comment.save()
-			new = True
-	else:
-		comment_form = CommentForm()
+	#else:
+	comment_form = CommentForm()
 
 	context = {'post': post, 'comments': comments, 'comment_form': comment_form}
 	return render(request, 'blog/post.html', context)

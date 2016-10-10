@@ -1,16 +1,42 @@
+/*carousel*/
+#carousel-example-generic img {
+	width: 100%;
+	height: 200px;
+}
+
+/*公告栏*/
+.report {
+    border: 1px dotted #000000;
+	border-radius: 0 15px 15px 0;
+    box-shadow: 10px 10px 5px #A8A8A8;
+}
+
+/*侧边栏*/
+.aside {
+	margin-top: 20px;
+    border: 1px dotted #000000;
+	border-radius: 0 10px 10px 0;
+    box-shadow: 10px 10px 5px #A8A8A8;
+}
+
+/*博文*/
 article {
-	margin-bottom: 30px;
+	color: black;
+	font-size: 20px;
+	margin: 20px 0 20px 0;
 	padding: 0 15px 20px 15px;
-
-	border: 1px dotted #585858;
-    border-radius: 25px;
-
-    box-shadow: 5px 5px 5px #A8A8A8;
+	border: 1px dotted #000000;
+    border-radius: 25px 0 0 25px;
+    box-shadow: 10px 10px 5px #A8A8A8;
 }
 
-h3 {
-	text-shadow: 1px 1px 1px #993333;
+/*标题*/
+article>h3 a {
+	color: black;
+	text-shadow: 1px 1px 1px #000000;
+	text-decoration: blink;
 }
+
 
 p.author {
 	font-style: italic;
@@ -18,7 +44,6 @@ p.author {
 }
 
 article p {
-	font-size: 20px;
 	text-indent: 2em;
 }
 
@@ -26,8 +51,8 @@ article p {
 	font-size: 15px;
 }
 
-.sidebar {
-    top: 120px;
-    /*position: absolute;
-    right: 20px;*/
-}
+
+a:link    { color: black }    /* unvisited links */
+a:visited { color: gray }   /* visited links   */
+a:hover   { color: lightgray } /* user hovers     */
+a:active  { color: lime }   /* active links    */

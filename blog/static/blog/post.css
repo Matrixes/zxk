@@ -1,0 +1,12 @@
+/*标签大小 用badge的话不能改变大小*/
+span.label {
+	font-size: 18px;
+}
+
+
+article {
+	text-indent: 2em;
+	line-height: 1.5em;
+	color: black;
+	font-size: 20px;
+}
