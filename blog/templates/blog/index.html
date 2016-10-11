@@ -70,7 +70,6 @@
             <h4>公告</h4>
             <p>
                 <a href="{% url 'blog:post_feed' %}" target="_blank">RSS</a>
-                <br /><br /><br /><br /><br /><br /><br />
             </p>
         </div>
 
@@ -100,10 +99,12 @@
                         </p>
                 
                         {% for i in post.tags.all %}
+                        <a href="{% url 'blog:tag' i %}" target="_blank">
                             <button class="btn btn-primary btn-xs">
                                 <span class="glyphicon glyphicon-paperclip tags"></span>
                                 {{ i }}
                             </button>
+                        </a>
                         {% endfor %}
                     
                     </article>
@@ -124,6 +125,7 @@
         <div class="col-sm-3 col-md-3 col-lg-3">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
+                    <h4>标签</h4>
                     {% for t in tag_list %}
                     <a href="{% url 'blog:tag' t %}" target="_blank">
                         {{ t }}
@@ -135,18 +137,22 @@
 
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
-                    <h4>扯淡</h4>
-                    <p>
-                        文章数量： {% total_posts %}
-                    </p>
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class='active' id="woca1"><a>最新发表</a></li>
+                        <li role="presentation" id="woca2"><a>最多评论</a></li>
+                    </ul>
+
+                    <ul id="woca">
+                        {% show_latest_posts 3 %}
+                    </ul>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
-                    <h4>最新发表</h4>
+                    <h4>统计</h4>
                     <p>
-                        {% show_latest_posts 3 %}
+                        文章数量： {% total_posts %}
                     </p>
                 </div>
             </div>
@@ -163,10 +169,21 @@
             </div>
         </div>
     </div>
-
-
-    
-
 </div>
 
+{% endblock %}
+
+
+{% block extra_script %}
+    <script src="{% static 'blog/index.js' %}"></script>
+    <script>
+        $(function() {
+            $("#woca1").on('mouseenter', function(event) {
+                $('#woca').html("aaaaaaaaaaaa")
+            });
+            $("#woca2").on('mouseenter', function(event) {
+                $('#woca').html('bbbbbbbbbbbb')
+            });
+        })
+    </script>
 {% endblock %}

@@ -41,8 +41,8 @@
             <p>手机: {{ profile.phone }}</p>
             <p>网站: {{ profile.website }}</p>
             <p>生日: {{ profile.birthday }}</p>
-            <p>最后登录: {{ profile.user.last_login }}</p>
-            <p>注册时间: {{ profile.user.date_joined }}</p>
+            <p>最后登录: {{ profile.user.last_login|date:'Y-m-d H:i' }}</p>
+            <p>注册时间: {{ profile.user.date_joined|date:'Y-m-d H:i' }}</p>
             <p>
                 {% if messages %}
                     <ul class="messages">

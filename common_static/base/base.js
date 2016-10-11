@@ -5,7 +5,7 @@ $('.navbar').hover(function() {
 })
 
 
-$('.navbar-nav>li').hover(function() {
+$('.navbar-nav>li a').hover(function() {
 	$(this).css({'font-style': 'italic', 'font-weight': 'bold'});
     },function(){
     $(this).css({'font-style': 'normal', 'font-weight': 'normal'});

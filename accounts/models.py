@@ -38,3 +38,28 @@ class SocialUser(models.Model):
 
 	class Meta:
 		ordering = ['belong', 'login']
+
+
+class Contack(models.Model):
+	user_from = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='rel_from_set')
+	user_to = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='rel_to_set')
+	created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+	class Meta:
+		ordering = ('-created',)
+
+	def __str__(self):
+		return "{} follows {}".format(self.user_from, self.user_to)
+
+
+# If the User model was part of our application, we could add the previous field to
+# the model. However, we cannot alter the User class directly because it belongs to
+# the django.contrib.auth application. 
+
+# # Add following field to User dynamically
+User.add_to_class('following', models.ManyToManyField('self', 
+	                                                  through=Contack,
+	                                                  related_name='followers',
+	                                                  symmetrical=False))
+#  using add_to_class() is not the recommended way for adding fields to models. 
+# 不会改变数据库？

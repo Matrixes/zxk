@@ -9,6 +9,7 @@
     border: 1px dotted #000000;
 	border-radius: 0 15px 15px 0;
     box-shadow: 10px 10px 5px #A8A8A8;
+    height:200px;
 }
 
 /*侧边栏*/
@@ -17,6 +18,10 @@
     border: 1px dotted #000000;
 	border-radius: 0 10px 10px 0;
     box-shadow: 10px 10px 5px #A8A8A8;
+}
+
+.aside ul {
+	font-size:15px;
 }
 
 /*博文*/
