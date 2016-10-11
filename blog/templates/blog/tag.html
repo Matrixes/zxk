@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% load blog_tags %}
+{% load staticfiles %}
+
+{% block title %}醉心客 - 博客{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'blog/index.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="/">首页</a></li>
+                <li class="active">博客</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img src="{% static 'blog/img/0.jpg' %}" alt="XXX" />
+                        <div class="carousel-caption">
+                            ...
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="{% static 'blog/img/1.jpg' %}" alt="XXX" />
+                        <div class="carousel-caption">
+                            ...
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="{% static 'blog/img/2.jpg' %}" alt="XXX" />
+                        <div class="carousel-caption">
+                            ...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">上一页</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">下一页</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 report">
+            <h4>公告</h4>
+            <p>
+                <a href="{% url 'blog:post_feed' %}" target="_blank">RSS</a>
+                <br /><br /><br /><br /><br /><br /><br />
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="row"> 
+        <div class="col-sm-9 col-md-9 col-lg-9">
+            {% for post in posts %}
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <article>
+                        <h3>
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        </h3>
+
+                        <p class="text-right author">
+                            <span class="glyphicon glyphicon-time"></span>
+                            {{ post.publish|date:'Y-m-d H:i' }} By 
+                        <a href="{% url 'accounts:user' post.author.username %}" target="_blank">
+                            {{ post.author.username }}
+                        </a>
+                        </p>
+
+                        <p class="body">
+                            {{ post.body|safe|truncatewords:10|linebreaks }}
+                        </p>
+                
+                        {% for i in post.tags.all %}
+                            <button class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-paperclip tags"></span>
+                                {{ i }}
+                            </button>
+                        {% endfor %}
+                    
+                    </article>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- 分页按钮 -->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="pull-right">
+                        {% include "./pagination.html" with page=posts %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 col-md-3 col-lg-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 aside">
+                    {% for t in tag_list %}
+                    <a href="{% url 'blog:tag' t %}" target="_blank">
+                        {{ t }}
+                    </a>
+                    /
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 aside">
+                    <h4>扯淡</h4>
+                    <p>
+                        文章数量： {% total_posts %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 aside">
+                    <h4>最新发表</h4>
+                    <p>
+                        {% show_latest_posts 3 %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 aside">
+                    <h4>评论最多</h4>
+                    {% get_most_commented_posts as most_commented_posts %}
+            
+                    {% for post in most_commented_posts %}
+                        <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+</div>
+
+{% endblock %}

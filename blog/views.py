@@ -114,3 +114,24 @@ def post_share(request, post_id):
 	return render(request, 'blog/post/share.html', {'post': post,
 		                                            'form': form,
 		                                            'sent': sent})
+
+def tag(request, tag):
+	tag = get_object_or_404(Tag, name=str(tag))
+	post_list = tag.blog_tags.all()
+
+	tag_list = Tag.objects.all()
+
+
+	paginator = Paginator(post_list, 3)
+	page = request.GET.get('page')
+
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		posts = paginator.page(1)
+	except EmptyPage:
+		posts = paginator.page(paginator.num_pages)
+
+	context = {'page': page, 'posts': posts, 'tag_list': tag_list}
+
+	return render(request, 'blog/tag.html', context)

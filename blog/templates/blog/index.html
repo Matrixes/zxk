@@ -125,7 +125,10 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
                     {% for t in tag_list %}
-                        {{ t }} /
+                    <a href="{% url 'blog:tag' t %}" target="_blank">
+                        {{ t }}
+                    </a>
+                    /
                     {% endfor %}
                 </div>
             </div>
