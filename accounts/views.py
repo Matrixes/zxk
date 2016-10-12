@@ -214,7 +214,7 @@ def github_auth(request):
 	log_in = res.get('login')  # login is already existed
 	email = res.get('email') or ''  # if email is protected, then 'email': None
 	github_id = res.get('id')
-	avatar_url = res.get('avatar.url')
+	avatar_url = res.get('avatar_url')
 
 	s = SocialUser.objects.filter(login=log_in, social_id=github_id)
 
@@ -245,14 +245,16 @@ def github_auth(request):
 	SocialUser.objects.create(user=new_user, login=log_in, social_id=github_id, belong='GH')
 
 	# Get photo
-	r = requests.get(avatar.url, stream=True)
+	r = requests.get(avatar_url, stream=True)
+
+	print('r.status: ', r.status_code)
 
 	if r.status_code == 200:
-		photo_name = settings.MEDIA_ROOT + '/avatar/' + 'github_id'
+		photo_name = settings.MEDIA_ROOT + '/avatar/' + str(github_id)
 		with open(photo_name, 'wb') as f:
 			for chunk in r.iter_content(chunk_size=1024):
 				f.write(chunk)
-		photo = settings.MEDIA_URL + 'avatar/' + 'github_id'
+		photo = 'avatar/' + str(github_id)
 		new_user.profile.photo = photo
 		new_user.profile.save()
 
