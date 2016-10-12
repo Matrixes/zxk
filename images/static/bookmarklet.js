@@ -1,7 +1,7 @@
 // find images and display them
-$.each($('img[src$="jpg"]'), function(index, image) {
-	if ($(image).width() >= 100 && jQuery(image).height() >= 100) {
-		image_url = $(image).attr('src');
+$.each($('.img img[src$="jpg"]'), function(index, image) {
+	if ($(image).width() >= 100 && $(image).height() >= 100) {
+		var image_url = $(image).attr('src');
 		$('#bookmarklet .images').append('<a href="#"><img src="'+ image_url +'" /></a>');
 	}
 });

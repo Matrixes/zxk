@@ -11,21 +11,6 @@
 <br />
     <div class="row">
         <div class="col-md-2 col-lg-2">
-            
-            <!--
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">个人中心<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li><a href="#">Separated link</a></li>
-                </ul>
-            </div>
-            -->
-            
- 
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#">个人中心</a></li>
                 <li><a href="{% url 'accounts:edit' %}">编辑资料</a></li>
@@ -101,7 +86,8 @@
 
             <p>
                 Drag the following button to your bookmarks toolbar to bookmark images from other websites → 
-                <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">    Bookmark it
+                <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
+                    <button class="btn btn-success">Bookmark it</button>
                 </a>
             <p>
 
