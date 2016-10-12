@@ -18,4 +18,6 @@ urlpatterns = [
 
     #url(r'^ajax-login/$', views.ajax_login, name='ajax-login'),
 
+    url(r'^users/$', views.user_list, name='user_list'),
+    url(r'^users/(?P<username>[-\w]+)/$', views.user_detail, name='user_detail'),
 ]

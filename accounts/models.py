@@ -41,8 +41,8 @@ class SocialUser(models.Model):
 
 
 class Contack(models.Model):
-	user_from = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='rel_from_set')
-	user_to = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='rel_to_set')
+	user_from = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rel_from_set')
+	user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rel_to_set')
 	created = models.DateTimeField(auto_now_add=True, db_index=True)
 
 	class Meta:

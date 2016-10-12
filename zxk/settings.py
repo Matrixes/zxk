@@ -235,3 +235,8 @@ TOKEN_URL = 'https://github.com/login/oauth/access_token'
 RECIRECT_URI = "http://127.0.0.1:8000/accounts/github-auth"
 SCOPE = []
 
+
+# 为每个用户对象添加url，具体解释见 accounts/views.py
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('accounts:user_detail', args=[u.username]),
+}

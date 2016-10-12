@@ -265,3 +265,23 @@ def github_auth(request):
 
 	# return  HttpResponseRedirect(reverse('accounts:profile'))
 	return  HttpResponseRedirect(request.session['to'])
+
+
+# 关注系统
+@login_required
+def user_list(request):
+	users = User.objects.filter(is_active=True)
+	return render(request, 'accounts/user_list.html', {'section': 'people', 'users': users})
+
+@login_required
+def user_detail(request, username):
+	user = get_object_or_404(User, username=username, is_active=True)
+	return render(request, 'accounts/user_detail.html', {'section': 'people', 'user': user})
+
+# 为一个对象设置URL，有两个方法
+# 1、在models中定义get_absolute_url()方法
+# 2、在settings中添加ABSO;UTE_URL_OVERRIDES
+
+# ABSOLUTE_URL_OVERRIDES = {
+#     'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+# }
