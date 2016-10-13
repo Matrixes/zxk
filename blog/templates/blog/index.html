@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 report">
-            <h4>公告</h4>
+            <h2>公告</h2>
             <p>
                 <a href="{% url 'blog:post_feed' %}" target="_blank">RSS</a>
             </p>
@@ -82,9 +82,9 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <article>
-                        <h3>
+                        <h1>
                             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                        </h3>
+                        </h1>
 
                         <p class="text-right author">
                             <span class="glyphicon glyphicon-time"></span>
@@ -125,7 +125,7 @@
         <div class="col-sm-3 col-md-3 col-lg-3">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
-                    <h4>标签</h4>
+                    <h2>标签</h2>
                     {% for t in tag_list %}
                     <a href="{% url 'blog:tag' t %}" target="_blank">
                         {{ t }}
@@ -150,7 +150,7 @@
 
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
-                    <h4>统计</h4>
+                    <h2>统计</h2>
                     <p>
                         文章数量： {% total_posts %}
                     </p>
@@ -159,7 +159,7 @@
 
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 aside">
-                    <h4>评论最多</h4>
+                    <h2>评论最多</h2>
                     {% get_most_commented_posts as most_commented_posts %}
             
                     {% for post in most_commented_posts %}
