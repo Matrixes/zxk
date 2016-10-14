@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}图片详情{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'images/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <h1>{{ image.title }}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <img src="{{ image.image.url }}" class="image-detail">
+        </div>
+        <div class="col-sm-7 col-md-7 col-lg-7">
+
+            {% with total_likes=image.users_like.count users_like=image.users_like.all %}
+            <div class="image-info">
+                <div>
+                    <span class="count">
+                        <span class="total">
+                            {{ total_likes }} 
+                        </span>
+                        like{{ total_likes|pluralize }}
+                    </span>
+                    <a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}un{% endif %}like" class="like button">
+                        {% if request.user not in users_like %}
+                            Like
+                        {% else %}
+                            Unlike
+                        {% endif %}
+                    </a>
+                </div>
+                {{ image.description|linebreaks }}
+            </div>
+
+            <div class="image-likes">
+                {% for user in image.users_like.all %}
+                <div>
+                    <img src="{{ user.profile.photo.url }}">
+                    <p>{{ user.first_name }}</p>
+                </div>
+                {% empty %}
+                    Nobody likes this image yet.
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endwith %}
+
+{% endblock %}
+
+{% block extra_script %}
+    <script>
+        $.ajaxSetup({
+            //data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            headers: {"X-CSRFToken": '{{ csrf_token }}'}
+        });
+    </script>
+    
+    <script src="{% static 'images/detail.js' %}"></script>
+{% endblock %}

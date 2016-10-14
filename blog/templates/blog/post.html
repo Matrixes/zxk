@@ -169,5 +169,12 @@
 
 
 {% block extra_script %}
+    <script>
+        $.ajaxSetup({
+            //data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            headers: {"X-CSRFToken": '{{ csrf_token }}'}
+        });
+    </script>
+    
     <script src="{% static 'post.js' %}"></script>
 {% endblock %}
