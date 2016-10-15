@@ -20,6 +20,11 @@
             </div>
 
             <div class="form-group">
+                <label for="{{ form.tags.id_for_label }}">Title</label>
+                {{ form.tags }}
+            </div>
+
+            <div class="form-group">
                 <label for="{{ form.body.id_for_label }}">body</label>
                 <div id='woca1'>
                     {{ form.body }}

@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
@@ -140,7 +141,14 @@ def tag(request, tag):
 @login_required
 def publish(request):
 	if request.method == 'POST':
-		pass
+		form = PublishForm(request.POST)
+		if form.is_valid():
+			new_post = form.save(commit=False)
+			new_post.author = request.user
+			new_post.status='P'
+			new_post.slug='wwwww'
+			new_post.save()
+			return HttpResponseRedirect(reverse("blog:index"))
 	else:
 		form = PublishForm()
 	return render(request, 'blog/publish.html', {'form': form})
