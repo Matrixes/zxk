@@ -18,7 +18,7 @@ class PostAdmin(admin.ModelAdmin):
 	date_hierarchy = 'publish'
 	ordering = ['status', 'publish']
 
-	prepopulated_fields = {'slug': ('title',)}
+	#prepopulated_fields = {'slug': ('title',)}
 	raw_id_fields = ['author', 'tags']
 
 	class Media:

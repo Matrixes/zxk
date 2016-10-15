@@ -44,6 +44,8 @@ class PostListView(ListView):
 	template_name = 'blog/post/list.html'
 
 
+# Post detail with slug
+'''
 @login_required
 def post(request, year, month, day, post):
 
@@ -55,6 +57,34 @@ def post(request, year, month, day, post):
                                    publish__month=month,
                                    publish__day=day)
 
+	viewed = request.session.get('viewed')
+
+	if not viewed:
+		post.views += 1
+		post.save()
+	
+	request.session['viewed'] = True
+
+	comments = post.comments.all().filter(active=True)
+
+	if request.method == 'POST':
+		comment_form = CommentForm(request.POST)
+		if comment_form.is_valid():
+			new_comment = comment_form.save(commit=False)
+			new_comment.post = post
+			new_comment.name = request.user
+			new_comment.save()
+	#else:
+	comment_form = CommentForm()
+
+	context = {'post': post, 'comments': comments, 'comment_form': comment_form}
+	return render(request, 'blog/post.html', context)
+'''
+
+# Post detail with id
+@login_required
+def post(request, id):
+	post = get_object_or_404(Post, id=int(id))
 	viewed = request.session.get('viewed')
 
 	if not viewed:

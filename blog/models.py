@@ -4,6 +4,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 # from django.core.urlresolvers import reverse
 from django.shortcuts import reverse
@@ -33,8 +34,9 @@ class Post(models.Model):
 		('P', 'Published'),
 	)
 
+	id = models.AutoField(primary_key=True)
 	title = models.CharField(max_length=128)
-	slug = models.SlugField(max_length=128, unique_for_date='publish')
+	# slug = models.SlugField(max_length=128, unique_for_date='publish', blank=True)
 	author = models.ForeignKey(User, related_name='blog_posts')
 	tags = models.ManyToManyField(Tag, related_name='blog_tags')
 
@@ -52,25 +54,30 @@ class Post(models.Model):
 
 	#tags = TaggableManager()
 
+	'''
+
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[self.publish.year,
                                                  self.publish.strftime('%m'),
                                                  self.publish.strftime('%d'),
                                                  self.slug])
+	'''
+
+    # with id instead of slug
+	def get_absolute_url(self):
+		return reverse('blog:post', args=[self.id,])
 
 	def __str__(self):
 		return self.title
 
 	class Meta:
 		ordering = ['-publish']
-
-	"""
+	'''
 	def save(self, *args, **kwargs):
-	if not self.slug:
-		self.slug = slugify(self.title)
-		super(Image, self).save(*args, **kwargs)
-	"""
-
+		if not self.slug:
+			self.slug = slugify(self.title, allow_unicode=True)  # at this time, slugify is not needed
+		super(Post, self).save(*args, **kwargs)
+	'''
 
 class Comment(models.Model):
 	post = models.ForeignKey(Post, related_name='comments')
