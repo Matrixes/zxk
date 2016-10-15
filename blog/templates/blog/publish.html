@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %} publish{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'blog/publish.css' %}" />
+<link rel="stylesheet" href="{% static 'dist/css/wangEditor.min.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<form action="" method="post" class="" role="form">
+			{% csrf_token %}
+	    	<div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.body.id_for_label }}">body</label>
+                <div id='woca1'>
+                    {{ form.body }}
+                </div>
+            </div>
+
+            <button type="submit">登录</button>
+
+         </form>
+
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_script %}
+<script src="{% static 'dist/js/wangEditor.min.js' %}"></script>
+<script src="{% static 'blog/publish.js' %}"></script>
+{% endblock %}

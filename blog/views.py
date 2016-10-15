@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
 from .models import Tag, Post, Comment
-from .forms import EmailPostForm, CommentForm
+from .forms import EmailPostForm, CommentForm, PublishForm
 
 #from taggit.models import Tag
 
@@ -135,3 +135,12 @@ def tag(request, tag):
 	context = {'page': page, 'posts': posts, 'tag_list': tag_list}
 
 	return render(request, 'blog/tag.html', context)
+
+
+@login_required
+def publish(request):
+	if request.method == 'POST':
+		pass
+	else:
+		form = PublishForm()
+	return render(request, 'blog/publish.html', {'form': form})

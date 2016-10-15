@@ -95,7 +95,7 @@
                         </p>
 
                         <p class="body">
-                            {{ post.body|safe|truncatewords:10|linebreaks }}
+                            {{ post.body|markdown|truncatewords:10 }}
                         </p>
                 
                         {% for i in post.tags.all %}

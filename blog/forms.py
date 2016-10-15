@@ -3,7 +3,7 @@
 
 from django import forms
 
-from .models import Comment
+from .models import Comment, Post
 
 
 class EmailPostForm(forms.Form):
@@ -17,3 +17,13 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
+
+
+class PublishForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'tags', 'body')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'id': 'woca', 'class': 'form-control'}),
+        }
