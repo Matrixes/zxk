@@ -34,7 +34,7 @@
             <p class="text-right author">
                 <span class="glyphicon glyphicon-time"></span>
                 {{ post.publish|date:'Y-m-d H:i' }} By
-                <a href="{% url 'accounts:user' post.author.username %}" target="_blank">
+                <a href="{% url 'accounts:user' post.author.id %}" target="_blank">
                     {{ post.author.username }}
                 </a>
             </p>

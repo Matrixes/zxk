@@ -16,17 +16,19 @@
         </div>
 
         <div class="col-md-10 col-lg-10">
-            <h3>编辑资料</h3>
+            <h1>编辑资料</h1>
             <form action="" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                 {% csrf_token %}
+
+
                 <!--
-                {% for field in user_form %}
+                {% for field in form %}
                     <div class="form-group">
                         {{ field.label_tag }}
                         {{ field }}
                     </div>
                 {% endfor %}
-
+                
                 {% for field in profile_form %}
                     <div class="form-group">
                         {{ field.label_tag }}
@@ -34,6 +36,8 @@
                     </div>
                 {% endfor %}
                 -->
+
+
                 <div class="form-group">
                     <label for="{{ user_form.username.id_for_label }}" class="col-sm-1 col-md-1 col-lg-1 control-label">帐 号</label>
                     <div class="col-sm-11 col-md-11 col-lg-11">
@@ -72,28 +76,36 @@
                 </div>
                 <div class="form-group">
                     <label for="{{ profile_form.photo.id_for_label }}" class="col-sm-1 col-md-1 col-lg-1 control-label">头 像</label>
-                    <div class="col-sm-11 col-md-11 col-lg-11">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
                         {{ profile_form.photo }}
                     </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <img src="{{ request.user.profile.photo.url }}" width="100px" height="100px">
+                    </div>
+                        
                 </div>
 
+                
 
                 <button type="submit">提交</button>
                 
-                {% if messages %}
                 <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <ul class="messages">
+                    <div class="col-sm-12">
+                    {% if messages %}
+
                         {% for message in messages %}
-                            <li class="{{ message.tags }}">
-                                {{ message|safe }}
-                                <a href="#" class="close">✖</a>
-                            </li>
+                        <div class="alert alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">
+                                &times;
+                            </button>
+                            {{ message }}
+                        </div>
                         {% endfor %}
-                        </ul>
+                    
+                    {% endif %}
                     </div>
                 </div>
-                {% endif %}
+
             </form>
         </div>
     </div>

@@ -11,6 +11,12 @@ class LoginForm(forms.Form):
 	username = forms.CharField()
 	password = forms.CharField(widget=forms.PasswordInput)
 
+	def clean_username(self):
+		un = self.cleaned_data['username']
+		if len(un) < 3:
+			raise forms.ValidationError("Too short")
+		return un
+
 
 class RegistrationForm(forms.ModelForm):
 	password = forms.CharField(label="密  码", widget=forms.PasswordInput)
@@ -27,10 +33,33 @@ class RegistrationForm(forms.ModelForm):
 		return cd['password2']
 
 
+# Edit profile
+# failed to render the data of form to forms
+"""
+class ProfileForm(forms.Form):
+	username = forms.CharField()
+	nickname = forms.CharField()
+	email = forms.EmailField()
+	phone = forms.CharField()
+	website = forms.URLField()
+	birthday = forms.DateField()
+	photo = forms.ImageField()
+
+
+"""
+
 class UserForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ('username', 'email')
+
+	def clean_username(self):
+		username = self.cleaned_data['username'].lower()
+		if User.objects.filter(username=username):
+			# There is a bug: when you update other profile, Error also raised
+			# raise forms.ValidationError('username alraedy exists.')
+			pass
+		return username
 
 
 class ProfileForm(forms.ModelForm):
@@ -38,6 +67,9 @@ class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('nickname', 'phone', 'website', 'birthday', 'photo')
+		widgets = {
+			'birthday': forms.DateInput,
+		}
 
 
 class PasswordChangeForm(forms.Form):

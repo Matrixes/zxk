@@ -59,9 +59,14 @@ def user_login(request):
 					login(request, user)
 					return HttpResponseRedirect(request.session['to'])
 				else:
-					return HttpResponse("Disabled account.")
+					messages.warning(request, 'user is not active.')
 			else:
-				return HttpResponse("Invalid login")
+				messages.error(request, 'username/passwird is wrong')
+		else:
+			messages.error(request, form.errors)
+
+		# avoid refresh post
+		return redirect(reverse('accounts:login'))
 	else:
 		request.session['to'] = redirect_to(request)
 		form = LoginForm()
@@ -98,12 +103,15 @@ def profile(request):
 		                    'posts': posts,
 		                    'comments': comments})
 
-def user(request, username):
-	user = get_object_or_404(User, username=username)
+def user(request, id):
+	user = get_object_or_404(User, id=int(id))
+	
+	if request.user == user:
+		return redirect(reverse('accounts:profile'))
+
 	posts = Post.objects.filter(author=user)
 	comments = Comment.objects.filter(name=user)
 	return render(request, "accounts/user.html", {'user': user, 'posts': posts, 'comments': comments})
-
 
 
 
@@ -119,12 +127,13 @@ def edit(request):
 			profile_form.save()
 			messages.success(request, '成功啦')
 		else:
-			messages.error(request, '失败了')
+			messages.error(request, user_form.errors)
+
+		return redirect(reverse('accounts:edit'))
 	else:
 		user_form = UserForm(instance=request.user)
 		profile_form = ProfileForm(instance=request.user.profile)
 	return render(request, 'accounts/edit.html', {'user_form': user_form,  'profile_form': profile_form})
-
 
 @login_required
 def password_change(request):

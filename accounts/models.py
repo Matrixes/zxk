@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 def upload_path_handler(instance, filename):
-	name = str(instance.user.id) +  '-' + filename
+	name = str(instance.id) +  '-' + filename
 	return "users/{}".format(name)  # Ymd invalid
 
 
