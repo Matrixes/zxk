@@ -1,7 +1,9 @@
+
+
 $('.navbar').hover(function() {
 	$(this).css('background-color', '#E8E8E8');
     },function(){
-    $(this).css('background-color', '#FFFFFF');
+    $(this).css('background-color', 'transparent');
 })
 
 
@@ -56,3 +58,6 @@ $("#ajax-submit").on('submit', function() {
 	    });
 });
 */
+
+/*============================================*/
+

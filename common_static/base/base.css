@@ -1,34 +1,40 @@
-.navbar-brand img {
-	height: 34px;
-	width: auto;
-	float: left;
-	margin-top: -8px;
-	margin-right: 6px
+/*将导航条设置成透明，为了以后设置背景颜色准备
+如果去掉navbar-default的话，相应使布局受到影响
+*/
+.navbar {
+	background-color: transparent;
 }
 
-a.navbar-brand span {
-	font-size: 30px;
+.navbar-brand img {
+	width: 1em;
+	height: auto;
+}
+
+
+.navbar-brand span {
+	font-size: 4rem;
 	color: #cc9900;
 }
 
-.navbar {
-	margin-bottom: 0;
-	padding-bottom: 0;
-	background-color: #FFFFFF;
-	border: none;
-}
 
 ul.nav {
-	font-size: 20px;
+	font-size: 2.3rem;
 }
 
 ul.dropdown-menu {
-	font-size: 18px;
+	font-size: 2rem;
+}
+
+.main {
+	margin-top: 60px;
 }
 
 .footer {
-	background-color: gray;
-	padding: 0;
-	margin-top: 200px;
-	line-height: 1.0em;
+
+	background: rgb(248, 249, 251) url(footer.jpg) no-repeat 50% 50%;
+	background-size: cover;
+
+	margin: 100px -15px 0 -15px;
+	font-size: 2em;
+	line-height: 1.5em;
 }

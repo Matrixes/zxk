@@ -57,7 +57,7 @@ article p {
 }
 
 
-a:link    { color: black }    /* unvisited links */
-a:visited { color: gray }   /* visited links   */
-a:hover   { color: lightgray } /* user hovers     */
-a:active  { color: lime }   /* active links    */
+.title:link    { color: black }    /* unvisited links */
+.title:visited { color: gray }   /* visited links   */
+.title:hover   { color: lightgray } /* user hovers     */
+.title:active  { color: lime }   /* active links    */

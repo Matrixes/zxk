@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="醉心客，博客，文章，论坛">
+    <meta name="description" content="醉心客的个人网站">
+    <meta name="author" content="醉心客">
+
+    <title>{% block title %}BASE{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'img/fav.ico' %}" type="image/x-icon" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'base/base.css' %}" />
+
+    {% block extra_head %}{% endblock %}
+
+    <!--[if lt IE 9]>
+        <script src="{% static 'html5shiv.js' %}"></script>
+    <![endif]-->
+
+    <!--[if lt IE 7]>
+        <div style=' clear: both; text-align:center; position: relative;'>
+            <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="您的浏览器版本低于IE7，为不影响您的体检，建议升级。" />
+            </a>
+        </div>
+    <![endif]-->
+</head>
+<body>
+    
+</body>

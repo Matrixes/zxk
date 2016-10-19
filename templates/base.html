@@ -18,98 +18,115 @@
 
     {% block extra_head %}{% endblock %}
 
-   
-</head>
-<body>
+    <!--[if lt IE 9]>
+        <script src="{% static 'html5shiv.js' %}"></script>
+    <![endif]-->
 
-<div class="container">
-    <nav class="navbar navbar-default">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'home:index' %}">
-                <span>
-                <img alt="Brand" src="{% static 'img/logo.jpg' %}">
-                醉心客
-                </span>
+    <!--[if lt IE 7]>
+        <div style=' clear: both; text-align:center; position: relative;'>
+            <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="您的浏览器版本低于IE7，为不影响您的体检，建议升级。" />
             </a>
         </div>
+    <![endif]-->
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{% url 'blog:index' %}">博客</a></li>
-                <li><a href="#">论坛</a></li>
-                <li><a href="{% url 'images:index' %}">图库</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">关于 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">关于</a></li>
-                        <li><a href="#">佛祖</a></li>
-                        <li><a href="#">联系</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">简介</a></li>
-                        <li role="separator" class="divider"></li>
-                    </ul>
-                </li>
-            </ul>
+   
+</head>
 
-            <!--Search Column
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>-->
+<body>
+<header rolw="banner">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
 
-            <ul class="nav navbar-nav navbar-right">
-            {% if request.user.is_authenticated %}
-                <!--
-                <li>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                        站内信
-                    </a>
-                </li>
-                -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="{{ request.user.profile.photo.url }}" class="img-thumbnail" alt="..." height="25" width="25">
-                    {{ request.user.username }} <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'accounts:profile' %}">个人中心</a></li>
-                        <li><a href="#">占位符</a></li>
-                        <li><a href="#">占位符</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{% url 'accounts:logout' %}">安全退出</a></li>
-                    </ul>
-                </li>
-            {% else %}
-                
-                <li>
-                    <a href="{% url 'accounts:login' %}">
-                        <span class="glyphicon glyphicon-home"></span>
-                        登录
-                    </a>
-                </li>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'home:index' %}">
+                    <span>
+                        <img alt="Brand" src="{% static 'img/logo.jpg' %}">
+                        醉心客
+                    </span>
+                </a>
+            </div>
 
-            {% endif %}
-            </ul>
-        
-        </div><!-- /.navbar-collapse -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'blog:index' %}">博客</a></li>
+                    <li><a href="#">论坛</a></li>
+                    <li><a href="{% url 'images:index' %}">图库</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">关于 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">关于</a></li>
+                            <li><a href="#">佛祖</a></li>
+                            <li><a href="#">联系</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">简介</a></li>
+                            <li role="separator" class="divider"></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!--Search Column
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>-->
+
+                <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <!--
+                    <li>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            站内信
+                        </a>
+                    </li>
+                    -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ request.user.profile.photo.url }}" class="img-thumbnail" alt="..." height="25" width="25">
+                        {{ request.user.username }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'accounts:profile' %}">个人中心</a></li>
+                            <li><a href="#">占位符</a></li>
+                            <li><a href="#">占位符</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{% url 'accounts:logout' %}">安全退出</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    
+                    <li>
+                        <a href="{% url 'accounts:login' %}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            登录
+                        </a>
+                    </li>
+
+                {% endif %}
+                </ul>
+            
+            </div><!-- /.navbar-collapse -->   
+        </div>
     </nav>
-</div>
+</header>
 
 
+<main class="main" role="main">
+    {% block content %} {% endblock %}
+</main>
 
-{% block content %} {% endblock %}
 
-<div class="container-fluid footer">
+<footer class="footer" role="contentinfo">
+    <div class="container-fluid">
 	    <div class="row text-center">
 	        <div class="col-md-6 col-sm-6 col-xs-6">
 		        <br />
@@ -125,7 +142,9 @@
 			    <p><a href="http://www.taobao.com" target="_blank">Taobao</a></p>
 		    </div>
 	   </div>
-</div>
+    </div>
+</footer>
+
 
 
     <script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
