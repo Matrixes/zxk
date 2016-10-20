@@ -3,17 +3,20 @@
 */
 .navbar {
 	background-color: transparent;
+	margin-bottom: 0;
+	border: none;
 }
 
 .navbar-brand img {
-	width: 1em;
-	height: auto;
+	display: inline;
+	max-height: 4rem;
+	margin: 0;
+
 }
-
-
-.navbar-brand span {
+.navbar-brand strong {
 	font-size: 4rem;
-	color: #cc9900;
+	color: rgba(204, 153, 0, 0.7);
+	text-shadow: 2px 2px 7px #cc9900;
 }
 
 
@@ -25,16 +28,42 @@ ul.dropdown-menu {
 	font-size: 2rem;
 }
 
-.main {
-	margin-top: 60px;
+
+
+
+#portrait {
+	margin: 0px 0;
+	padding: 0;
+
 }
 
+.dropdown-toggle > img {
+	width: ;
+	height: 50px;
+	margin: 0;
+	padding: 0;
+}
+
+.main {
+	margin-top: 0;
+}
+
+/*设置页脚*/
+
 .footer {
-
-	background: rgb(248, 249, 251) url(footer.jpg) no-repeat 50% 50%;
-	background-size: cover;
-
-	margin: 100px -15px 0 -15px;
-	font-size: 2em;
+	margin: 10px -15px 0 -15px;
+	font-size: 1em;
 	line-height: 1.5em;
+	color: #A88604;
+}
+.footer section{
+	margin: 0 30%;
+}
+
+.footer ul {
+	list-style: none;
+	font-size: 1em;
+}
+.footer h1 {
+	font-size: 1.5em;
 }

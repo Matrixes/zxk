@@ -34,7 +34,7 @@
 
 <body>
 <header rolw="banner">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
         <div class="container">
 
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -46,10 +46,12 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{% url 'home:index' %}">
-                    <span>
-                        <img alt="Brand" src="{% static 'img/logo.jpg' %}">
+                    <!--
+                    <img alt="Brand" src="{% static 'img/logo.jpg' %}">
+                    -->
+                    <strong>
                         醉心客
-                    </span>
+                    </strong>
                 </a>
             </div>
 
@@ -91,9 +93,12 @@
                     </li>
                     -->
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{ request.user.profile.photo.url }}" class="img-thumbnail" alt="..." height="25" width="25">
-                        {{ request.user.username }} <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" id="portrait" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        
+                            <img src="{{ request.user.profile.photo.url }}" class="" alt="头像">
+                            {{ request.user.username }} 
+                            <span class="caret"></span>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'accounts:profile' %}">个人中心</a></li>
                             <li><a href="#">占位符</a></li>
@@ -127,20 +132,28 @@
 
 <footer class="footer" role="contentinfo">
     <div class="container-fluid">
-	    <div class="row text-center">
-	        <div class="col-md-6 col-sm-6 col-xs-6">
-		        <br />
-			    <p>© 2015-2016</p>
-			    <p>Nginx</p>
-			    <p>Aliyun</p>
-		    </div>
-		
-		    <div class="col-md-6 col-sm-6 col-xs-6">
-			    <h5>友情链接</h5>
-			    <p><a href="http://www.baidu.com" target="_blank">Baidu</a></p>
-			    <p><a href="http://www.qq.com" target="_blank">QQ</a></p>
-			    <p><a href="http://www.taobao.com" target="_blank">Taobao</a></p>
-		    </div>
+	    <div class="row">
+            <section>
+	           <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h1>友情链接</h1>
+		            <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+		      </div>
+            </section>
+
+		    <section>
+		        <div class="col-md-6 col-sm-6 col-xs-6">
+			        <h1>友情链接</h1>
+                    <ul>
+                        <li><a href="http://www.baidu.com" target="_blank">Baidu</a></li>
+                        <li><a href="http://www.qq.com" target="_blank">QQ</a></li>
+                        <li><a href="http://www.taobao.com" target="_blank">Taobao</li>
+                    </ul>
+		        </div>
+            </section>
 	   </div>
     </div>
 </footer>

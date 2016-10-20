@@ -1,31 +1,36 @@
-{% extends "base.html" %}
+{% extends "./base_accounts.html" %}
 
 {% load staticfiles %}
 {% load static %}
 
 {% block title %}用户中心{% endblock %}
 
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
+{% endblock %}
 
-{% block content %}
-<div class="container">
-<br />
-    <div class="row">
-        <div class="col-md-2 col-lg-2">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#">个人中心</a></li>
-                <li><a href="{% url 'accounts:edit' %}">编辑资料</a></li>
-                <li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
-                <li><a href="#">帐号关联</a></li>
-            </ul>
+{% block nav-ul %}
+<li class="active"><a href="{% url 'accounts:profile' %}">个人中心</a></li>
+<li><a href="{% url 'accounts:edit' %}">编辑资料</a></li>
+<li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
+<li><a href="#">帐号关联</a></li>
+{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <section class="profile">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <img src="{{ profile.photo.url }}" alt="XXX" class="img-thumbnail">
         </div>
-
-        <div class="col-md-3 col-lg-3">
-            <p>用户名: {{ profile.user.username }}</p>
-            <p>昵称: {{ profile.nickname }}</p>
-            <p>最后登录: {{ profile.user.last_login|date:'Y-m-d H:i' }}</p>
-            <p>注册时间: {{ profile.user.date_joined|date:'Y-m-d H:i' }}</p>
-            <p>
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <ul>
+                <li>用户名: {{ profile.user.username }}</li>
+                <li>昵称: {{ profile.nickname }}</li>
+                <li>最后登录: {{ profile.user.last_login|date:'Y-m-d H:i' }}</li>
+                <li>注册时间: {{ profile.user.date_joined|date:'Y-m-d H:i' }}</li>
                 {% if messages %}
+                <li>
                     <ul class="messages">
                         {% for message in messages %}
                         <li class="{{ message.tags }}">
@@ -35,17 +40,15 @@
                         {% endfor %}
                     </ul>
                 {% endif %} 
-
-            </p>
+            </li>
+            </ul>
         </div>
-
-        <div class="col-md-3 col-lg-3">
-            <img src="{{ profile.photo.url }}" alt="XXX" class="img-thumbnail" width="150px", height="150px">
-        </div>      
-    </div>
-
-    <div class="row">
-        <div class="col-md-5 col-lg-5 col-md-offset-2 col-md-offset-2">
+    </section>
+</div>
+    
+<div class="row">
+    <section class="blog">
+        <div class="col-sm-5 col-md-5 col-lg-5">
             <h3>发表文章</h3>
             {% for post in posts %}
                 <a href="{{ post.get_absolute_url }}" target="_blank">
@@ -54,7 +57,9 @@
                 <br /><br />
             {% endfor %}
         </div>
+    </section>
 
+    <section class="comment">
         <div class="col-md-5 col-lg-5">
             <h3>发表评论</h3>
             {% for comment in comments %}
@@ -65,14 +70,12 @@
                 {{ comment.body }} <hr />
 
             {% endfor %}
-
         </div>
-    </div>
-
-    <hr />
+    </section>
+</div>
 
     <div class="row">
-        <div class="col-md-10 col-lg-10 col-md-offset-2 col-md-offset-2">
+        <div class="col-md-10 col-lg-10">
             {% with total_images_created=request.user.images_created.count %}
 
                 <p>
@@ -89,6 +92,10 @@
 
         </div>
     </div>
-
 </div>
+{% endblock %}
+
+{% block extra_script %}
+    {{ block.super }}
+    <script src="{% static 'accounts/profile.js' %}"></script>
 {% endblock %}

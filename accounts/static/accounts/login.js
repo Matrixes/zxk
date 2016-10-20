@@ -1,6 +1,6 @@
 $(function() {
 	$('.navbar').hover(function() {
-		$(this).css('background-color', '#3B3B46');
+		$(this).css('background-color', '#2B2B2B');
     	},function(){
     	$(this).css('background-color', 'transparent');
 	});

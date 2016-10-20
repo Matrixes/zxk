@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}编辑资料{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container">

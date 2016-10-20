@@ -1,18 +1,19 @@
+$(function() {
+	
+	$('.navbar').hover(function() {
+		$(this).css('background-color', '#E8E8E8');
+    	},function(){
+    	$(this).css('background-color', 'transparent');
+	});
+	
 
+	$('.navbar-nav>li a').hover(function() {
+		$(this).css({'font-style': 'italic', 'font-weight': 'bold'});
+    	},function(){
+    	$(this).css({'font-style': 'normal', 'font-weight': 'normal'});
+	});
 
-$('.navbar').hover(function() {
-	$(this).css('background-color', '#E8E8E8');
-    },function(){
-    $(this).css('background-color', 'transparent');
 })
-
-
-$('.navbar-nav>li a').hover(function() {
-	$(this).css({'font-style': 'italic', 'font-weight': 'bold'});
-    },function(){
-    $(this).css({'font-style': 'normal', 'font-weight': 'normal'});
-})
-
 
 
 /*

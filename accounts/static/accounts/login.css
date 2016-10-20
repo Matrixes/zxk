@@ -1,9 +1,25 @@
+body {
+	background: #252525 url(bg6.jpg);
+	background-attachment: fixed;
+	background-size: cover;
+}
+
 .login {
-	border: 1px dotted #000000;
+	border: 1px dashed #fff;
 	border-radius: 0 15px 15px 0;
-    box-shadow: 10px 10px 5px #A8A8A8;
+    box-shadow: 10px 10px 5px rgba(116, 77, 64, 0.5);
+    font-size: 2rem;
+    color: #000;
+}
+
+label, .denglu {
+	color: rgba(209, 169, 47, 0.5);
 }
 
 .login-opposite {
 	font-size: 20px;
+}
+
+.footer {
+	border-top: 1px dotted #fff;
 }

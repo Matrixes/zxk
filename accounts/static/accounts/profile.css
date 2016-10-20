@@ -1,0 +1,12 @@
+.profile ul, 
+.profile ul li {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0; 
+	font-size: 1.3em;
+}
+
+.img-thumbnail {
+	width: 80%;
+	height: 15em;
+}

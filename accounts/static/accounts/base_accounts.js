@@ -1,7 +1,7 @@
 $(function() {
 	$('.navbar').hover(function() {
-		$(this).css('background-color', '#3B3B46');
+		$(this).css('background-color', 'rgba(160, 160, 160, 1)');
     	},function(){
     	$(this).css('background-color', 'transparent');
 	});
-})
+});
