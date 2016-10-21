@@ -151,7 +151,7 @@ def password_change(request):
 				messages.error(request, '密码错误')
 	else:
 		form = PasswordChangeForm()
-	return render(request, 'accounts/password_change.html', {'form': form})
+	return render(request, 'accounts/password-change.html', {'form': form})
 
 
 def register(request):

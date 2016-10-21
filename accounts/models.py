@@ -13,7 +13,7 @@ class UserProfile(models.Model):
 	phone = models.CharField(max_length=11, blank=True)
 	website = models.URLField(blank=True)
 	birthday = models.DateField(blank=True, null=True)
-	photo = models.ImageField(upload_to=upload_path_handler, default="users/default.png")
+	photo = models.ImageField(upload_to=upload_path_handler, blank=True, default="users/default.png")
 
 	def __str__(self):
 		return "{}'s UserProfile".format(self.user.username)

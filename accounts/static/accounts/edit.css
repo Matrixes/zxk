@@ -1,0 +1,12 @@
+h3 {
+	font-size: 2.5rem;
+}
+form {
+	font-size: 2rem;
+	color: rgba(51,122,83,0.8);
+}
+
+.alert {
+	color: #000;
+	background-color: rgba(255,255,255,0.3);
+}

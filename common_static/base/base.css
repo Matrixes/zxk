@@ -51,10 +51,11 @@ ul.dropdown-menu {
 /*设置页脚*/
 
 .footer {
-	margin: 10px -15px 0 -15px;
+	margin: 100px -15px 0 -15px;
 	font-size: 1em;
 	line-height: 1.5em;
 	color: #A88604;
+	background-color: rgba(223,131,80,0.2)
 }
 .footer section{
 	margin: 0 30%;
