@@ -1,0 +1,98 @@
+{% extends "./base-accounts-2.html" %}
+
+{% load staticfiles %}
+{% load static %}
+
+{% block title %}用户中心{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/user.css' %}">
+{% endblock %}
+
+
+{% block nav-ul %}
+<li class="active"><a href="{% url 'accounts:user_detail' user.username %}">他的资料</a></li>
+<li><a href="#">他的动态</a></li>
+<li><a href="#">他的文章</a></li>
+<li><a href="#">他的评论</a></li>
+<li><a href="#">他的图片</a></li>
+<li><a href="#">####</a></li>
+{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+        <section class="user-photo">
+            <img src="{{ user.profile.photo.url }}" alt="{{ user.username }}">
+        </section>
+    </div>      
+
+    <div class="col-sm-8 col-md-8 col-lg-8">
+        <section class="user-info">
+            <ul>
+                <li>用户名: {{ user.username }}</li>
+                <li>昵称: {{ user.profile.nickname }}</li>
+                <li>网站: {{ user.profile.website }}</li>
+                <li>最后登录: {{ user.last_login|date:'Y-m-d H:i' }}</li>
+                <li>注册时间: {{ user.date_joined|date:'Y-m-d H:i' }}</li>
+            </ul>
+                
+            <div class="follow">
+                {% with total_following=user.following.count %}
+                    <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                    关注：{{ total_following }}
+                {% endwith %}
+                
+                <br />
+            
+                {% with total_followers=user.followers.count %}
+                    <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                    粉丝：{{ total_followers }}
+                    
+                    <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="btn btn-primary">
+                        {% if request.user not in user.followers.all %}
+                            关注
+                        {% else %}
+                            取消关注
+                        {% endif %}
+                    </a>
+                {% endwith %}
+            </div> 
+        </section>
+    </div>
+</div>
+
+        
+    <!--
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <h3>发表文章</h3>
+            {% for post in posts %}
+                <a href="{{ post.get_absolute_url }}" target="_blank">
+                    {{ post.title }}
+                </a>
+                <br /><br />
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4 col-lg-4">
+            <h3>发表评论</h3>
+            {% for comment in comments %}
+                <a href="{{ comment.post.get_absolute_url }}" target="_blank">
+                    {{ comment.post.title }}
+                </a>
+                <br />
+                {{ comment.body }} <hr />
+
+            {% endfor %}
+
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <h3>分享的图片</h3>
+        </div>
+    </div>
+    -->
+
+
+{% endblock %}

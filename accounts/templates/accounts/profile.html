@@ -1,4 +1,4 @@
-{% extends "./base_accounts.html" %}
+{% extends "./base-accounts-1.html" %}
 
 {% load staticfiles %}
 {% load static %}
@@ -26,20 +26,37 @@
         </div>
         <div class="col-sm-8 col-md-8 col-lg-8">
             <ul>
-                <li>用户名: {{ profile.user.username }}</li>
-                <li>昵称: {{ profile.nickname }}</li>
-                <li>最后登录: {{ profile.user.last_login|date:'Y-m-d H:i' }}</li>
-                <li>注册时间: {{ profile.user.date_joined|date:'Y-m-d H:i' }}</li>
+                <li>
+                    <span>用户名</span>: 
+                    {{ profile.user.username }}
+                </li>
+                <li>
+                    <span>昵称</span>: 
+                    {{ profile.nickname }}
+                </li>
+                <li>
+                    <span>最后登录</span>:
+                    <time> 
+                        {{ profile.user.last_login|date:'Y-m-d H:i' }}
+                    </time>
+                </li>
+                <li>
+                    <span>注册时间</span>:
+                    <time> 
+                        {{ profile.user.date_joined|date:'Y-m-d H:i' }}
+                    </time>
+                </li>
                 {% with total_images_created=request.user.images_created.count %}
                 <li>
-                    image{{ total_images_created|pluralize }}: {{ total_images_created }}
+                    <span>image{{ total_images_created|pluralize }}</span>: 
+                    {{ total_images_created }}
                 </li>
                 {% endwith %}
                 <li>
                     将下面的按钮添加为浏览器的书签，打开其他网站后点击其 -->
-                        <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
-                            <button class="btn btn-success">Bookmark it</button>
-                        </a>
+                    <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
+                        <button class="btn btn-success">Bookmark it</button>
+                    </a>
                 </li>
 
                 {% if messages %}

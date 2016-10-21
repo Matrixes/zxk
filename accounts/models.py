@@ -40,6 +40,9 @@ class SocialUser(models.Model):
 		ordering = ['belong', 'login']
 
 
+# 将关系定义在UserProfile上也行，而且在admin上也更好管理，
+# 但是会带来负载的查询和额外的表连接
+
 class Contack(models.Model):
 	user_from = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rel_from_set')
 	user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rel_to_set')
@@ -62,4 +65,14 @@ User.add_to_class('following', models.ManyToManyField('self',
 	                                                  related_name='followers',
 	                                                  symmetrical=False))
 #  using add_to_class() is not the recommended way for adding fields to models. 
-# 不会改变数据库？
+# Thus, the ManyToManyField added dynamically will not
+# imply any database changes for the Django User model.
+
+#  Django forces the relationship to be symmetrical.
+# In this case, we are setting symmetrical=False to define a non-symmetric relation.
+# This is, if I follow you, it doesn't mean you automatically follow me.
+
+# When you use an intermediate model for many-to-many
+# relationships some of the related manager's methods are disabled,
+# such as add(), create() or remove(). You need to create or
+# delete instances of the intermediate model instead.

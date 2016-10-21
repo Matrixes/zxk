@@ -1,0 +1,58 @@
+body {
+	background: black url(10.jpg) no-repeat 50% 50%;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+/*user-list.html*/
+.user {
+	border: 1px solid red;
+	color: transparent;
+}
+
+figcaption {
+	font-size: 3rem;
+	text-align: center;
+}
+
+figure.user img {
+	border-radius: 50%;
+
+	width: 61.8%;
+	height: 61.8%;
+
+	/* 设置居中 */
+	display: block;
+	margin: 5% auto 2% auto;
+}
+
+
+figcaption a:link    { color: black }    /* unvisited links */
+figcaption a:visited { color: gray }   /* visited links   */
+figcaption a:hover   { color: gray } /* user hovers     */
+figcaption a:active  { color: lime }   /* active links    */
+.footer {
+	background-color: rgba(103,89,88,0.5)
+}
+
+
+/*user-detail.html*/
+
+.user-photo img {
+	display: block;
+	margin: 10px auto 10px auto;
+	height: 80%;
+	width: 80%;
+}
+
+.user-info ul,
+.user-info li {
+	font-size: 2rem;
+	list-style: none;
+	padding: 0;
+}
+
+.follow {
+	margin-top: 20px;
+	font-size: 2rem;
+}

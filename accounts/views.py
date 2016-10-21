@@ -103,6 +103,8 @@ def profile(request):
 		                    'posts': posts,
 		                    'comments': comments})
 
+
+# 这个不用了，见下面的yser_detail
 def user(request, id):
 	user = get_object_or_404(User, id=int(id))
 	
@@ -282,12 +284,14 @@ def github_auth(request):
 @login_required
 def user_list(request):
 	users = User.objects.filter(is_active=True)
-	return render(request, 'accounts/user_list.html', {'section': 'people', 'users': users})
+	return render(request, 'accounts/user-list.html', {'section': 'people', 'users': users})
 
 @login_required
 def user_detail(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
-	return render(request, 'accounts/user_detail.html', {'section': 'people', 'user': user})
+	if request.user == user:
+		return redirect(reverse('accounts:profile'))
+	return render(request, 'accounts/user-detail.html', {'section': 'people', 'user': user})
 
 # 为一个对象设置URL，有两个方法
 # 1、在models中定义get_absolute_url()方法
