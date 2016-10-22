@@ -38,7 +38,7 @@
                 <li>注册时间: {{ user.date_joined|date:'Y-m-d H:i' }}</li>
             </ul>
                 
-            <div class="follow">
+            <div class="follow-data">
                 {% with total_following=user.following.count %}
                     <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
                     关注：{{ total_following }}
@@ -50,7 +50,7 @@
                     <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
                     粉丝：{{ total_followers }}
                     
-                    <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="btn btn-primary">
+                    <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow btn btn-success">
                         {% if request.user not in user.followers.all %}
                             关注
                         {% else %}
@@ -95,4 +95,8 @@
     -->
 
 
+{% endblock %}
+
+{% block extra_script %}
+    <script src="{% static 'accounts/user.js' %}"></script>
 {% endblock %}

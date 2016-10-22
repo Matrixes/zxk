@@ -13,9 +13,11 @@ urlpatterns = [
 
     url(r'^register/$', views.register, name='register'),
 
-    # 从自己的角度看别人
+    # 从自己的角度看别人, 记得将user_follow放到user_detail前面哟
     url(r'^users/$', views.user_list, name='user_list'),
+    url(r'^users/follow/$', views.user_follow, name='user_follow'),
     url(r'^users/(?P<username>[-\w]+)/$', views.user_detail, name='user_detail'),
+
 
     # github login
     url(r'^github/$', views.github_login, name='github_login'),

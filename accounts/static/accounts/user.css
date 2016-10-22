@@ -52,7 +52,7 @@ figcaption a:active  { color: lime }   /* active links    */
 	padding: 0;
 }
 
-.follow {
+.follow-data {
 	margin-top: 20px;
 	font-size: 2rem;
 }
