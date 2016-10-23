@@ -48,7 +48,10 @@
             
                 {% with total_followers=user.followers.count %}
                     <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
-                    粉丝：{{ total_followers }}
+                    粉丝：
+                    <span id='follower-count'>
+                        {{ total_followers }}
+                    </span>
                     
                     <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow btn btn-success">
                         {% if request.user not in user.followers.all %}
@@ -98,5 +101,11 @@
 {% endblock %}
 
 {% block extra_script %}
+    <script>
+        $.ajaxSetup({
+            //data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            headers: {"X-CSRFToken": '{{ csrf_token }}'}
+        });
+    </script>
     <script src="{% static 'accounts/user.js' %}"></script>
 {% endblock %}
