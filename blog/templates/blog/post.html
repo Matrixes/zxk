@@ -112,7 +112,7 @@
                             <small>{{ comment.created|date:'Y-m-d H:i' }}</small>
                         </h4>
                         <p>
-                            {{ comment.body|linebreaks }}
+                            {{ comment.body|markdown|linebreaks }}
                         </p>
                     </div>
                 </div>
@@ -150,9 +150,7 @@
                     -->
                     {{ comment_form.errors }}
                     <div class="form-group">
-                        <div class="col-sm-6">
-                            {{ comment_form.body }}
-                        </div>
+                        {{ comment_form.body }}
                     </div>
 
                     <div class="row">
@@ -166,6 +164,7 @@
     </div>
 
 </div>
+
 {% endblock %}
 
 

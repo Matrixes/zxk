@@ -241,3 +241,9 @@ SCOPE = []
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: reverse_lazy('accounts:user_detail', args=[u.username]),
 }
+
+# pagedown settings
+PAGEDOWN_SHOW_PREVIEW = True
+PAGEDOWN_WIDGET_TEMPLATE = 'blog/pagedown.html'
+PAGEDOWN_WIDGET_CSS = ('blog/pagedown.css',)
+#PAGEDOWN_EXTENSIONS = []

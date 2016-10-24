@@ -14,10 +14,13 @@ class EmailPostForm(forms.Form):
 
 
 from pagedown.widgets import PagedownWidget
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
+
+
         widgets = {
             'body': PagedownWidget(),
         }
