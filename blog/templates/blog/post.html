@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "./base-blog.html" %}
 
 {% load staticfiles %}
 {% load blog_tags %}
@@ -6,7 +6,9 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'blog/post.css' %}" />
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'blog/post.css' %}" />
+    {{ comment_form.media }}
 {% endblock %}
 
 
@@ -25,28 +27,28 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h1 class="text-center">{{ post.title }}</h1>
+            <h1 class="text-center title">{{ post.title }}</h1>
         </div>
     </div>
 
     <div class="row">
+
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <p class="text-right author">
-                <span class="glyphicon glyphicon-time"></span>
                 {{ post.publish|date:'Y-m-d H:i' }} By
                 <a href="{{ post.author.get_absolute_url }}" target="_blank">
-                    {{ post.author.username }}
+                <span class="label label-default">{{ post.author.username }}</span>
+                    
                 </a>
             </p>
             <hr />
-                {% for i in post.tags.all %}
+            {% for i in post.tags.all %}
                 <span class="label label-default">
                     <span class="glyphicon glyphicon-paperclip" aria-hidden="true">
-                        
                     </span>
                     {{ i }}
                 </span>
-                {% endfor %}
+            {% endfor %}
             <hr />
         </div>
     </div>
@@ -60,52 +62,47 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-        <p class="text-right">
-            <button class="btn" type="button" title="阅读">
-                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                <span class="badge">{{ post.views }}</span>
-            </button>
-
-            <button id="likes" data-postid="{{ post.id }}" class="btn" type="button" title="点赞">
-                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                <span id="like_count" class="badge">{{ post.likes }}</span>
-                
-            </button>
-
-            <button class="btn" type="button" title="收藏">
-                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                <span class="badge">？</span>
-            </button>
-
-            {% with comments.count as total_comments %}
-            <button class="btn" type="button">
-                <!--
-                    {{ total_comments }} comment{{ total_comments|pluralize }}
-                -->
-                评论<span class="badge">{{ total_comments }}</span>
-            </button>
-            {% endwith %}
-
-            <a href="{%  url 'blog:post_share' post.id %}" target="_blank">
-                <button type="button" class="btn">
-                    <span class="glyphicon glyphicon-envelope"></span>
-                    分享
+        <div class="col-sm-12 col-md-12 col-lg-12">                
+            <section class="extra">
+                <span class="label label-default">阅读（{{ post.views }}）</span>
+                <button id="like" data-id="{{ post.id }}" class="btn btn-primary" title="点赞">
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    <span id="like_count" class="badge">{{ post.likes }}</span>
                 </button>
-            </a>
-        </p>
+
+                <button class="btn" title="收藏">
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    <span class="badge">？</span>
+                </button>
+
+                {% with comments.count as total_comments %}
+                <button class="btn" id='comments'>
+                    <!--
+                        {{ total_comments }} comment{{ total_comments|pluralize }}
+                    -->
+                    评论<span class="badge">{{ total_comments }}</span>
+                </button>
+                {% endwith %}
+
+                <a href="{%  url 'blog:post_share' post.id %}" target="_blank">
+                    <button class="btn">
+                        分享
+                    </button>
+                </a>
+            </section>
         </div>     
     </div>
     
     
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 ">
-            {% for comment in comments %}
-            <div class="comment">
+            <section class="comment">
+                {% for comment in comments %}
+            
                 <div class="media">
                     <div class="media-left media-top">
                         <a href="#">
-                            <img class="media-object img-thumbnail" src="{{ comment.name.profile.photo.url }}" alt="XXX" width="50px" height="50px">
+                            <img class="media-object img-thumbnail" src="{{ comment.name.profile.photo.url }}" alt="{{ comment.name.profile.user.username }}">
                             <p class="text-center">{{ comment.name.username }}</p>
                         </a>
                     </div>
@@ -118,9 +115,8 @@
                             {{ comment.body|linebreaks }}
                         </p>
                     </div>
-                <hr />
                 </div>
-            </div>
+            
 
             {% empty %}
             <!--
@@ -137,39 +133,44 @@
                 {{ comment.body|linebreaks }}
             </p>
             -->
+            
+            </section>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <h4>添加评论</h4>
-            <form action="." method="post" class="form-horizonta" role="form">
-                {% csrf_token %}
-                {% for field in comment_form %}
-                <div class="form-group">
-            
-                    {{ field.errors }}
-                    <label for="{{ field.id_for_label }}" class="col-sm-1 control-label">
-                        评论
-                    </label>
-                    <div class="col-sm-11">
-                        {{ field }}
+            <section class="add-comment">
+                <h1>添加评论</h1>
+                <form action="." method="post" class="" role="form">
+                    {% csrf_token %}
+
+                    <!--
+                    {{ comment_form }}
+                    -->
+                    {{ comment_form.errors }}
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            {{ comment_form.body }}
+                        </div>
                     </div>
-                                 
-                </div>
-                {% endfor %}
-                <div class="col-sm-1 col-sm-offset-1">
-                    <button type="submit" class="btn btn-success btn-lg">评论</button>
-                </div>
-            </form>
+
+                    <div class="row">
+                        <div class="col-sm-1 col-sm-offset-4">
+                            <button type="submit" class="btn btn-success btn-lg">评论</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </div>
     </div>
-</div>
+
 </div>
 {% endblock %}
 
 
 {% block extra_script %}
+    {{ block.super }}
     <script>
         $.ajaxSetup({
             //data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
@@ -177,5 +178,5 @@
         });
     </script>
     
-    <script src="{% static 'post.js' %}"></script>
+    <script src="{% static 'blog/post.js' %}"></script>
 {% endblock %}

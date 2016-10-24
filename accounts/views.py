@@ -323,3 +323,11 @@ def user_follow(request):
 		except User.DoesNotExist:
 			return JsonResponse({'status': 'ko'})
 	return JsonResponse({'status': 'ko'})
+
+# 关注列表
+def user_following(request, username):
+	user = User.get_object_or_404(User, username=str(username))
+	follwing_list = user.following.all()
+	return render(request, 'accounts/following.html', {'follwing_list', follwing_list})
+
+# 粉丝列表

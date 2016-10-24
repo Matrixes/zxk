@@ -1,0 +1,57 @@
+{% extends "./base-blog.html" %}
+
+{% block title %}分享博客{% endblock %}
+
+{% block content %}
+
+<div class="container">
+{% if sent %}
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <h3>Email successfullly sent</h3>
+            <p>
+                "{{ post_id }}" was successfully sent to {{ cd.to }}
+            </p>
+        </div>
+    </div>
+{% else %}
+
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <h3>Share "{{ post.title }}" by email</h3>
+        </div>
+    </div>
+
+    <form action="" method="post" class="form-horizonta" role="form">
+        {% csrf_token %}
+
+        {% for field in form %}
+        
+        <div class="form-group">
+            
+            {{ field.errors }}
+            
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    {{ field }}
+                </div> 
+            </div>                           
+        </div>
+
+        {% endfor %}
+
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <button type="submit" class="btn btn-success btn-lg">登录</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% endif %}
+
+{% endblock %}

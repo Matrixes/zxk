@@ -1,37 +1,38 @@
-{% extends "base.html" %}
+{% extends "./base-blog.html" %}
 
 {% load staticfiles %}
 
 {% block title %} publish{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'blog/publish.css' %}" />
-<link rel="stylesheet" href="{% static 'dist/css/wangEditor.min.css' %}" />
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'blog/publish.css' %}" />
+    <link rel="stylesheet" href="{% static 'dist/css/wangEditor.min.css' %}" />
 {% endblock %}
 
 {% block content %}
 <div class="container">
 	<div class="row">
-		<form action="" method="post" class="" role="form">
+		<form action="" method="post" class="publish" role="form">
 			{% csrf_token %}
 	    	<div class="form-group">
-                <label for="{{ form.title.id_for_label }}">Title</label>
+                <label for="{{ form.title.id_for_label }}">标题</label>
                 {{ form.title }}
             </div>
 
             <div class="form-group">
-                <label for="{{ form.tags.id_for_label }}">Title</label>
+                <label for="{{ form.tags.id_for_label }}">标签</label>
                 {{ form.tags }}
             </div>
 
             <div class="form-group">
-                <label for="{{ form.body.id_for_label }}">body</label>
+                <label for="{{ form.body.id_for_label }}">正文</label>
                 <div id='woca1'>
                     {{ form.body }}
                 </div>
             </div>
 
-            <button type="submit">登录</button>
+            <button type="submit" class="btn btn-lg btn-success">发表</button>
 
          </form>
 
@@ -43,6 +44,7 @@
 
 
 {% block extra_script %}
-<script src="{% static 'dist/js/wangEditor.min.js' %}"></script>
-<script src="{% static 'blog/publish.js' %}"></script>
+    {{ block.super }}
+    <script src="{% static 'dist/js/wangEditor.min.js' %}"></script>
+    <script src="{% static 'blog/publish.js' %}"></script>
 {% endblock %}

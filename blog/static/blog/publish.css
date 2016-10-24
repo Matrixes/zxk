@@ -3,6 +3,15 @@
 	width: 500px
 }
 */
+
+
+input.form-control,
+select.form-control {
+	color: rgb(0,0,0);
+	background-color: rgba(255,255,255,0.5);
+	font-size: 20px;
+}
+
 #woca {
 	height: 500px;
 }

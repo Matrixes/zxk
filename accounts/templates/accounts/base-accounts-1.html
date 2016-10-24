@@ -20,8 +20,13 @@
             <ul class="nav nav-pills nav-stacked">
                 {% block nav-ul %}
                 <li><a href="#">我的主页</a></li>
-                <li><a href="{% url 'accounts:profile' %}">个人中心</a></li>
+                <li><a href="{% url 'accounts:profile' %}">个人资料</a></li>
+                <li><a href="#">我的文章</a></li>
+                <li><a href="#">我的评论</a></li>
+                <li><a href="#">我的分享</a></li>
+                <!--
                 <li><a href="{% url 'accounts:edit' %}">编辑资料</a></li>
+                -->
                 <li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
                 <li><a href="#">帐号关联</a></li>
                 {% endblock %}

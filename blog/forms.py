@@ -13,10 +13,14 @@ class EmailPostForm(forms.Form):
 	comments = forms.CharField(required=False, widget=forms.Textarea, label="评论")
 
 
+from pagedown.widgets import PagedownWidget
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
+        widgets = {
+            'body': PagedownWidget(),
+        }
 
 
 class PublishForm(forms.ModelForm):

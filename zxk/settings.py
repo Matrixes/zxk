@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'images',
     #'actions',
+    'pagedown',
 ]
 
 # account 使用Django自带认证系统，使用这个时urls中就不要用namespace了

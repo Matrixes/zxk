@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Count
 from django.utils.safestring import mark_safe
-#import markdown
+import markdown
 
 
 register = template.Library()
@@ -28,5 +28,4 @@ def get_most_commented_posts(count=5):
 
 @register.filter(name='markdown')
 def markdown_format(text):
-	pass
-	#return mark_safe(markdown.markdown(text))
+	return mark_safe(markdown.markdown(text))	

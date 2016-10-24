@@ -1,10 +1,12 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
 
 from .models import Tag, Post, Comment
 from .forms import EmailPostForm, CommentForm, PublishForm
@@ -82,12 +84,11 @@ def post(request, year, month, day, post):
 '''
 
 # Post detail with id
-@login_required
+# @login_required
 def post(request, id):
 	post = get_object_or_404(Post, id=int(id))
-	viewed = request.session.get('viewed')
 
-	if not viewed:
+	if not request.session.get('viewed'):
 		post.views += 1
 		post.save()
 	
@@ -102,6 +103,7 @@ def post(request, id):
 			new_comment.post = post
 			new_comment.name = request.user
 			new_comment.save()
+			return redirect(reverse('blog:post', args=[id]))
 	#else:
 	comment_form = CommentForm()
 
@@ -109,17 +111,18 @@ def post(request, id):
 	return render(request, 'blog/post.html', context)
 
 
+
+@login_required
+@require_POST
+@ajax_required
 def post_like(request):
-	post_id = None
-	if request.method == 'GET':
-		post_id = request.GET.get('post_id')
+	post_id = request.POST.get('post_id')
 
 	if post_id:
 		post = get_object_or_404(Post, id=int(post_id))
 		post.likes += 1
 		post.save()
-
-	return HttpResponse(post.likes)
+		return JsonResponse({'count': post.likes})
 
 
 def post_share(request, post_id):
@@ -142,7 +145,7 @@ def post_share(request, post_id):
 	else:
 		form = EmailPostForm()
 
-	return render(request, 'blog/post/share.html', {'post': post,
+	return render(request, 'blog/share.html', {'post': post,
 		                                            'form': form,
 		                                            'sent': sent})
 
@@ -173,10 +176,10 @@ def publish(request):
 	if request.method == 'POST':
 		form = PublishForm(request.POST)
 		if form.is_valid():
+			print(form)
 			new_post = form.save(commit=False)
 			new_post.author = request.user
 			new_post.status='P'
-			new_post.slug='wwwww'
 			new_post.save()
 			return HttpResponseRedirect(reverse("blog:index"))
 	else:

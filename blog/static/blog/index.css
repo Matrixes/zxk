@@ -1,11 +1,4 @@
 
-body {
-	background: lightgray url(6.jpg) no-repeat 0% 0%;
-	background-size: cover;
-	background-attachment: fixed;
-}
-
-
 .breadcrumb {
 	background-color: transparent;
 }
@@ -18,6 +11,7 @@ body {
 
 /*公告栏*/
 .report {
+	background: ;
     border: 1px dotted #000000;
 	border-radius: 0 15px 15px 0;
     box-shadow: 10px 10px 5px rgba(83, 83, 93, 0.8);
@@ -38,11 +32,17 @@ body {
 	font-size:15px;
 }
 
+.aside,
+.report,
+article {
+	background: rgba(255,255,255, 0.5);
+}
+
 /*博文*/
 article {
-	color: black;
-	font-size: 20px;
-	margin: 20px 0 20px 0;
+	color: #000;
+	font-size: 2rem;
+	margin: 10px 0 10px 0;
 	padding: 0 15px 20px 15px;
 	border: 1px dotted #000000;
     border-radius: 25px 0 0 25px;
@@ -50,16 +50,17 @@ article {
 }
 
 /*标题*/
-article>h3 a {
+.title {
+	font-size: 3rem;
 	color: black;
-	text-shadow: 1px 1px 1px #000000;
+	text-shadow: 2px 2px 5px #000;
 	text-decoration: blink;
 }
 
 
 p.author {
 	font-style: italic;
-	font-size: 15px
+	font-size: 1.8rem
 }
 
 article p {
@@ -67,11 +68,12 @@ article p {
 }
 
 .tags {
-	font-size: 15px;
+	font-size: 1.5rem;
+	margin: 0 3px;
 }
 
-
-.title:link    { color: black }    /* unvisited links */
-.title:visited { color: gray }   /* visited links   */
+/*.title:link    { color: black }    /* unvisited links */
+/*.title:visited { color: gray }   /* visited links   */
 .title:hover   { color: lightgray } /* user hovers     */
-.title:active  { color: lime }   /* active links    */
+/*.title:active  { color: lime }   /* active links    */
+
