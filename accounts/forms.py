@@ -66,7 +66,7 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = UserProfile
-		fields = ('nickname', 'phone', 'website', 'birthday', 'photo')
+		fields = ('nickname', 'phone', 'website', 'birthday', 'photo', 'settings')
 		widgets = {
 			'birthday': forms.DateInput,
 		}

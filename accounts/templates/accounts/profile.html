@@ -61,6 +61,9 @@
                     <span>粉丝</span>：{{ profile.user.followers.count }}
                 </li>
                 <li>
+                    <span>编辑器</span>：{{ profile.get_settings_display }}
+                </li>
+                <li>
                     将下面的按钮添加为浏览器的书签，打开其他网站后点击其 -->
                     <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
                         <button class="btn btn-success">Bookmark it</button>

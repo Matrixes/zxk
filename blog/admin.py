@@ -21,12 +21,14 @@ class PostAdmin(admin.ModelAdmin):
 	#prepopulated_fields = {'slug': ('title',)}
 	raw_id_fields = ['author', 'tags']
 
+	
 	class Media:
 		js = (
     		'/static/js/kindeditor/kindeditor-all-min.js',
     		'/static/js/kindeditor/lang/zh-CN.js',
     		'/static/js/kindeditor/config.js',
     	)
+    
 
 	#fieldsets = [
 	#    (None,      {'fields': ['title', 'slug', 'author']}),
@@ -42,5 +44,8 @@ class CommentAdmin(admin.ModelAdmin):
 	list_display = ('name', 'post', 'created', 'active')
 	list_filter = ('active', 'created', 'updated')
 	search_fields = ('name', 'body')
+	
 
 admin.site.register(Comment, CommentAdmin)
+
+##########

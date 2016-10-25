@@ -29,9 +29,24 @@ class CommentForm(forms.ModelForm):
 class PublishForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'tags', 'body')
+        fields = ('title', 'tags', 'body', 'status')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'id': 'woca', 'class': 'form-control'}),
+        }
+
+
+from pagedown.widgets import PagedownWidget
+
+class PublishMdForm(forms.ModelForm):
+    # atextfield = forms.CharField(widget=PagedownWidget())
+    # anothertextfield = forms.CharField(widget=PagedownWidget())
+    class Meta:
+        model = Post
+        fields = ('title', 'tags', 'body', 'status')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'body': PagedownWidget,
         }

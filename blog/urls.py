@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^feed/$', LatestPostsFeed(), name='post_feed'),
 
     url(r'^publish/$', views.publish, name='publish'),
+    # url融合了
+    #url(r'^publish/md$', views.publish_md, name='publish_md'),
 ]

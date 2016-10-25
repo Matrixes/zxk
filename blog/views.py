@@ -9,7 +9,8 @@ from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
 
 from .models import Tag, Post, Comment
-from .forms import EmailPostForm, CommentForm, PublishForm
+from .forms import EmailPostForm, CommentForm, PublishForm, PublishMdForm
+
 
 #from taggit.models import Tag
 
@@ -173,15 +174,46 @@ def tag(request, tag):
 
 @login_required
 def publish(request):
+	user = request.user
+
+	# 获取用户设置的编辑器
+	try:
+		editor = user.profile.settings
+	except:
+		editor = 'M'
+
+	if editor == 'M':
+		if request.method == 'POST':
+			form = PublishMdForm(request.POST)
+			if form.is_valid():
+				new_post = form.save(commit=False)
+				new_post.author = request.user
+				new_post.save()
+				return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
+		else:
+			form = PublishMdForm()
+		return render(request, 'blog/publish-md.html', {'form': form})
+
+	# 火候未到，未能将其融合为一
 	if request.method == 'POST':
-		form = PublishForm(request.POST)
+		form = PublishForm(request.POST) 
 		if form.is_valid():
-			print(form)
 			new_post = form.save(commit=False)
 			new_post.author = request.user
-			new_post.status='P'
 			new_post.save()
-			return HttpResponseRedirect(reverse("blog:index"))
+			return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
 	else:
 		form = PublishForm()
 	return render(request, 'blog/publish.html', {'form': form})
+
+	#if request.method == 'POST':
+	#	form = PublishMdForm(request.POST) if editor=='M' else PublishForm(request.POST) 
+	#	if form.is_valid():
+	#		new_post = form.save(commit=False)
+	#		new_post.author = request.user
+	#		new_post.save()
+	#		return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
+	#else:
+	#	form = PublishMdForm() if editor=='M' else PublishForm()
+
+	#return render(request, 'blog/publish.html', {'form': form})
