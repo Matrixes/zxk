@@ -101,7 +101,9 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">我的主页</a></li>
+                            <li><a href="{% url 'accounts:myhome' %}">我的主页</a></li>
+                            
+                            <li><a href="{% url 'accounts:profile' %}">账户管理</a></li>
                             <li>
                                 <a href="#">
                                     <span class="glyphicon glyphicon-cog" aria-hidden="true">
@@ -109,7 +111,6 @@
                                     设置
                                 </a>
                             </li>
-                            <li><a href="{% url 'accounts:profile' %}">个人中心</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{% url 'accounts:logout' %}">安全退出</a></li>
                         </ul>

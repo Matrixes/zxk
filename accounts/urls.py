@@ -13,6 +13,15 @@ urlpatterns = [
 
     url(r'^register/$', views.register, name='register'),
 
+    # 我的主页相关url
+    url(r'^$', views.index, name='index'),
+    url(r'^myhome/$', views.myhome, name='myhome'),
+    url(r'^myposts/$', views.myposts, name='myposts'),
+    url(r'^mycomments/$', views.mycomments, name='mycomments'),
+    # 我的分享还没添加
+    
+
+
     # 从自己的角度看别人, 记得将user_follow放到user_detail前面哟
     url(r'^users/$', views.user_list, name='user_list'),
     url(r'^users/follow/$', views.user_follow, name='user_follow'),

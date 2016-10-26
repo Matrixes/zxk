@@ -3,6 +3,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# 给收藏夹用的
+from blog.models import Post
+
 
 def upload_path_handler(instance, filename):
 	name = str(instance.id) +  '-' + filename
@@ -27,6 +30,26 @@ class UserProfile(models.Model):
 
 	def __str__(self):
 		return "{}'s UserProfile".format(self.user.username)
+
+# 收藏夹
+class Favorites(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='favorites')
+
+
+# 用户设置中心
+class UserSettings(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='settings')
+
+	STATUS_CHOICES = (
+		('E', '富文本'),
+		('M', 'Markdown'),
+	)
+
+	settings = models.CharField(max_length=10, choices=STATUS_CHOICES, default='M')
+
+	def __str__(self):
+		return "{}'s settings".format(self.user.username)
+
 
 
 class SocialUser(models.Model):
@@ -86,3 +109,5 @@ User.add_to_class('following', models.ManyToManyField('self',
 # relationships some of the related manager's methods are disabled,
 # such as add(), create() or remove(). You need to create or
 # delete instances of the intermediate model instead.
+
+

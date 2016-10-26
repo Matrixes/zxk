@@ -23,29 +23,30 @@ from django.views.decorators.http import require_POST
 
 from blog.models import Post, Comment
 
-from .models import UserProfile, SocialUser, Contack
+from .models import UserProfile, UserSettings, SocialUser, Contack
 
 from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
                    PasswordChangeForm
 
-'''
-@require_POST
-def ajax_login(request):
-	username = request.POST.get('username').strip()
-	password = request.POST.get('password')
+# ajax_login
 
-	if User.objects.filter(username=username):
-		user = authenticate(username=username, password=password)
-		if user:
-			if user.is_active:
-				login(request, user)
-				print(username, password)
-				return render(request, 'blog/index.html')
-		else:
-			return HttpResponse("user error")
-	else:
-		return HttpResponse("username not found")
-'''
+#@require_POST
+#def ajax_login(request):
+#	username = request.POST.get('username').strip()
+#	password = request.POST.get('password')
+#
+#	if User.objects.filter(username=username):
+#		user = authenticate(username=username, password=password)
+#		if user:
+#			if user.is_active:
+#				login(request, user)
+#				print(username, password)
+#				return render(request, 'blog/index.html')
+#		else:
+#			return HttpResponse("user error")
+#	else:
+#		return HttpResponse("username not found")
+
 
 
 def user_login(request):
@@ -96,12 +97,9 @@ def user_logout(request):
 @login_required
 def profile(request):
 	profile = UserProfile.objects.get(user=request.user)
-	posts = Post.objects.filter(author=request.user)
-	comments = Comment.objects.filter(name=request.user)
-	return render(request, 'accounts/profile.html', 
-		                   {'profile': profile,
-		                    'posts': posts,
-		                    'comments': comments})
+	# posts = Post.objects.filter(author=request.user)
+	# comments = Comment.objects.filter(name=request.user)
+	return render(request, 'accounts/profile.html',  {'profile': profile}) #, 'posts': posts, 'comments': comments})
 
 
 # 这个不用了，见下面的yser_detail
@@ -156,6 +154,8 @@ def password_change(request):
 	return render(request, 'accounts/password-change.html', {'form': form})
 
 
+# 用户注册后记得添加设置等
+
 def register(request):
 	if request.method == 'POST':
 		form = RegistrationForm(request.POST)
@@ -164,10 +164,13 @@ def register(request):
 			new_user.set_password(form.cleaned_data['password'])
 			new_user.save()
 			
-			u = UserProfile(user=new_user)
-			u.save()
-
+			# 创建个人资料
+			UserProfile.objects.create(user=new_user)
+			# 添加设置
+			UserSettings.objects.create(user=new_user)
+			
 			login(request, new_user)
+
 			return HttpResponseRedirect(reverse('accounts:profile'))
 	else:
 		form = RegistrationForm()
@@ -185,9 +188,6 @@ authorization_base_url = settings.AUTHORIZATION_BASE_URL
 token_url = settings.TOKEN_URL
 redirect_uri = settings.RECIRECT_URI
 scope = settings.SCOPE
-
-
-
 
 def github_login(request):
 	github = OAuth2Session(client_id=client_id, scope=scope)
@@ -254,6 +254,7 @@ def github_auth(request):
 
 	UserProfile.objects.create(user=new_user, nickname=log_in) # photo怎么办
 	SocialUser.objects.create(user=new_user, login=log_in, social_id=github_id, belong='GH')
+	UserSettings.objects.create(user=new_user)
 
 	# Get photo
 	r = requests.get(avatar_url, stream=True)
@@ -331,3 +332,31 @@ def user_following(request, username):
 	return render(request, 'accounts/following.html', {'follwing_list', follwing_list})
 
 # 粉丝列表
+
+
+
+# 我的主页相关视图
+
+@login_required
+def index(request):
+	return redirect(reverse("accounts:myhome"))
+
+
+# 准备用来显示用户及其关注的人的动态
+@login_required
+def myhome(request):
+	user = request.user
+	return render(request, 'accounts/my/myhome.html', {'user': user})
+
+
+@login_required
+def myposts(request):
+	user = request.user
+	posts = user.blog_posts.all()
+	return render(request, 'accounts/my/myposts.html', {'posts': posts})
+
+@login_required
+def mycomments(request):
+	user = request.user
+	comments = user.comments.all()
+	return render(request, 'accounts/my/mycomments.html', {'comments': comments})
