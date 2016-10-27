@@ -1,0 +1,26 @@
+{% extends "../base-for-admin.html" %}
+
+{% load staticfiles %}
+
+{% block title %}设置中心{% endblock %}
+
+{% block nav-ul %}
+<li><a href="{% url 'accounts:profile' %}">个人资料</a></li>
+<li><a href="{% url 'accounts:edit' %}">修改资料</a></li>
+<li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
+<li><a href="#">帐号关联</a></li>
+<li class="active"><a href="{% url 'accounts:user_settings' %}">设置</a></li>
+{% endblock %}
+
+{% block page_content %}
+    <form>
+        {% csrf_token %}
+        <label for="{{ form.settings.id_for_label }}">
+            编辑器
+        </label>
+        {{ form.settings }}
+        <br />
+        <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+
+{% endblock %}

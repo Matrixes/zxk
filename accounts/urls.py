@@ -6,16 +6,17 @@ urlpatterns = [
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
 
-    # 从自己的角度看自己
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^password-change/$', views.password_change, name='password_change'),
+    # 账户关联信息的url 。。。。。。
+    url(r'^settings/$', views.user_settings, name='user_settings'),
 
     url(r'^register/$', views.register, name='register'),
 
     # 我的主页相关url
     url(r'^$', views.index, name='index'),
-    url(r'^myhome/$', views.myhome, name='myhome'),
+    url(r'^myhome/$', views.myhome, name='home'),
     url(r'^myposts/$', views.myposts, name='myposts'),
     url(r'^mycomments/$', views.mycomments, name='mycomments'),
     # 我的分享还没添加

@@ -1,0 +1,32 @@
+.profile ul, 
+.profile ul li {
+	color: #579071;
+	list-style: none;
+	margin-left: 0;
+	margin-bottom: 10px;
+	padding-left: 0; 
+	font-size: 1.8rem;
+}
+
+.profile ul li span {
+	color: #000;
+	font-size: 2.2rem;
+}
+
+.img-thumbnail {
+	width: 80%;
+	height: 15em;
+}
+
+/* 评论及博客字体 */
+section.blog h3, 
+section.comment h3 {
+	color: #CC9C0E;
+	font-size: 3rem;
+	text-shadow: 2px 2px #D9D9D9;
+}
+
+section.blog li, 
+section.comment li {
+	color: #CC9C0E;
+}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load static %}
+
+{% block title %}用户中心{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<br />
+    <div class="row">
+
+        <div class="col-md-6 col-lg-6">
+            <p>用户名: {{ user.username }}</p>
+            <p>昵称: {{ user.profile.nickname }}</p>
+            <p>网站: {{ user.profile.website }}</p>
+            <p>最后登录: {{ user.last_login|date:'Y-m-d H:i' }}</p>
+            <p>注册时间: {{ user.date_joined|date:'Y-m-d H:i' }}</p>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <img src="{{ user.profile.photo.url }}" alt="XXX" class="img-thumbnail" width="150px", height="150px">
+        </div>      
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <h3>发表文章</h3>
+            {% for post in posts %}
+                <a href="{{ post.get_absolute_url }}" target="_blank">
+                    {{ post.title }}
+                </a>
+                <br /><br />
+            {% endfor %}
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <h3>发表评论</h3>
+            {% for comment in comments %}
+                <a href="{{ comment.post.get_absolute_url }}" target="_blank">
+                    {{ comment.post.title }}
+                </a>
+                <br />
+                {{ comment.body }} <hr />
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

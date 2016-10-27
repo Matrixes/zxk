@@ -2,7 +2,7 @@
 
 
 from django import forms
-from .models import UserProfile
+from .models import UserProfile, UserSettings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
@@ -86,3 +86,9 @@ class PasswordChangeForm(forms.Form):
 		if new_password != new_password2:
 			raise forms.ValidationError("Password does not match.")
 		return new_password2
+
+
+class UserSettingsForm(forms.ModelForm):
+	class Meta:
+		model = UserSettings
+		fields = ('settings',)

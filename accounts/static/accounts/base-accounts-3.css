@@ -1,0 +1,43 @@
+body {
+	background: #CAB1AA url(11.jpg) no-repeat 50% 50%;
+	background-size: cover;
+	background-attachment: fixed; 
+}
+
+.jumu {
+	padding-top: 30px;
+  	padding-bottom: 30px;
+  	margin-bottom: 30px;
+	height: 200px;
+	background: #2C3037 url(bg-img.jpg) no-repeat 80% 80%;
+}
+
+/*
+.jumbotron {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #eee;
+}
+*/
+section.profile {
+	margin-top: 30px;
+	font-size: 30px;
+	color: #fff;
+}
+
+.profile img {
+	width: 5em;
+	height: 5em;
+}
+
+.under-profile {
+	margin-top: 30px;
+}
+
+.follow-block {
+	margin-top: 30px;
+	font-size: 30px;
+	color: #fff;
+}

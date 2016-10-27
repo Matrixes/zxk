@@ -26,7 +26,7 @@ from blog.models import Post, Comment
 from .models import UserProfile, UserSettings, SocialUser, Contack
 
 from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
-                   PasswordChangeForm
+                   PasswordChangeForm, UserSettingsForm
 
 # ajax_login
 
@@ -99,7 +99,7 @@ def profile(request):
 	profile = UserProfile.objects.get(user=request.user)
 	# posts = Post.objects.filter(author=request.user)
 	# comments = Comment.objects.filter(name=request.user)
-	return render(request, 'accounts/profile.html',  {'profile': profile}) #, 'posts': posts, 'comments': comments})
+	return render(request, 'accounts/admin/profile.html',  {'profile': profile}) #, 'posts': posts, 'comments': comments})
 
 
 # 这个不用了，见下面的yser_detail
@@ -133,7 +133,7 @@ def edit(request):
 	else:
 		user_form = UserForm(instance=request.user)
 		profile_form = ProfileForm(instance=request.user.profile)
-	return render(request, 'accounts/edit.html', {'user_form': user_form,  'profile_form': profile_form})
+	return render(request, 'accounts/admin/edit.html', {'user_form': user_form,  'profile_form': profile_form})
 
 @login_required
 def password_change(request):
@@ -151,7 +151,27 @@ def password_change(request):
 				messages.error(request, '密码错误')
 	else:
 		form = PasswordChangeForm()
-	return render(request, 'accounts/password-change.html', {'form': form})
+	return render(request, 'accounts/admin/password-change.html', {'form': form})
+
+# 账户关联信息
+#############以后再搞#########
+
+# 用户设置信息
+@login_required
+def user_settings(request):
+	if request.method == 'POST':
+		form = UserSettingsForm(instance=request.user, data=request.POST)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "设置成功")
+		else:
+			messages.error(request, form.errors)
+		return redirect(reverse('accounts:user_settings'))
+	else:
+		form = UserSettingsForm(instance=request.user)
+	return render(request, 'accounts/admin/settings.html', {'form': form})
+
+	
 
 
 # 用户注册后记得添加设置等
@@ -281,18 +301,42 @@ def github_auth(request):
 	return  HttpResponseRedirect(request.session['to'])
 
 
+#####################################
+# 准备用来显示用户及其关注的人的动态
+@login_required
+def myhome(request):
+	user = request.user
+	return render(request, 'accounts/my/myhome.html', {'user': user})
+
+
+@login_required
+def myposts(request):
+	user = request.user
+	posts = user.blog_posts.all()
+	return render(request, 'accounts/my/myposts.html', {'posts': posts})
+
+@login_required
+def mycomments(request):
+	user = request.user
+	comments = user.comments.all()
+	return render(request, 'accounts/my/mycomments.html', {'comments': comments})
+
+
+
+
+
 # 关注系统
 @login_required
 def user_list(request):
 	users = User.objects.filter(is_active=True)
 	return render(request, 'accounts/user-list.html', {'section': 'people', 'users': users})
 
-@login_required
+
 def user_detail(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
-		return redirect(reverse('accounts:profile'))
-	return render(request, 'accounts/user-detail.html', {'section': 'people', 'user': user})
+		return redirect(reverse('accounts:myhome'))
+	return render(request, 'accounts/my/yourhome.html', {'user': user})
 
 # 为一个对象设置URL，有两个方法
 # 1、在models中定义get_absolute_url()方法
@@ -342,21 +386,3 @@ def index(request):
 	return redirect(reverse("accounts:myhome"))
 
 
-# 准备用来显示用户及其关注的人的动态
-@login_required
-def myhome(request):
-	user = request.user
-	return render(request, 'accounts/my/myhome.html', {'user': user})
-
-
-@login_required
-def myposts(request):
-	user = request.user
-	posts = user.blog_posts.all()
-	return render(request, 'accounts/my/myposts.html', {'posts': posts})
-
-@login_required
-def mycomments(request):
-	user = request.user
-	comments = user.comments.all()
-	return render(request, 'accounts/my/mycomments.html', {'comments': comments})

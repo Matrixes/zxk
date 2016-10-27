@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block comment %}
+自己的角度看自己的资料的模板
+{% endblock %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/base-for-admin.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <ul class="nav nav-pills nav-stacked">
+                {% block nav-ul %}
+                <li class="active"><a href="{% url 'accounts:profile' %}">个人资料</a></li>
+                <li><a href="{% url 'accounts:edit' %}">修改资料</a></li>
+                <li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
+                <li><a href="#">帐号关联</a></li>
+                <li><a href="{% url 'accounts:user_settings' %}">设置</a></li>
+                {% endblock %}
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-md-10 col-lg-10">
+            {% block page_content %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_script %}
+    <script src="{% static 'accounts/base-for-admin.js' %}"></script>
+{% endblock %}

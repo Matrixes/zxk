@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block comment %}
+自己的角度看别人的资料的模板
+{% endblock %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/base-accounts-2.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10">
+            {% block page_content %}
+
+            {% endblock %}
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <ul class="nav nav-pills nav-stacked">
+                {% block nav-ul %}
+                <li><a href="#">他的资料</a></li>
+                <li><a href="#">他的动态</a></li>
+                <li><a href="#">他的文章</a></li>
+                <li><a href="#">他的评论</a></li>
+                <li><a href="#">他的图片</a></li>
+                <li><a href="#">####</a></li>
+                {% endblock %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_script %}
+    <script src="{% static 'accounts/base-accounts-2.js' %}"></script>
+{% endblock %}

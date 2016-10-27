@@ -1,4 +1,4 @@
-{% extends "./base-accounts-1.html" %}
+{% extends "../base-for-admin.html" %}
 
 {% load staticfiles %}
 {% load static %}
@@ -7,16 +7,16 @@
 
 {% block extra_head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'accounts/edit.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/admin/edit.css' %}">
 {% endblock %}
 
 
 {% block nav-ul %}
-<li><a href="#">账户管理</a></li>
 <li><a href="{% url 'accounts:profile' %}">个人资料</a></li>
 <li class="active"><a href="{% url 'accounts:edit' %}">修改资料</a></li>
 <li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
 <li><a href="#">帐号关联</a></li>
+<li><a href="{% url 'accounts:user_settings' %}">设置</a></li>
 {% endblock %}
 
 
