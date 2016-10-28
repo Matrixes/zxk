@@ -20,13 +20,6 @@ class UserProfile(models.Model):
 	birthday = models.DateField(blank=True, null=True)
 	photo = models.ImageField(upload_to=upload_path_handler, blank=True, default="users/default.png")
 
-	# 选择富文本编辑器还是markdown，默认为markdown
-	STATUS_CHOICES = (
-		('E', '富文本'),
-		('M', 'Markdown'),
-	)
-
-	settings = models.CharField(max_length=10, choices=STATUS_CHOICES, default='M')
 
 	def __str__(self):
 		return "{}'s UserProfile".format(self.user.username)
@@ -46,6 +39,8 @@ class UserSettings(models.Model):
 	)
 
 	settings = models.CharField(max_length=10, choices=STATUS_CHOICES, default='M')
+
+	# 以后再加个个性域名
 
 	def __str__(self):
 		return "{}'s settings".format(self.user.username)

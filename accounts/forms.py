@@ -80,15 +80,21 @@ class PasswordChangeForm(forms.Form):
 	def clean_new_password2(self):
 		new_password = self.cleaned_data['new_password']
 		new_password2 = self.cleaned_data['new_password2']
+
 		if len(new_password) < 6:
 			raise forms.ValidationError("Password too short")
-		return new_password
+
 		if new_password != new_password2:
 			raise forms.ValidationError("Password does not match.")
 		return new_password2
 
 
 class UserSettingsForm(forms.ModelForm):
+
 	class Meta:
 		model = UserSettings
 		fields = ('settings',)
+
+		widgets = {
+			
+		}

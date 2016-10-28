@@ -1,0 +1,32 @@
+{% extends "../base-for-home.html" %}
+
+{% load blog_tags %}
+
+{% load staticfiles %}
+
+{% block title %}文章{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/home/posts.css' %}">
+{% endblock %}
+
+{% block page_content %}
+
+    {% for comment in comments %}
+    <p>
+        <a>
+            {{ comment.body|markdown|truncatechars_html:20 }}
+        </a>
+        for
+        <a href="{{ comment.post.get_absolute_url }}" target="_blank">
+            {{ comment.post.title }}
+        </a>
+    </p>
+    {% endfor %}
+
+{% endblock %}
+
+{% block extra_script %}
+    {{ block.super }}
+{% endblock %}

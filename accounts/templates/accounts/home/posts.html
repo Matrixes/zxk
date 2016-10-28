@@ -1,0 +1,29 @@
+{% extends "../base-for-home.html" %}
+
+{% load staticfiles %}
+
+{% block title %}文章{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/home/posts.css' %}">
+{% endblock %}
+
+{% block page_content %}
+
+    {% for post in posts %}
+    <p>
+        <a href="{{ post.get_absolute_url }}" target="_blank">
+            {{ post.title }}
+        </a>
+        <small>
+            {{ post.publish|date:'Y-m-d H:i' }}
+        </small>
+    </p>
+    {% endfor %}
+
+{% endblock %}
+
+{% block extra_script %}
+    {{ block.super }}
+{% endblock %}

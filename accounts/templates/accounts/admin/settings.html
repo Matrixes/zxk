@@ -13,13 +13,16 @@
 {% endblock %}
 
 {% block page_content %}
-    <form>
+    <form action="" method="post" role="form">
         {% csrf_token %}
         <label for="{{ form.settings.id_for_label }}">
             编辑器
         </label>
         {{ form.settings }}
+
         <br />
+
+
         <button type="submit" class="btn btn-primary">提交</button>
     </form>
 

@@ -5,11 +5,12 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    # url(r'^$', views.PostListView.as_view(), name='index'),
 
     url(r'^(?P<id>\d*)/$', views.post, name='post'),
 
     # url(r'^tag/(?P<tag_slug>[-\w]+)/$', views.post_list, name='post_list_by_tag'), 
-    # url(r'^$', views.PostListView.as_view(), name='post_list'),
+    
     url(r'^tag/(?P<tag>[-\w]+)', views.tag, name='tag'),
 
     #url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<post>[-\w]+)/$', views.post, name='post'),

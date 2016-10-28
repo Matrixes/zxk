@@ -23,8 +23,8 @@ body {
 */
 section.profile {
 	margin-top: 30px;
-	font-size: 30px;
-	color: #fff;
+	font-size: 1.5em;
+	color: rgba(196,146,3,0.9);
 }
 
 .profile img {
@@ -32,12 +32,24 @@ section.profile {
 	height: 5em;
 }
 
+.profile ul,
+ .profile li {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
 .under-profile {
 	margin-top: 30px;
 }
 
+section.nav-under-profile ul li {
+	font-size: 1em;
+}
+
 .follow-block {
+	border: 1px solid #fff;
 	margin-top: 30px;
-	font-size: 30px;
+	font-size: 1.5em;
 	color: #fff;
 }

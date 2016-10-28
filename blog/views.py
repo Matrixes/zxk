@@ -44,7 +44,7 @@ class PostListView(ListView):
 	queryset = Post.published.all()
 	context_object_name = 'posts'
 	paginator_by = 3
-	template_name = 'blog/post/list.html'
+	template_name = 'blog/index-1.html'
 
 
 # Post detail with slug
@@ -178,7 +178,7 @@ def publish(request):
 
 	# 获取用户设置的编辑器
 	try:
-		editor = user.profile.settings
+		editor = user.settings.settings
 	except:
 		editor = 'M'
 

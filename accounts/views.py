@@ -156,11 +156,15 @@ def password_change(request):
 # 账户关联信息
 #############以后再搞#########
 
+
 # 用户设置信息
+
+## 紧急通知，由于写成了instance=request.user，至少在这上面浪费了4个小时
+## 应该为instance=request.user.settings，看来还是理解不够深刻
 @login_required
 def user_settings(request):
 	if request.method == 'POST':
-		form = UserSettingsForm(instance=request.user, data=request.POST)
+		form = UserSettingsForm(instance=request.user.settings, data=request.POST)
 		if form.is_valid():
 			form.save()
 			messages.success(request, "设置成功")
@@ -168,10 +172,9 @@ def user_settings(request):
 			messages.error(request, form.errors)
 		return redirect(reverse('accounts:user_settings'))
 	else:
-		form = UserSettingsForm(instance=request.user)
+		form = UserSettingsForm(instance=request.user.settings)
 	return render(request, 'accounts/admin/settings.html', {'form': form})
 
-	
 
 
 # 用户注册后记得添加设置等
@@ -301,28 +304,30 @@ def github_auth(request):
 	return  HttpResponseRedirect(request.session['to'])
 
 
+#############################
+
+
 #####################################
 # 准备用来显示用户及其关注的人的动态
 @login_required
 def myhome(request):
 	user = request.user
-	return render(request, 'accounts/my/myhome.html', {'user': user})
+	
+	# 提取用户的动态内容 
+	return render(request, 'accounts/home/home.html', {'user': user})
 
 
 @login_required
 def myposts(request):
 	user = request.user
-	posts = user.blog_posts.all()
-	return render(request, 'accounts/my/myposts.html', {'posts': posts})
+	posts = user.blog_posts.order_by('-publish')
+	return render(request, 'accounts/home/posts.html', {'user': user, 'posts': posts})
 
 @login_required
 def mycomments(request):
 	user = request.user
-	comments = user.comments.all()
-	return render(request, 'accounts/my/mycomments.html', {'comments': comments})
-
-
-
+	comments = user.comments.order_by('-created')
+	return render(request, 'accounts/home/comments.html', {'user': user, 'comments': comments})
 
 
 # 关注系统
@@ -336,7 +341,7 @@ def user_detail(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
 		return redirect(reverse('accounts:myhome'))
-	return render(request, 'accounts/my/yourhome.html', {'user': user})
+	return render(request, 'accounts/home/home.html', {'user': user})
 
 # 为一个对象设置URL，有两个方法
 # 1、在models中定义get_absolute_url()方法
@@ -376,13 +381,3 @@ def user_following(request, username):
 	return render(request, 'accounts/following.html', {'follwing_list', follwing_list})
 
 # 粉丝列表
-
-
-
-# 我的主页相关视图
-
-@login_required
-def index(request):
-	return redirect(reverse("accounts:myhome"))
-
-
