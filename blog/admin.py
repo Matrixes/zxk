@@ -1,13 +1,13 @@
 from django.contrib import admin
 from .models import Tag, Post, Comment
 
+# Tag Admin
 
 class TagAdmin(admin.ModelAdmin):
 	list_display = ('name', 'created')
-
 	fields = ['name',]
-
 	search_fields = ['name']
+
 
 admin.site.register(Tag, TagAdmin)
 
@@ -25,9 +25,9 @@ class PostForm(forms.ModelForm):
 			'body': AdminPagedownWidget(css=("admin/admin-pagedown.css",)),
 		}
 
-class CommentInline(admin.StackedInline):
+class CommentInline(admin.TabularInline):
 	model = Comment
-	extra = 3
+	extra = 2
 
 class PostAdmin(admin.ModelAdmin):
 	# list_filter = ['status', 'created', 'publish', 'author']
