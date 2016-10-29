@@ -4,7 +4,9 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
+    url(r'^$', views.index_1, name='index'),
+
     # url(r'^$', views.PostListView.as_view(), name='index'),
 
     url(r'^(?P<id>\d*)/$', views.post, name='post'),

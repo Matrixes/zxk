@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 
     'home',
     'blog',
-    #'pagination',
     'accounts',
     'images',
     #'actions',
@@ -66,7 +65,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'pagination.middleware.PaginationMiddleware',
 ]
 
 ROOT_URLCONF = 'zxk.urls'
@@ -244,6 +242,6 @@ ABSOLUTE_URL_OVERRIDES = {
 
 # pagedown settings
 PAGEDOWN_SHOW_PREVIEW = True
-PAGEDOWN_WIDGET_TEMPLATE = 'blog/pagedown.html'
-PAGEDOWN_WIDGET_CSS = ('blog/pagedown.css',)
+#PAGEDOWN_WIDGET_TEMPLATE = 'blog/pagedown.html'
+#PAGEDOWN_WIDGET_CSS = ('blog/pagedown.css',)
 #PAGEDOWN_EXTENSIONS = []

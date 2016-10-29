@@ -40,6 +40,30 @@ def index(request):  #, tag_slug=None):
 	return render(request, 'blog/index.html', context)
 
 
+
+from common.extpaginator import ExtPaginator
+
+def index_1(request):
+	post_list = Post.published.all()
+
+	tag_list = Tag.objects.all()
+
+
+	paginator = ExtPaginator(post_list, 8, 3)
+	page = request.GET.get('page')
+
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		posts = paginator.page(1)
+	except EmptyPage:
+		posts = paginator.page(paginator.num_pages)
+
+	context = {'page': page, 'posts': posts, 'tag_list': tag_list}
+
+	return render(request, 'blog/index-1.html', context)
+
+
 class PostListView(ListView):
 	queryset = Post.published.all()
 	context_object_name = 'posts'

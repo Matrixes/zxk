@@ -12,6 +12,23 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 
 
+# Post Admin
+
+from pagedown.widgets import AdminPagedownWidget, PagedownWidget
+from django import forms 
+
+class PostForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ('title', 'author', 'tags', 'body', 'publish', 'status', 'views', 'likes')
+		widgets = {
+			'body': AdminPagedownWidget(css=("admin/admin-pagedown.css",)),
+		}
+
+class CommentInline(admin.StackedInline):
+	model = Comment
+	extra = 3
+
 class PostAdmin(admin.ModelAdmin):
 	# list_filter = ['status', 'created', 'publish', 'author']
 	search_fields = ['title', 'body']
@@ -21,13 +38,20 @@ class PostAdmin(admin.ModelAdmin):
 	#prepopulated_fields = {'slug': ('title',)}
 	raw_id_fields = ['author', 'tags']
 
-	
+	form = PostForm
+
+	inlines = [CommentInline]
+
+
+
+	'''
 	class Media:
 		js = (
     		'/static/js/kindeditor/kindeditor-all-min.js',
     		'/static/js/kindeditor/lang/zh-CN.js',
     		'/static/js/kindeditor/config.js',
     	)
+    '''
     
 
 	#fieldsets = [
@@ -39,6 +63,8 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
+
+# Comment Admin
 
 class CommentAdmin(admin.ModelAdmin):
 	list_display = ('name', 'post', 'created', 'active')

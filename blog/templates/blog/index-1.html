@@ -2,9 +2,6 @@
 
 {% load blog_tags %}
 
-{% load paginate_tags %}
-{% paginate article_list 7 %}
-
 {% load staticfiles %}
 
 {% block title %}醉心客 - 博客{% endblock %}
@@ -141,7 +138,7 @@
                     <a href="{% url 'blog:tag' t %}" target="_blank">
                         {{ t }}
                     </a>
-                    /
+                    
                     {% endfor %}
                 </div>
             </div>
@@ -188,14 +185,5 @@
 {% block extra_script %}
     {{ block.super }}
     <script src="{% static 'blog/index.js' %}"></script>
-    <script>
-        $(function() {
-            $("#woca1").on('mouseenter', function(event) {
-                $('#woca').html("aaaaaaaaaaaa")
-            });
-            $("#woca2").on('mouseenter', function(event) {
-                $('#woca').html('bbbbbbbbbbbb')
-            });
-        })
-    </script>
+  
 {% endblock %}

@@ -22,7 +22,7 @@ class CommentForm(forms.ModelForm):
 
 
         widgets = {
-            'body': PagedownWidget(),
+            'body': PagedownWidget(template="blog/pagedown.html", css=("blog/pagedown.css", )),
         }
 
 
