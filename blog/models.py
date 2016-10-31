@@ -38,7 +38,7 @@ class Post(models.Model):
 	title = models.CharField(max_length=128)
 	# slug = models.SlugField(max_length=128, unique_for_date='publish', blank=True)
 	author = models.ForeignKey(User, related_name='blog_posts')
-	tags = models.ManyToManyField(Tag, related_name='blog_tags')
+	tags = models.ManyToManyField(Tag, related_name='blog_tags', blank=True)
 
 	body = models.TextField()
 	publish = models.DateTimeField(default=timezone.now)

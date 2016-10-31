@@ -1,9 +1,11 @@
 # -*- coding:utf8 -*-
 
-
+import re
 from django import forms
 
-from .models import Comment, Post
+from pagedown.widgets import PagedownWidget
+
+from .models import Comment, Post, Tag
 
 
 class EmailPostForm(forms.Form):
@@ -22,7 +24,7 @@ class CommentForm(forms.ModelForm):
 
 
         widgets = {
-            'body': PagedownWidget(template="blog/pagedown.html", css=("blog/pagedown.css", )),
+            'body': PagedownWidget(template="blog/pagedown.html", css=("blog/pagedown-comment.css", )),
         }
 
 
@@ -37,16 +39,33 @@ class PublishForm(forms.ModelForm):
         }
 
 
-from pagedown.widgets import PagedownWidget
+
 
 class PublishMdForm(forms.ModelForm):
     # atextfield = forms.CharField(widget=PagedownWidget())
     # anothertextfield = forms.CharField(widget=PagedownWidget())
+
+    extra_tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    # 当已经保存的标签不够时，定义一个标签输入框，使用逗号和分号隔开
+    def clean_extra_tags(self):
+        extra_tags = self.cleaned_data['extra_tags']
+
+        tag_list = re.split(r'[,;\s]\s*', extra_tags)
+
+        for tag in tag_list:
+            if Tag.objects.filter(name=tag):
+                raise forms.ValidationError("标签{}已经存在".format(tag))
+
+        return tag_list
+
+    
     class Meta:
         model = Post
         fields = ('title', 'tags', 'body', 'status')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'body': PagedownWidget,
+            'body': PagedownWidget(template="blog/pagedown.html", css=('blog/pagedown-publish.css', )),
         }
+            

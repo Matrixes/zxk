@@ -19,6 +19,18 @@
     color: #000;
 }
 
+.report h2,
+.aside h2 {
+	color: #514649;
+	text-align: center;
+}
+
+.report a,
+.aside a {
+	color: #272822;
+	font-size: 2rem;
+}
+
 /*侧边栏*/
 .aside {
 	margin-top: 20px;
@@ -28,15 +40,26 @@
     color: #000;
 }
 
-.aside ul {
-	font-size:15px;
+.aside .nav li a {
 }
 
+.post-comment-content {
+	font-size: 1em;
+	overflow: hidden;
+	padding-left: 15px;
+}
+
+.post-comment-content li {
+	
+}
+
+/*所有模块的背景颜色*/
 .aside,
 .report,
 article {
 	background: rgba(255,255,255, 0.5);
 }
+
 
 /*博文*/
 article {
@@ -50,7 +73,10 @@ article {
 }
 
 /*标题*/
-.title {
+article .title {
+	overflow: hidden;
+}
+.title a {
 	font-size: 3rem;
 	color: black;
 	text-shadow: 2px 2px 5px #000;
@@ -73,7 +99,7 @@ article p {
 }
 
 /*.title:link    { color: black }    /* unvisited links */
-/*.title:visited { color: gray }   /* visited links   */
-.title:hover   { color: lightgray } /* user hovers     */
-/*.title:active  { color: lime }   /* active links    */
+.title a:visited { color: #514649 }   /* visited links   */
+.title a:hover   { color: lightgray } /* user hovers     */
+.title a:active  { color: lime }   /* active links    */
 

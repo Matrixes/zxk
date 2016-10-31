@@ -20,14 +20,14 @@
             <ol class="breadcrumb">
                 <li><a href="{% url 'home:index' %}">首页</a></li>
                 <li><a href="{% url 'blog:index' %}">博客</a></li>
-                <li class="active">{{ post.title }}</li>
+                <li class="active">{{ post.title|truncatechars:20|title }}</li>
             </ol>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h1 class="text-center title">{{ post.title }}</h1>
+            <h1 class="text-center title">{{ post.title|title }}</h1>
         </div>
     </div>
 
@@ -65,6 +65,7 @@
         <div class="col-sm-12 col-md-12 col-lg-12">                
             <section class="extra">
                 <span class="label label-default">阅读（{{ post.views }}）</span>
+
                 <button id="like" data-id="{{ post.id }}" class="btn btn-primary" title="点赞">
                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                     <span id="like_count" class="badge">{{ post.likes }}</span>
@@ -77,15 +78,12 @@
 
                 {% with comments.count as total_comments %}
                 <button class="btn" id='comments'>
-                    <!--
-                        {{ total_comments }} comment{{ total_comments|pluralize }}
-                    -->
                     评论<span class="badge">{{ total_comments }}</span>
                 </button>
                 {% endwith %}
 
-                <a href="{%  url 'blog:post_share' post.id %}" target="_blank">
-                    <button class="btn">
+                <a href="{%  url 'blog:post_share' post.id %}" target="_blank" id='share'>
+                    <button class="btn" id='comments'>
                         分享
                     </button>
                 </a>
@@ -96,9 +94,8 @@
     
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 ">
-            <section class="comment">
+            <section id="comments">
                 {% for comment in comments %}
-            
                 <div class="media">
                     <div class="media-left media-top">
                         <a href="#">
@@ -108,7 +105,7 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            第 {{ forloop.counter }}楼
+                            {{ forloop.counter }}楼
                             <small>{{ comment.created|date:'Y-m-d H:i' }}</small>
                         </h4>
                         <p>

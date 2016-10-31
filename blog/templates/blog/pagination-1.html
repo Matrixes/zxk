@@ -1,18 +1,25 @@
 <nav>
     <ul class="pagination">
+        
+        {% if page.has_previous %}
         <li>
             <a href="?page=1" aria-label="Previous">
                 <span aria-hidden="true">首页</span>
             </a>
         </li>
 
-        {% if page.has_previous %}
         <li>
             <a href="?page={{ page.previous_page_number }}" aria-label="Previous">
                 <span aria-hidden="true">上一页</span>
             </a>
         </li>
         {% else %}
+        <li class="disabled">
+            <a href="?page=1" aria-label="Previous">
+                <span aria-hidden="true">首页</span>
+            </a>
+        </li>
+
         <li class="disabled">
             <a aria-label="Previous">  <!-- 记得把href去掉，要不然报错 -->
                 <span aria-hidden="true">上一页</span>

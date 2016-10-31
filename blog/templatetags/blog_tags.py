@@ -7,12 +7,17 @@ import markdown
 register = template.Library()
 
 
-from ..models import Post
+from ..models import Post, Comment
 
 
 @register.simple_tag
 def total_posts():
 	return Post.published.count()
+
+
+@register.simple_tag
+def total_comments():
+	return Comment.objects.count()
 
 
 @register.inclusion_tag('blog/latest_posts.html')

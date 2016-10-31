@@ -6,7 +6,9 @@ from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+
 from common.decorators import ajax_required
+from common.extpaginator import ExtPaginator
 
 from .models import Tag, Post, Comment
 from .forms import EmailPostForm, CommentForm, PublishForm, PublishMdForm
@@ -41,7 +43,7 @@ def index(request):  #, tag_slug=None):
 
 
 
-from common.extpaginator import ExtPaginator
+
 
 def index_1(request):
 	post_list = Post.published.all()
@@ -49,7 +51,7 @@ def index_1(request):
 	tag_list = Tag.objects.all()
 
 
-	paginator = ExtPaginator(post_list, 8, 3)
+	paginator = ExtPaginator(post_list, 5, 3)
 	page = request.GET.get('page')
 
 	try:
@@ -69,6 +71,30 @@ class PostListView(ListView):
 	context_object_name = 'posts'
 	paginator_by = 3
 	template_name = 'blog/index-1.html'
+
+
+def tag(request, tag):
+	tag = get_object_or_404(Tag, name=str(tag))
+	post_list = tag.blog_tags.all()
+
+	tag_list = Tag.objects.all()
+
+
+	paginator = ExtPaginator(post_list, 5, 3)
+	page = request.GET.get('page')
+
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		posts = paginator.page(1)
+	except EmptyPage:
+		posts = paginator.page(paginator.num_pages)
+
+	context = {'page': page, 'posts': posts, 'tag_list': tag_list, 'tag': tag}
+
+	return render(request, 'blog/tag.html', context)
+
+
 
 
 # Post detail with slug
@@ -111,7 +137,7 @@ def post(request, year, month, day, post):
 # Post detail with id
 # @login_required
 def post(request, id):
-	post = get_object_or_404(Post, id=int(id))
+	post = get_object_or_404(Post, id=int(id), status='P')
 
 	if not request.session.get('viewed'):
 		post.views += 1
@@ -128,7 +154,7 @@ def post(request, id):
 			new_comment.post = post
 			new_comment.name = request.user
 			new_comment.save()
-			return redirect(reverse('blog:post', args=[id]))
+			return redirect(reverse('blog:post', args=[id,]))
 	#else:
 	comment_form = CommentForm()
 
@@ -174,27 +200,6 @@ def post_share(request, post_id):
 		                                            'form': form,
 		                                            'sent': sent})
 
-def tag(request, tag):
-	tag = get_object_or_404(Tag, name=str(tag))
-	post_list = tag.blog_tags.all()
-
-	tag_list = Tag.objects.all()
-
-
-	paginator = Paginator(post_list, 3)
-	page = request.GET.get('page')
-
-	try:
-		posts = paginator.page(page)
-	except PageNotAnInteger:
-		posts = paginator.page(1)
-	except EmptyPage:
-		posts = paginator.page(paginator.num_pages)
-
-	context = {'page': page, 'posts': posts, 'tag_list': tag_list}
-
-	return render(request, 'blog/tag.html', context)
-
 
 @login_required
 def publish(request):
@@ -211,8 +216,23 @@ def publish(request):
 			form = PublishMdForm(request.POST)
 			if form.is_valid():
 				new_post = form.save(commit=False)
+
 				new_post.author = request.user
 				new_post.save()
+
+				# 用户后输入的标签
+				extra_tags_list = form.cleaned_data['extra_tags']
+				print(extra_tags_list)
+				"""
+				for tag in extra_tags_list:
+					Tag.objects.create(name=tag)
+					new_post.tags.add(tag)
+				"""
+
+				# 必须save后才能添加manytomany关系
+				for tag in form.cleaned_data['tags']:
+					new_post.tags.add(tag)
+
 				return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
 		else:
 			form = PublishMdForm()
