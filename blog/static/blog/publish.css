@@ -12,6 +12,7 @@ select.form-control {
 	font-size: 20px;
 }
 
+/* 富文本编辑器的 */
 #woca {
 	height: 500px;
 }
@@ -19,4 +20,7 @@ select.form-control {
 label {
 	font-size: 2.5rem;
 	color: #fff;
+}
+#help{
+	font-size: 1.5rem;
 }

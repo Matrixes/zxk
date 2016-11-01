@@ -16,7 +16,7 @@
     jQuery('head').append(css);
 
     // load HTML
-    box_html = '<div id="bookmarklet"><a href="#" id="close">&times;</a><h1>Select an image to bookmark:</h1><div class="images"></div></div>';
+    box_html = '<div id="bookmarklet"><a href="#" id="close">&times;</a><h1>选择图片:</h1><div class="images"></div></div>';
     jQuery('body').append(box_html);
 
 	  // close event

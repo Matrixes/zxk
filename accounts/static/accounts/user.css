@@ -6,13 +6,15 @@ body {
 
 /*user-list.html*/
 .user {
-	border: 1px solid red;
+	border: 1px solid silver;
 	color: transparent;
+	margin: 10px 0;
 }
 
 figcaption {
-	font-size: 3rem;
+	font-size: 2rem;
 	text-align: center;
+	overflow: hidden;
 }
 
 figure.user img {

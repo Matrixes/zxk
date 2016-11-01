@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^myhome/$', views.myhome, name='myhome'),
     url(r'^myposts/$', views.myposts, name='myposts'),
     url(r'^mycomments/$', views.mycomments, name='mycomments'),
+    url(r'^mydrafts/$', views.mydrafts, name='mydrafts'),
     # 我的分享还没添加
     
 

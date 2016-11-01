@@ -3,7 +3,7 @@
 import re
 from django import forms
 
-from pagedown.widgets import PagedownWidget
+from pagedown.widgets import PagedownWidget, AdminPagedownWidget
 
 from .models import Comment, Post, Tag
 
@@ -29,6 +29,15 @@ class CommentForm(forms.ModelForm):
 
 
 class PublishForm(forms.ModelForm):
+    extra_tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
+    def clean_extra_tags(self):
+        extra_tags = self.cleaned_data['extra_tags']
+
+        tag_list = re.split(r'[,;\s]\s*', extra_tags)
+
+        return [i.strip() for i in tag_list]
+        
     class Meta:
         model = Post
         fields = ('title', 'tags', 'body', 'status')
@@ -53,11 +62,13 @@ class PublishMdForm(forms.ModelForm):
 
         tag_list = re.split(r'[,;\s]\s*', extra_tags)
 
+        '''
         for tag in tag_list:
             if Tag.objects.filter(name=tag):
                 raise forms.ValidationError("标签{}已经存在".format(tag))
+        '''
 
-        return tag_list
+        return [i.strip() for i in tag_list]
 
     
     class Meta:

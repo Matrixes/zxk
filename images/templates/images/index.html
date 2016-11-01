@@ -1,16 +1,49 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% load staticfiles %}
 
+{% block title %}醉心客 - 图库{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'images/index.css' %}" />
+{% endblock %}
+
+
+{% block content %}
 <div class="container">
-    <a href="{% url 'images:create' %}">添加图片</a>
-    <p>
-        将下面的按钮添加为浏览器的书签，打开其他网站后点击其 -->
-        https下此功能无效
-        <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
-            <button class="btn btn-success">Bookmark it</button>
-        </a>
-    <p>
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <div class="row">
+        <div class="col-sm-9 col-md-9 col-lg-9">
+
+        
+
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+            <aside>
+                <div class="row report">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        今天放假
+                        
+                    </div>
+                </div>
+                <div class="row aside">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <a href="{% url 'images:create' %}">添加图片</a>
+                        <p>
+                            将下面的按钮添加为浏览器书签，打开其他网站后点击书签Bookmark （https下此功能无效）
+                            <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
+                                <button class="btn btn-success">Bookmark</button>
+                            </a>
+                        <p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
 </div>
+
+{% endblock %}
+
+
+{% block extra_script %}
+    <script src="{% static 'images/index.js' %}"></script>
 {% endblock %}

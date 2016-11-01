@@ -24,4 +24,7 @@ urlpatterns = [
     url(r'^publish/$', views.publish, name='publish'),
     # url融合了
     #url(r'^publish/md$', views.publish_md, name='publish_md'),
+    
+    # 修改博客
+    url(r'^(?P<id>\d*)/edit/$', views.edit, name='edit'),
 ]

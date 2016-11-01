@@ -39,7 +39,9 @@
 
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <label for="{{ form.extra_tags.id_for_label }}">其余标签</label>
+                    <label for="{{ form.extra_tags.id_for_label }}">
+                        其余标签<small id="help">(使用","、";"或者空格分隔，注意大小写)</small>
+                    </label>
                     <br />
                     {{ form.extra_tags }}
                 </div>

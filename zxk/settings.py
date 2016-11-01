@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'blog',
     'accounts',
     'images',
-    #'actions',
+    'actions',
     'pagedown',
 ]
 

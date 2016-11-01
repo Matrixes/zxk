@@ -220,20 +220,32 @@ def publish(request):
 				new_post.author = request.user
 				new_post.save()
 
-				# 用户后输入的标签
-				extra_tags_list = form.cleaned_data['extra_tags']
-				print(extra_tags_list)
-				"""
-				for tag in extra_tags_list:
-					Tag.objects.create(name=tag)
-					new_post.tags.add(tag)
-				"""
-
 				# 必须save后才能添加manytomany关系
 				for tag in form.cleaned_data['tags']:
 					new_post.tags.add(tag)
 
-				return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
+				# 用户后输入的标签
+				extra_tags_list = form.cleaned_data['extra_tags']
+				
+				# get_or_create()
+				# 1、If an object is found, get_or_create() returns a tuple of that object and False.
+				# 2、If multiple objects are found, get_or_create raises MultipleObjectsReturned.
+				# 3、If an object is not found, get_or_create() will instantiate and save a new object, 
+				# returning a tuple of the new object and True. The new object will be created 
+				# roughly according to this algorithm:
+				for exttag in extra_tags_list:
+					obj, created = Tag.objects.get_or_create(name=exttag)
+					if created:
+						new_post.tags.add(obj)
+					else:
+						try:
+							new_post.tags.add(obj)
+						except:
+							pass
+
+				if new_post.status == 'P':
+					return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
+				return HttpResponseRedirect(reverse("accounts:mydrafts"))
 		else:
 			form = PublishMdForm()
 		return render(request, 'blog/publish-md.html', {'form': form})
@@ -245,7 +257,24 @@ def publish(request):
 			new_post = form.save(commit=False)
 			new_post.author = request.user
 			new_post.save()
-			return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
+
+			for tag in form.cleaned_data['tags']:
+				new_post.tags.add(tag)
+
+			extra_tags_list = form.cleaned_data['extra_tags']
+
+			for exttag in extra_tags_list:
+				obj, created = Tag.objects.get_or_create(name=exttag)
+				if created:
+					new_post.tags.add(obj)
+				else:
+					try:
+						new_post.tags.add(obj)
+					except:
+						pass
+			if new_post.status == 'P':
+				return HttpResponseRedirect(reverse("blog:post", args=(new_post.id,)))
+			return HttpResponseRedirect(reverse("accounts:mydrafts"))
 	else:
 		form = PublishForm()
 	return render(request, 'blog/publish.html', {'form': form})
@@ -261,3 +290,28 @@ def publish(request):
 	#	form = PublishMdForm() if editor=='M' else PublishForm()
 
 	#return render(request, 'blog/publish.html', {'form': form})
+
+
+# 这个功能做的很烂，不知道怎么把原本的内容渲染进表单，shit
+@login_required
+def edit(request, id):
+	post = get_object_or_404(Post, id=int(id))
+
+	# 获取用户设置的编辑器
+	try:
+		editor = user.settings.settings
+	except:
+		editor = 'M'
+
+	if request.method == "POST":
+		if editor == 'M':
+			form = PublishMdForm(request.POST, instance=post)
+		else:
+			form = PublishForm(request.POST, instance=post)
+
+		if form.is_valid():
+			form.save()
+	else:
+		form = PublishForm(instance=post)
+
+	return render(request, 'blog/edit.html', {'form': form})

@@ -330,11 +330,18 @@ def mycomments(request):
 	return render(request, 'accounts/home/comments.html', {'user': user, 'comments': comments})
 
 
+@login_required
+def mydrafts(request):
+	user = request.user
+	drafts = user.blog_posts.filter(status='D')
+	return render(request, 'accounts/home/drafts.html', {'user': user, 'drafts': drafts})
+
+
 # 关注系统
 @login_required
 def user_list(request):
-	users = User.objects.filter(is_active=True)
-	return render(request, 'accounts/user-list.html', {'section': 'people', 'users': users})
+	users = User.objects.filter(is_active=True).order_by('username')
+	return render(request, 'accounts/user-list.html', {'users': users})
 
 
 def user_detail(request, username):

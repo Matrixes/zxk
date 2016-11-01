@@ -11,6 +11,29 @@
     <link rel="stylesheet" href="{% static 'accounts/home/posts.css' %}">
 {% endblock %}
 
+{% block nav %}
+ <li role="presentation">
+    <a href="#">动态</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:myposts' %}">文章</a>
+</li>
+<li role="presentation" class="active">
+    <a href="{% url 'accounts:mycomments' %}">评论</a>
+</li>
+<li role="presentation">
+    <a href="#">分享</a>
+</li>
+{% if request.user == user %}
+<li role="presentation">
+    <a href="{% url 'accounts:mydrafts' %}">草稿</a>
+</li>
+<li role="presentation">
+    <a href="#">收藏</a>
+</li>
+{% endif %}
+{% endblock %}
+
 {% block page_content %}
 
     {% for comment in comments %}
