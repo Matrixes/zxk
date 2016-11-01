@@ -10,9 +10,10 @@ from .models import Image
 def index(request):
 	return render(request, 'images/index.html')
 
+
 @login_required
 def image_create(request):
-	if request.method ==  'POST':
+	if request.method == 'POST':
 		form = ImageCreateForm(request.POST)
 		if form.is_valid():
 			cd = form.cleaned_data
