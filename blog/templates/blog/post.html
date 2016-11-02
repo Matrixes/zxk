@@ -66,14 +66,22 @@
             <section class="extra">
                 <span class="label label-default">阅读（{{ post.views }}）</span>
 
-                <button id="like" data-id="{{ post.id }}" class="btn btn-primary" title="点赞">
+                <button id="like" data-id="{{ post.id }}" class="btn" title="点赞">
                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    点赞
                     <span id="like_count" class="badge">{{ post.likes }}</span>
                 </button>
 
-                <button class="btn" title="收藏">
+                <button id="collect" data-id="{{ post.id }}" data-action="{% if request.user.collections in post.collector.all %}cancel{% else %}collect{% endif %}" class="btn" title="收藏">
                     <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    <span class="badge">？</span>
+                    <span id="collect-text">
+                    {% if request.user.collections not in post.collector.all %}
+                        收藏
+                    {% else %}
+                        取消收藏
+                    {% endif %}
+                    </span>
+                    <span id="collect-count" class="badge">{{ post.collector.count }}</span>
                 </button>
 
                 {% with comments.count as total_comments %}

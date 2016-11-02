@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 # 给收藏夹用的
 from blog.models import Post
 
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+
 
 def upload_path_handler(instance, filename):
 	name = str(instance.id) +  '-' + filename
@@ -24,9 +27,6 @@ class UserProfile(models.Model):
 	def __str__(self):
 		return "{}'s UserProfile".format(self.user.username)
 
-# 收藏夹
-class Favorites(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='favorites')
 
 
 # 用户设置中心
@@ -106,3 +106,12 @@ User.add_to_class('following', models.ManyToManyField('self',
 # delete instances of the intermediate model instead.
 
 
+# 用户的收藏夹
+class Collections(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='collections')
+	post = models.ManyToManyField(Post, blank=True, related_name='collector')
+
+	created = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return "{}'s collections.".format(self.user.username)

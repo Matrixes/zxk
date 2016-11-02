@@ -6,6 +6,7 @@ import random
 import string
 import requests
 import json
+
 from pprint import pprint
 from requests_oauthlib import OAuth2Session
 
@@ -23,10 +24,16 @@ from django.views.decorators.http import require_POST
 
 from blog.models import Post, Comment
 
-from .models import UserProfile, UserSettings, SocialUser, Contack
+from .models import UserProfile, UserSettings, SocialUser, Contack, Collections
 
 from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
                    PasswordChangeForm, UserSettingsForm
+
+from .utils import  redirect_to
+
+from actions.utils import create_action
+# Display activity stream
+from actions.models import Action
 
 # ajax_login
 
@@ -74,19 +81,6 @@ def user_login(request):
 	return render(request, 'accounts/login.html', {'form': form})
 
 
-def redirect_to(request):
-	login_from = request.META.get('HTTP_REFERER', '/')
-
-	next= request.GET.get('next')
-	if next:
-		protocol = "https" if request.is_secure() else "http"
-		host = request.get_host()
-		login_to = protocol + "://" + host + next
-		return login_to
-
-	return login_from
-
-
 @login_required
 def user_logout(request):
     logout(request)
@@ -125,6 +119,9 @@ def edit(request):
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()
+
+			create_action(request.user, '修改了', request.user.profile)
+
 			messages.success(request, '成功啦')
 		else:
 			messages.error(request, user_form.errors)
@@ -312,9 +309,12 @@ def github_auth(request):
 @login_required
 def myhome(request):
 	user = request.user
-	
+
+	# Display all actions by default
+	actions = Action.objects.all()
+
 	# 提取用户的动态内容 
-	return render(request, 'accounts/home/home.html', {'user': user})
+	return render(request, 'accounts/home/home.html', {'user': user, 'actions': actions})
 
 
 @login_required
@@ -361,9 +361,8 @@ def user_detail(request, username):
 
 # AJAX view to follow users
 
-#from common.decorators import ajax_required
-#@ajax_required
-
+from common.decorators import ajax_required
+@ajax_required
 @require_POST
 @login_required
 def user_follow(request):
@@ -374,8 +373,12 @@ def user_follow(request):
 			user = User.objects.get(id=user_id)
 			if action == 'follow':
 				Contack.objects.get_or_create(user_from=request.user, user_to=user)
+				create_action(request.user, '关注了', user)
+				
 			else:
 				Contack.objects.filter(user_from=request.user, user_to=user).delete()
+				create_action(request.user, '取消关注', user)
+
 			return JsonResponse({'status': 'ok'})
 		except User.DoesNotExist:
 			return JsonResponse({'status': 'ko'})
@@ -388,3 +391,27 @@ def user_following(request, username):
 	return render(request, 'accounts/following.html', {'follwing_list', follwing_list})
 
 # 粉丝列表
+
+
+# 添加到收藏
+@ajax_required
+@require_POST
+@login_required
+def collecting(request):
+	post_id = int(request.POST.get('id'))
+	action = request.POST.get('action')
+	if post_id and action:
+		try:
+			post = Post.objects.get(id=post_id)
+			if action == 'collect':
+				new_item, status = Collections.objects.get_or_create(user=request.user)
+				new_item.post.add(post)
+				create_action(request.user, '收藏了', post)
+			else:
+				Collections.objects.filter(user=request.user, post=post).delete()
+				create_action(request.user, '取消收藏', post)
+
+			return JsonResponse({'status': 'ok'})
+		except:
+			return JsonResponse({'status': 'ko'})
+	return JsonResponse({'status': 'ko'})

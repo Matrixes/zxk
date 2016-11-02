@@ -22,7 +22,9 @@ urlpatterns = [
     url(r'^mydrafts/$', views.mydrafts, name='mydrafts'),
     # 我的分享还没添加
     
-
+    # 添加到收藏
+    url(r'^collecting/$', views.collecting, name='collecting'),
+    # 收藏夹
 
     # 从自己的角度看别人, 记得将user_follow放到user_detail前面哟
     url(r'^users/$', views.user_list, name='user_list'),

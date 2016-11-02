@@ -2,15 +2,17 @@
 
 {% load staticfiles %}
 
-{% block title %}{% endblock %}
+{% block title %}我的主页{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/home/home.css' %}">
 {% endblock %}
+
 
 {% block nav %}
  <li role="presentation" class="active">
-    <a href="#">动态</a>
+    <a href="{% url 'accounts:myhome' %}">动态</a>
 </li>
 <li role="presentation">
     <a href="{% url 'accounts:myposts' %}">文章</a>
@@ -33,7 +35,13 @@
 
 
 {% block page_content %}
-
+<div class="actions">
+    <ul>
+    {% for action in actions %}
+    <li>{{ action.created|date:'Y-m-d H:i' }} - {{ action.user }} {{ action.verb }} {{ action.target }} </li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}
 
 {% block extra_script %}

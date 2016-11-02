@@ -6,6 +6,8 @@ from django.views.decorators.http import require_POST
 from .forms import ImageCreateForm
 from .models import Image
 
+from actions.utils import create_action
+
 
 def index(request):
 	return render(request, 'images/index.html')
@@ -20,6 +22,10 @@ def image_create(request):
 			new_item = form.save(commit=False)
 			new_item.user = request.user
 			new_item.save()
+
+			# Adding user actions to the activity stream
+			create_action(request.user, 'bookmarked image', new_item)
+
 			messages.success(request, 'Image added successfully')
 			return redirect(new_item.get_absolute_url())
 	else:

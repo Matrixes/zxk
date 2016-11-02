@@ -13,7 +13,7 @@ from common.extpaginator import ExtPaginator
 from .models import Tag, Post, Comment
 from .forms import EmailPostForm, CommentForm, PublishForm, PublishMdForm
 
-
+from actions.utils import create_action
 #from taggit.models import Tag
 
 
@@ -219,6 +219,9 @@ def publish(request):
 
 				new_post.author = request.user
 				new_post.save()
+
+				# Adding user actions to the activity stream
+				create_action(request.user, '发表了', new_post)
 
 				# 必须save后才能添加manytomany关系
 				for tag in form.cleaned_data['tags']:
