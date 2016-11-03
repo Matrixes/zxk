@@ -6,11 +6,13 @@ from django.views.decorators.http import require_POST
 from .forms import ImageCreateForm
 from .models import Image
 
+from common.decorators import ajax_required
 from actions.utils import create_action
 
 
 def index(request):
-	return render(request, 'images/index.html')
+	images = Image.objects.all().order_by('-created')
+	return render(request, 'images/index.html', {'images': images})
 
 
 @login_required
@@ -35,9 +37,10 @@ def image_create(request):
 
 def image_detail(request, id):
 	image = get_object_or_404(Image, id=id)
-	return render(request, 'images/detail.html', {'section': 'images', 'image': image})
+	return render(request, 'images/detail.html', {'image': image})
 
 
+@ajax_required
 @login_required
 @require_POST
 def image_like(request):
@@ -45,7 +48,7 @@ def image_like(request):
 	action = request.POST.get('action')
 	if image_id and action:
 		try:
-			image = Image.objects.get(id=image_id)
+			image = Image.objects.get(id=int(image_id))
 			if action == 'like':
 				image.users_like.add(request.user)
 			else:

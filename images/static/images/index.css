@@ -7,3 +7,16 @@
     box-shadow: 10px 10px 5px rgba(83, 83, 93, 0.8);
     color: #000;
 }
+
+.image {
+	margin: 10px;
+}
+.image img {
+	width: auto;
+	height: 100px;
+}
+.image figcaption {
+	padding-top: 8px;
+	font-size: 1.8rem;
+	text-align: center;
+}

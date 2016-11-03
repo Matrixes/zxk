@@ -31,7 +31,7 @@
             {% if request.user == user %}
                 <li><a href="{% url 'accounts:edit' %}">修改资料</a></li>
                 <li><a href="{% url 'accounts:mydrafts' %}">我的草稿</a></li>
-                <li><a href="{% url 'accounts:edit' %}">我的收藏</a></li>
+                <li><a href="{% url 'accounts:mycollects' %}">我的收藏</a></li>
 
             {% else %}
                 <a href="#">查看详细资料</a>  <br />
@@ -68,7 +68,7 @@
                                 <a href="{% url 'accounts:mycomments' %}">评论</a>
                             </li>
                             <li role="presentation">
-                                <a href="#">分享</a>
+                                <a href="{% url 'accounts:myshare' %}">分享</a>
                             </li>
                     
                             {% if request.user == user %}
@@ -76,7 +76,7 @@
                                 <a href="{% url 'accounts:mydrafts' %}">草稿</a>
                             </li>
                             <li role="presentation">
-                                <a href="#">收藏</a>
+                                <a href="{% url 'accounts:mycollects' %}">收藏</a>
                             </li>
                             {% endif %}
                             {% endblock %}

@@ -4,62 +4,74 @@
 {% block title %}图片详情{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'images/detail.css' %}">
+    <link rel="stylesheet" href="{% static 'images/detail.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-sm-8 col-md-8 col-lg-8">
-            <h1>{{ image.title }}</h1>
+            <h1 class="title">{{ image.title }}</h1>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-5 col-md-5 col-lg-5">
-            <img src="{{ image.image.url }}" class="image-detail">
-        </div>
-        <div class="col-sm-7 col-md-7 col-lg-7">
-
-            {% with total_likes=image.users_like.count users_like=image.users_like.all %}
-            <div class="image-info">
-                <div>
-                    <span class="count">
-                        <span class="total">
-                            {{ total_likes }} 
-                        </span>
-                        like{{ total_likes|pluralize }}
-                    </span>
-                    <a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}un{% endif %}like" class="like button">
-                        {% if request.user not in users_like %}
-                            Like
-                        {% else %}
-                            Unlike
-                        {% endif %}
+        <section class="content">
+            <div class="col-sm-5 col-md-5 col-lg-5">
+                <img src="{{ image.image.url }}" class="image-detail">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="image-info">
+                    <a href="{{ image.user.get_absolute_url }}">
+                        {{ image.user.username }}
                     </a>
-                </div>
-                {{ image.description|linebreaks }}
-            </div>
+                    分享于
+                    {{ image.created|date:'Y-m-d' }}
 
-            <div class="image-likes">
-                {% for user in image.users_like.all %}
-                <div>
-                    <img src="{{ user.profile.photo.url }}">
-                    <p>{{ user.first_name }}</p>
+                    <p class="description">
+                        {{ image.description|linebreaks }}
+                    </p>
                 </div>
-                {% empty %}
-                    Nobody likes this image yet.
-                {% endfor %}
+
+                <hr />
+
+                <div class="image-likes">
+                    {% with total_likes=image.users_like.count users_like=image.users_like.all %}
+
+                    <a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}un{% endif %}like" class="btn btn-success" id='like'>
+                        <span class="like-button">
+                        {% if request.user not in users_like %}
+                            喜欢
+                        {% else %}
+                            取消喜欢
+                        {% endif %}
+                        </span>
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    </a>
+
+                    <span class="like-count">{{ total_likes }}</span>
+                    {% endwith %}
+
+                    <br /><br />
+                    <div class="like-users">
+                        <small>下面的有点问题，不知道怎么实现伴随着喜欢和不喜欢自动刷新</small>
+                        <p>
+                        {% for user in image.users_like.all %}
+                            <a href="{{ user.get_absolute_url }}" title="{{ user.username }}">
+                                <img src="{{ user.profile.photo.url }}">
+                            </a>
+                        {% empty %}
+                            还没有人点赞，赶快抢沙发吧！
+                        {% endfor %}
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
-
-
 </div>
-
-{% endwith %}
-
 {% endblock %}
+
 
 {% block extra_script %}
     <script>

@@ -237,7 +237,7 @@ SCOPE = []
 
 # 为每个用户对象添加url，具体解释见 accounts/views.py
 ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda u: reverse_lazy('accounts:user_detail', args=[u.username]),
+    'auth.user': lambda u: reverse_lazy('accounts:user_home', args=[u.username]),
 }
 
 # pagedown settings

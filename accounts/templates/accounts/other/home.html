@@ -1,0 +1,41 @@
+{% extends "../base-for-home.html" %}
+
+{% load staticfiles %}
+
+{% block title %}我的主页{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/home/home.css' %}">
+{% endblock %}
+
+
+{% block nav %}
+ <li role="presentation" class="active">
+    <a href="{% url 'accounts:user_home' user.username %}">动态</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_posts' user.username %}">文章</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_comments' user.username %}">评论</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_share' user.username %}">分享</a>
+</li>
+{% endblock %}
+
+
+{% block page_content %}
+<div class="actions">
+    <ul>
+    {% for action in actions %}
+    <li>{{ action.created|date:'Y-m-d H:i' }} - {{ action.user }} {{ action.verb }} {{ action.target }} </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+    {{ block.super }}
+{% endblock %}

@@ -19,8 +19,9 @@ urlpatterns = [
     url(r'^myhome/$', views.myhome, name='myhome'),
     url(r'^myposts/$', views.myposts, name='myposts'),
     url(r'^mycomments/$', views.mycomments, name='mycomments'),
+    url(r'^myshare/$', views.myshare, name='myshare'),
     url(r'^mydrafts/$', views.mydrafts, name='mydrafts'),
-    # 我的分享还没添加
+    url(r'^mycollects/$', views.mycollects, name='mycollects'),
     
     # 添加到收藏
     url(r'^collecting/$', views.collecting, name='collecting'),
@@ -29,7 +30,12 @@ urlpatterns = [
     # 从自己的角度看别人, 记得将user_follow放到user_detail前面哟
     url(r'^users/$', views.user_list, name='user_list'),
     url(r'^users/follow/$', views.user_follow, name='user_follow'),
-    url(r'^users/(?P<username>[-\w]+)/$', views.user_detail, name='user_detail'),
+
+    # 其它用户的主页及相关信息等
+    url(r'^users/(?P<username>[-\w]+)/$', views.user_home, name='user_home'),
+    url(r'^users/(?P<username>[-\w]+)/posts/$', views.user_posts, name='user_posts'),
+    url(r'^users/(?P<username>[-\w]+)/comments/$', views.user_comments, name='user_comments'),
+    url(r'^users/(?P<username>[-\w]+)/share/$', views.user_share, name='user_share'),
 
 
     # github login

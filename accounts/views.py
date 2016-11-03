@@ -2,10 +2,10 @@
 
 
 import re
+import json
 import random
 import string
 import requests
-import json
 
 from pprint import pprint
 from requests_oauthlib import OAuth2Session
@@ -34,6 +34,7 @@ from .utils import  redirect_to
 from actions.utils import create_action
 # Display activity stream
 from actions.models import Action
+from images.models import Image
 
 # ajax_login
 
@@ -331,10 +332,22 @@ def mycomments(request):
 
 
 @login_required
+def myshare(request):
+	user = request.user
+	images = user.images_created.all()
+	return render(request, 'accounts/home/share.html', {'user': user, 'images': images})
+
+@login_required
 def mydrafts(request):
 	user = request.user
 	drafts = user.blog_posts.filter(status='D')
 	return render(request, 'accounts/home/drafts.html', {'user': user, 'drafts': drafts})
+
+@login_required
+def mycollects(request):
+	user = request.user
+	collects = user.collections.post.all()
+	return render(request, 'accounts/home/collects.html', {'user': user, 'collects': collects})
 
 
 # 关注系统
@@ -344,11 +357,34 @@ def user_list(request):
 	return render(request, 'accounts/user-list.html', {'users': users})
 
 
-def user_detail(request, username):
+# 查看其它用户的各种信息
+def user_home(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
 		return redirect(reverse('accounts:myhome'))
-	return render(request, 'accounts/home/home.html', {'user': user})
+	actions = Action.objects.all()
+	return render(request, 'accounts/other/home.html', {'user': user, 'actions': actions})
+
+def user_posts(request, username):
+	user = get_object_or_404(User, username=username, is_active=True)
+	if request.user == user:
+		return redirect(reverse('accounts:myposts'))
+	posts = user.blog_posts.order_by('-publish')
+	return render(request, 'accounts/other/posts.html', {'user': user, 'posts': posts})
+
+def user_comments(request, username):
+	user = get_object_or_404(User, username=username, is_active=True)
+	if request.user == user:
+		return redirect(reverse('accounts:mycomments'))
+	comments = user.comments.order_by('-created')
+	return render(request, 'accounts/other/comments.html', {'user': user, 'comments': comments})
+
+def user_share(request, username):
+	user = get_object_or_404(User, username=username, is_active=True)
+	if request.user == user:
+		return redirect(reverse('accounts:myshare'))
+	images = user.images_created.all()
+	return render(request, 'accounts/other/share.html', {'user': user, 'images': images})
 
 # 为一个对象设置URL，有两个方法
 # 1、在models中定义get_absolute_url()方法

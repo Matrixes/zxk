@@ -1,4 +1,37 @@
+.title {
+	font-size: 20px;
+}
+
+.content {
+	margin-top: 20px;
+}
+
 .image-detail {
-	height: 300px;
+	height: 350px;
 	width: auto;
+}
+
+.image-info {
+	font-size: 25px;
+}
+
+.image-info p {
+	font-size: 20px;
+	color: red;
+}
+
+.image-likes {
+	padding: 10px;
+	border: 1px dashed green;
+	font-size: 20px;
+}
+
+.image-likes a {
+	font-size: inherit;
+}
+
+.like-users img {
+	margin-top: 10px;
+	width: 50px;
+	height: 50px;
 }
