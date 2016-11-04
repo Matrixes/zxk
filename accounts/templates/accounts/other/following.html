@@ -1,0 +1,42 @@
+{% extends "../base-for-home.html" %}
+
+{% load staticfiles %}
+
+{% block title %}文章{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/home/posts.css' %}">
+{% endblock %}
+
+{% block nav %}
+ <li role="presentation">
+    <a href="{% url 'accounts:user_home' user.username %}">动态</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_posts' user.username %}">文章</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_comments' user.username %}">评论</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_share' user.username %}">分享</a>
+</li>
+{% endblock %}
+
+{% block page_content %}
+
+    {% for following in following_list %}
+    <p>
+        <a href="#" target="_blank">
+            {{ following.username }}
+        </a>
+
+    </p>
+    {% endfor %}
+
+{% endblock %}
+
+{% block extra_script %}
+    {{ block.super }}
+{% endblock %}

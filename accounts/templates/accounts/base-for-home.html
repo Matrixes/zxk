@@ -95,20 +95,33 @@
 
         <div class="col-sm-3 col-md-3 col-lg-3">
             <aside class="follow-block">
-                {% with total_following=user.following.count %}
-                    正在关注 
-                    <span id='followimg-count'>
-                        {{ total_following }}
-                    </span>
-                {% endwith %}
+                {% with total_following=user.following.count total_followers=user.followers.count %}
+                    {% if user == request.user %}
+                    正在关注
+                    <a href="{% url 'accounts:myfollowing' %}"> 
+                        <span id='followimg-count'>{{ total_following }}</span>
+                    </a>
 
-                <br />
+                    <br />
 
-                {% with total_followers=user.followers.count %}
-                    关注者 
-                    <span id='follower-count'>
-                        {{ total_followers }}
-                    </span>
+                    关注者
+                    <a href="{% url 'accounts:myfollowers' %}">  
+                        <span id='follower-count'>{{ total_followers }}</span>
+                    </a>
+                    {% else %}
+                    正在关注
+                    <a href="{% url 'accounts:user_following' user.username %}"> 
+                        <span id='followimg-count'>{{ total_following }}</span>
+                    </a>
+
+                    <br />
+
+                    关注者
+                    <a href="{% url 'accounts:user_followers' user.username %}">  
+                        <span id='follower-count'>{{ total_followers }}</span>
+                    </a>
+
+                    {% endif %}
                 {% endwith %}
             </aside>
         </div>

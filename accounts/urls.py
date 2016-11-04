@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^myshare/$', views.myshare, name='myshare'),
     url(r'^mydrafts/$', views.mydrafts, name='mydrafts'),
     url(r'^mycollects/$', views.mycollects, name='mycollects'),
+    url(r'^myfollowing/$', views.myfollowing, name='myfollowing'),
+    url(r'^myfollowers/$', views.myfollowers, name='myfollowers'),
     
     # 添加到收藏
     url(r'^collecting/$', views.collecting, name='collecting'),
@@ -36,6 +38,8 @@ urlpatterns = [
     url(r'^users/(?P<username>[-\w]+)/posts/$', views.user_posts, name='user_posts'),
     url(r'^users/(?P<username>[-\w]+)/comments/$', views.user_comments, name='user_comments'),
     url(r'^users/(?P<username>[-\w]+)/share/$', views.user_share, name='user_share'),
+    url(r'^users/(?P<username>[-\w]+)/following/$', views.user_following, name='user_following'),
+    url(r'^users/(?P<username>[-\w]+)/followers/$', views.user_followers, name='user_followers'),
 
 
     # github login

@@ -16,6 +16,9 @@ class Image(models.Model):
 
 	users_like = models.ManyToManyField(User, related_name='image_liked', blank=True)
 
+	# 用来存储喜欢图片的人数，保持其更新是个难点，用django signals
+	total_likes = models.PositiveIntegerField(db_index=True, default=0)
+
 	def __str__(self):
 		return self.title
 

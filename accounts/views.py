@@ -312,9 +312,24 @@ def myhome(request):
 	user = request.user
 
 	# Display all actions by default
-	actions = Action.objects.all()
+	# 获得所有的动态信息，以后可以做个类似广场的页面
+	# actions = Action.objects.all()
 
-	# 提取用户的动态内容 
+	# 关注的人的id的<QuerySet>, 例如<QuerySet [10 ,11, 12]>
+	following_ids = request.user.following.values_list('id', flat=True)
+
+	# 现在想获得不仅关注的人的动态，还加上自己的动态也显示出来
+	ids = list(following_ids)
+	ids.append(user.id)
+
+	# 如果用户关注了其他人，就获得关注的人的动态。
+	# 如果没有关注任何人，就获得最新的10条动态
+	# 由于我们创建models时就已经排序了，这里就没必要再排序
+	if following_ids:
+		actions = Action.objects.filter(user_id__in=ids) # ids为QuerySet也是可以的
+	else:
+		actions = Action.objects.all()[:10]
+
 	return render(request, 'accounts/home/home.html', {'user': user, 'actions': actions})
 
 
@@ -350,6 +365,21 @@ def mycollects(request):
 	return render(request, 'accounts/home/collects.html', {'user': user, 'collects': collects})
 
 
+# 关注列表
+@login_required
+def myfollowing(request):
+	user = request.user
+	following_list = user.following.all()
+	return render(request, 'accounts/home/following.html', {'user': user, 'following_list': following_list})
+
+# 粉丝列表
+@login_required
+def myfollowers(request):
+	user = request.user
+	followers_list = user.followers.all()
+	return render(request, 'accounts/home/followers.html', {'user': user, 'followers_list': followers_list})
+
+
 # 关注系统
 @login_required
 def user_list(request):
@@ -362,7 +392,9 @@ def user_home(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
 		return redirect(reverse('accounts:myhome'))
-	actions = Action.objects.all()
+
+	actions = Action.objects.filter(user_id=user.id)
+	
 	return render(request, 'accounts/other/home.html', {'user': user, 'actions': actions})
 
 def user_posts(request, username):
@@ -385,6 +417,23 @@ def user_share(request, username):
 		return redirect(reverse('accounts:myshare'))
 	images = user.images_created.all()
 	return render(request, 'accounts/other/share.html', {'user': user, 'images': images})
+
+# 关注列表
+def user_following(request, username):
+	user = get_object_or_404(User, username=str(username))
+	if request.user == user:
+		return redirect(reverse('accounts:myfollowing'))
+	following_list = user.following.all()
+	return render(request, 'accounts/other/following.html', {'user': user, 'following_list': following_list})
+
+# 粉丝列表
+def user_followers(request, username):
+	user = get_object_or_404(User, username=str(username))
+	if request.user == user:
+		return redirect(reverse('accounts:myfollowers'))
+	followers_list = user.followers.all()
+	return render(request, 'accounts/other/followers.html', {'user': user, 'followers_list': followers_list})
+
 
 # 为一个对象设置URL，有两个方法
 # 1、在models中定义get_absolute_url()方法
@@ -420,13 +469,6 @@ def user_follow(request):
 			return JsonResponse({'status': 'ko'})
 	return JsonResponse({'status': 'ko'})
 
-# 关注列表
-def user_following(request, username):
-	user = User.get_object_or_404(User, username=str(username))
-	follwing_list = user.following.all()
-	return render(request, 'accounts/following.html', {'follwing_list', follwing_list})
-
-# 粉丝列表
 
 
 # 添加到收藏

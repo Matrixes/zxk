@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.db.models import Count
+
 from .forms import ImageCreateForm
 from .models import Image
 
@@ -12,6 +14,11 @@ from actions.utils import create_action
 
 def index(request):
 	images = Image.objects.all().order_by('-created')
+
+	# 根据受欢迎程度对图片排序, 当然这个代价太高，不如在models中添加一个field来存储
+	# images_by_popularity = Image.objects.annotate(total_likes=Count('users_like')).order_by('-total_likes')
+	images_by_popularity = Image.objects.order_by('-total_likes')
+	
 	return render(request, 'images/index.html', {'images': images})
 
 
@@ -51,8 +58,10 @@ def image_like(request):
 			image = Image.objects.get(id=int(image_id))
 			if action == 'like':
 				image.users_like.add(request.user)
+				create_action(request.user, '点赞了', image)
 			else:
 				image.users_like.remove(request.user)
+				create_action(request.user, '取消点赞了', image)
 			return JsonResponse({'status': 'ok'})
 		except:
 			pass

@@ -154,6 +154,9 @@ def post(request, id):
 			new_comment.post = post
 			new_comment.name = request.user
 			new_comment.save()
+
+			create_action(request.user, '评论了', post)
+
 			return redirect(reverse('blog:post', args=[id,]))
 	#else:
 	comment_form = CommentForm()
