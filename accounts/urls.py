@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^password-change/$', views.password_change, name='password_change'),
     # 账户关联信息的url 。。。。。。
-    url(r'^settings/$', views.user_settings, name='user_settings'),
+    url(r'^setting/$', views.user_setting, name='user_setting'),
 
     url(r'^register/$', views.register, name='register'),
 

@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
 
     'home',
-    'blog',
     'accounts',
+    'blog',
     'images',
     'actions',
     'pagedown',
@@ -191,29 +191,24 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 from django.core.urlresolvers import reverse_lazy
 
-# Tells Django which URL to redirect after login
-# if the contrib.auth.views.login view gets no next parameter
-LOGIN_REDIRECT_URL = reverse_lazy('accounts:profile')
+# 如果contrib.auth.views.login视图不存在next参数，默认重定向到：
+LOGIN_REDIRECT_URL = reverse_lazy('accounts:myhome')
 
-# Is the URL to redirect the user to log in (e.g. using the
-# login_required decorator)
+
+# 如果一个url需要用户登录（使用了装饰器login_required），重定向到登录页面
 LOGIN_URL = reverse_lazy('accounts:login')
 
-# Is the URL to redirect the user to log out
+# 登出URL
 LOGOUT_URL = reverse_lazy('accounts:logout')
 
 
 # User Model
-#...
-
+# ...
 
 # AUTHENTICATION_BACKENDS = (
 #     'social.backends.github.GithubOAuth2',
 #     'django.contrib.auth.backends.ModelBackend',
 # )
-
-
-
 
 # Social Auth
 

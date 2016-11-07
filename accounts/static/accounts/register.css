@@ -1,0 +1,31 @@
+body {
+	background: #252525 url(bg6.jpg);
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.register {
+}
+.register h1 {
+	text-align: center;
+	font-size: 3rem;
+	color: #87E88D;
+	margin-bottom: 20px;
+}
+
+.register label {
+	color: #FFFFFF;
+	font-size: 20px;
+	text-align: center;
+}
+.register input {
+	font-size: 1.8em;
+}
+
+.register button {
+	float: right;
+	margin-bottom: 20px
+}
+
+.message {
+}

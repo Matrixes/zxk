@@ -1,6 +1,5 @@
 # -*- cpding:utf8 -*-
 
-
 import re
 import json
 import random
@@ -24,10 +23,10 @@ from django.views.decorators.http import require_POST
 
 from blog.models import Post, Comment
 
-from .models import UserProfile, UserSettings, SocialUser, Contack, Collections
+from .models import UserProfile, UserSetting, SocialUser, Contack, Collection
 
 from .forms import LoginForm, RegistrationForm, UserForm, ProfileForm, \
-                   PasswordChangeForm, UserSettingsForm
+                   PasswordChangeForm, UserSettingForm
 
 from .utils import  redirect_to
 
@@ -35,6 +34,7 @@ from actions.utils import create_action
 # Display activity stream
 from actions.models import Action
 from images.models import Image
+
 
 # ajax_login
 
@@ -58,19 +58,21 @@ from images.models import Image
 
 
 def user_login(request):
+	# 如果用户已登录，就重定向到其个人主页
+	if request.user.is_authenticated:
+		return redirect(reverse('accounts:myhome'))
+
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			cd = form.cleaned_data
 			user = authenticate(username=cd['username'], password=cd['password'])
+			# 如果用户不是active的状态，authenticate()都不能通过
 			if user:
-				if user.is_active:
-					login(request, user)
-					return HttpResponseRedirect(request.session['to'])
-				else:
-					messages.warning(request, 'user is not active.')
+				login(request, user)
+				return HttpResponseRedirect(request.session['to'])
 			else:
-				messages.error(request, 'username/passwird is wrong')
+				messages.error(request, '密码错误')
 		else:
 			messages.error(request, form.errors)
 
@@ -92,22 +94,7 @@ def user_logout(request):
 @login_required
 def profile(request):
 	profile = UserProfile.objects.get(user=request.user)
-	# posts = Post.objects.filter(author=request.user)
-	# comments = Comment.objects.filter(name=request.user)
 	return render(request, 'accounts/admin/profile.html',  {'profile': profile}) #, 'posts': posts, 'comments': comments})
-
-
-# 这个不用了，见下面的yser_detail
-def user(request, id):
-	user = get_object_or_404(User, id=int(id))
-	
-	if request.user == user:
-		return redirect(reverse('accounts:profile'))
-
-	posts = Post.objects.filter(author=user)
-	comments = Comment.objects.filter(name=user)
-	return render(request, "accounts/user.html", {'user': user, 'posts': posts, 'comments': comments})
-
 
 
 @login_required
@@ -160,18 +147,18 @@ def password_change(request):
 ## 紧急通知，由于写成了instance=request.user，至少在这上面浪费了4个小时
 ## 应该为instance=request.user.settings，看来还是理解不够深刻
 @login_required
-def user_settings(request):
+def user_setting(request):
 	if request.method == 'POST':
-		form = UserSettingsForm(instance=request.user.settings, data=request.POST)
+		form = UserSettingForm(instance=request.user.setting, data=request.POST)
 		if form.is_valid():
 			form.save()
 			messages.success(request, "设置成功")
 		else:
 			messages.error(request, form.errors)
-		return redirect(reverse('accounts:user_settings'))
+		return redirect(reverse('accounts:user_setting'))
 	else:
-		form = UserSettingsForm(instance=request.user.settings)
-	return render(request, 'accounts/admin/settings.html', {'form': form})
+		form = UserSettingForm(instance=request.user.setting)
+	return render(request, 'accounts/admin/setting.html', {'form': form})
 
 
 
@@ -187,21 +174,27 @@ def register(request):
 			
 			# 创建个人资料
 			UserProfile.objects.create(user=new_user)
-			# 添加设置
-			UserSettings.objects.create(user=new_user)
+			# 设置
+			UserSetting.objects.create(user=new_user)
 			
 			login(request, new_user)
 
 			return HttpResponseRedirect(reverse('accounts:profile'))
+		else:
+			messages.info(request, form.errors)
 	else:
 		form = RegistrationForm()
 	return render(request, 'accounts/register.html', {'form': form})
 
 
 
-# Social Auth
+###### 第三方认证 Start ######
 
-# github
+'''
+OAuth2是一个允许其他的应用认证请求而不需要密码获得其用户信息
+'''
+
+# github认证
 
 client_id = settings.CLIENT_ID
 client_secret = settings.CLIENT_SECRET
@@ -217,9 +210,6 @@ def github_login(request):
 	authorization_url, state = github.authorization_url(authorization_base_url)
 
 	request.session['oauth_state'] = state
-
-	print(request.session['to'])
-
 	return HttpResponseRedirect(authorization_url)
 
 
@@ -240,8 +230,6 @@ def github_auth(request):
 
 	j1 = response.json  # method
 	res = response.json()  # dict
-
-	pprint(res)
 
 	log_in = res.get('login')  # login is already existed
 	email = res.get('email') or ''  # if email is protected, then 'email': None
@@ -275,7 +263,7 @@ def github_auth(request):
 
 	UserProfile.objects.create(user=new_user, nickname=log_in) # photo怎么办
 	SocialUser.objects.create(user=new_user, login=log_in, social_id=github_id, belong='GH')
-	UserSettings.objects.create(user=new_user)
+	UserSetting.objects.create(user=new_user)
 
 	# Get photo
 	r = requests.get(avatar_url, stream=True)

@@ -15,7 +15,7 @@
 <li><a href="{% url 'accounts:edit' %}">修改资料</a></li>
 <li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
 <li><a href="#">帐号关联</a></li>
-<li><a href="{% url 'accounts:user_settings' %}">设置</a></li>
+<li><a href="{% url 'accounts:user_setting' %}">设置</a></li>
 {% endblock %}
 
 {% block page_content %}
@@ -38,12 +38,9 @@
                     <span>邮箱</span>
                     {{ profile.user.email }}
                 </li>
+
                 <li>
-                    <span>手机</span>
-                    {{ profile.phone }}
-                </li>
-                <li>
-                    <span>网站</span>
+                    <span>个人网站</span>
                     {{ profile.website }}
                 </li>
                 <li>
@@ -58,86 +55,15 @@
                         {{ profile.user.date_joined|date:'Y-m-d H:i' }}
                     </time>
                 </li>
-
-                <!--
-                {% with total_images_created=request.user.images_created.count %}
                 <li>
-                    <span>image{{ total_images_created|pluralize }}</span>: 
-                    {{ total_images_created }}
+                    <span>个性签名</span>
+                    {{ profile.introduce }}
                 </li>
-                {% endwith %}
-                <li>
-                    <span>关注</span>：{{ profile.user.following.count }}
-                </li>
-                <li>
-                    <span>粉丝</span>：{{ profile.user.followers.count }}
-                </li>
-                <li>
-                    <span>编辑器</span>：{{ profile.get_settings_display }}
-                </li>
-                <li>
-                    将下面的按钮添加为浏览器的书签，打开其他网站后点击其 
-                    <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
-                        <button class="btn btn-success">Bookmark it</button>
-                    </a>
-                </li>
-                
-
-
-                {% if messages %}
-                <li>
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li class="{{ message.tags }}">
-                            {{ message|safe }}
-                            <a href="#" class="close">✖</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %} 
-                
-                </li>
-                -->
             </ul>
         </div>
     </section>
 </div>
  
-<!--    
-<div class="row">
-    <section class="blog">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <h3>发表文章</h3>
-            <ul>
-                {% for post in posts %}
-                <li>
-                    <a href="{{ post.get_absolute_url }}" target="_blank">
-                        {{ post.title }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
-
-    <section class="comment">
-        <div class="col-md-5 col-lg-5">
-            <h3>发表评论</h3>
-            <ul>
-                {% for comment in comments %}
-                <li>
-                    <a href="{{ comment.post.get_absolute_url }}" target="_blank">
-                        {{ comment.post.title }}
-                    </a>
-                    {{ comment.body }}
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-    </section>
-</div>
--->
-
 {% endblock %}
 
 

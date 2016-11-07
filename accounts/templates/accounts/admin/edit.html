@@ -16,7 +16,7 @@
 <li class="active"><a href="{% url 'accounts:edit' %}">修改资料</a></li>
 <li><a href="{% url 'accounts:password_change' %}">修改密码</a></li>
 <li><a href="#">帐号关联</a></li>
-<li><a href="{% url 'accounts:user_settings' %}">设置</a></li>
+<li><a href="{% url 'accounts:user_setting' %}">设置</a></li>
 {% endblock %}
 
 
@@ -60,12 +60,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="{{ profile_form.phone.id_for_label }}" class="col-sm-1 col-md-1 col-lg-1 control-label">手 机</label>
-                <div class="col-sm-11 col-md-11 col-lg-11">
-                    {{ profile_form.phone }}
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="{{ profile_form.website.id_for_label }}" class="col-sm-1 col-md-1 col-lg-1 control-label">网 站</label>
                 <div class="col-sm-11 col-md-11 col-lg-11">
                     {{ profile_form.website }}
@@ -75,6 +69,12 @@
                 <label for="{{ profile_form.birthday.id_for_label }}" class="col-sm-1 col-md-1 col-lg-1 control-label">生 日</label>
                 <div class="col-sm-11 col-md-11 col-lg-11">
                     {{ profile_form.birthday }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ profile_form.introduce.id_for_label }}" class="col-sm-1 col-md-1 col-lg-1 control-label">个性签名</label>
+                <div class="col-sm-11 col-md-11 col-lg-11">
+                    {{ profile_form.introduce }}
                 </div>
             </div>
             <div class="form-group">

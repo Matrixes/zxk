@@ -2,9 +2,10 @@
 
 
 from django import forms
-from .models import UserProfile, UserSettings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+
+from .models import UserProfile, UserSetting
 
 
 class LoginForm(forms.Form):
@@ -13,41 +14,12 @@ class LoginForm(forms.Form):
 
 	def clean_username(self):
 		un = self.cleaned_data['username']
-		if len(un) < 3:
-			raise forms.ValidationError("Too short")
+		if len(un) < 2:
+			raise forms.ValidationError("用户名错误")
 		return un
 
 
-class RegistrationForm(forms.ModelForm):
-	password = forms.CharField(label="密  码", widget=forms.PasswordInput)
-	password2 = forms.CharField(label="确认密码", widget=forms.PasswordInput)
-
-	class Meta:
-		model = User
-		fields = ('username', 'email')
-
-	def clean_password2(self):
-		cd = self.cleaned_data
-		if cd['password'] != cd['password2']:
-			raise forms.ValidationError("密码不一致")
-		return cd['password2']
-
-
-# Edit profile
-# failed to render the data of form to forms
-"""
-class ProfileForm(forms.Form):
-	username = forms.CharField()
-	nickname = forms.CharField()
-	email = forms.EmailField()
-	phone = forms.CharField()
-	website = forms.URLField()
-	birthday = forms.DateField()
-	photo = forms.ImageField()
-
-
-"""
-
+###### Edit profile Start ######
 class UserForm(forms.ModelForm):
 	class Meta:
 		model = User
@@ -56,21 +28,18 @@ class UserForm(forms.ModelForm):
 	def clean_username(self):
 		username = self.cleaned_data['username'].lower()
 		if User.objects.filter(username=username):
-			# There is a bug: when you update other profile, Error also raised
-			# raise forms.ValidationError('username alraedy exists.')
 			pass
 		return username
 
-
 class ProfileForm(forms.ModelForm):
-
 	class Meta:
 		model = UserProfile
-		fields = ('nickname', 'phone', 'website', 'birthday', 'photo')
+		fields = ('nickname', 'website', 'birthday', 'introduce', 'photo')
 		widgets = {
 			'birthday': forms.DateInput,
 		}
 
+###### Edit profile End ######
 
 class PasswordChangeForm(forms.Form):
 	old_password = forms.CharField(widget=forms.PasswordInput)
@@ -89,12 +58,32 @@ class PasswordChangeForm(forms.Form):
 		return new_password2
 
 
-class UserSettingsForm(forms.ModelForm):
-
+# 用户设置表单
+class UserSettingForm(forms.ModelForm):
 	class Meta:
-		model = UserSettings
-		fields = ('settings',)
+		model = UserSetting
+		fields = ('setting', 'domain')
 
 		widgets = {
 			
 		}
+
+
+# 用户注册表单
+class RegistrationForm(forms.ModelForm):
+	password = forms.CharField(label="密  码", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+	password2 = forms.CharField(label="确认密码", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+	class Meta:
+		model = User
+		fields = ('username', 'email')
+		widgets = {
+			'username': forms.TextInput(attrs={'class': 'form-control'}),
+			'email': forms.EmailInput(attrs={'class': 'form-control'}),
+		}
+
+	def clean_password2(self):
+		cd = self.cleaned_data
+		if cd['password'] != cd['password2']:
+			raise forms.ValidationError("密码不一致")
+		return cd['password2']

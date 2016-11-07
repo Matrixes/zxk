@@ -20,6 +20,16 @@ label, .denglu {
 	font-size: 20px;
 }
 
+.social-login img {
+	margin: 10px 0;
+	width: 40px;
+	height: 30px;
+}
+
+.message {
+	margin: 20px;
+}
+
 .footer {
 	border-top: 1px dotted #fff;
 }
