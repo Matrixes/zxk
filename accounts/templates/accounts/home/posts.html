@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}文章{% endblock %}
+{% block title %}{{ user.username }}的文章{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block nav %}
- <li role="presentation">
+{% if request.user == user %}
+<li role="presentation">
     <a href="{% url 'accounts:myhome' %}">动态</a>
 </li>
 <li role="presentation" class="active">
@@ -22,30 +23,45 @@
 <li role="presentation">
     <a href="{% url 'accounts:myshare' %}">分享</a>
 </li>
-{% if request.user == user %}
 <li role="presentation">
     <a href="{% url 'accounts:mydrafts' %}">草稿</a>
 </li>
 <li role="presentation">
     <a href="{% url 'accounts:mycollects' %}">收藏</a>
 </li>
+{% else %}
+<li role="presentation">
+    <a href="{% url 'accounts:user_home' user.username %}">动态</a>
+</li>
+<li role="presentation" class="active">
+    <a href="{% url 'accounts:user_posts' user.username %}">文章</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_comments' user.username %}">评论</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_share' user.username %}">分享</a>
+</li>
 {% endif %}
 {% endblock %}
 
 {% block page_content %}
-
+<ul>
     {% for post in posts %}
-    <p>
+    <li>
         <a href="{{ post.get_absolute_url }}" target="_blank">
             {{ post.title }}
         </a>
-        <small>
+        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        <time>
             {{ post.publish|date:'Y-m-d H:i' }}
-        </small>
-        <a href="{% url 'blog:edit' post.id %}" target="_blank">编辑</a>
-    </p>
+        </time>
+        <a href="{% url 'blog:edit' post.id %}" target="_blank">
+            <span class="label label-primary">编辑</span>
+        </a>
+    </li>
     {% endfor %}
-
+</ul>
 {% endblock %}
 
 {% block extra_script %}

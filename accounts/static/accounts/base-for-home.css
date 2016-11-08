@@ -53,3 +53,26 @@ section.nav-under-profile ul li {
 	font-size: 1.5em;
 	color: #fff;
 }
+
+.badge {
+	font-size: 20px;
+}
+
+/*page-content*/
+.page-content {
+	color: #fff;
+	font-size: 20px;
+}
+
+.page-content ul li a {
+	font-size: 1.2em;
+	color: #E6926B;
+}
+
+/*.title:link    { color: black }    /* unvisited links */
+.page-content ul li a:visited { color: #A5A5A7 }   /* visited links   */
+.page-content ul li a:hover   { color: #fff } /* user hovers     */
+
+.page-content time {
+	font-size: 0.8em;
+}

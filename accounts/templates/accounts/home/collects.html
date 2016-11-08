@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}文章{% endblock %}
+{% block title %}{{ user.username }}的收藏{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
@@ -22,30 +22,29 @@
 <li role="presentation">
     <a href="{% url 'accounts:myshare' %}">分享</a>
 </li>
-{% if request.user == user %}
 <li role="presentation">
     <a href="{% url 'accounts:mydrafts' %}">草稿</a>
 </li>
 <li role="presentation" class="active">
     <a href="{% url 'accounts:mycollects' %}">收藏</a>
 </li>
-{% endif %}
 {% endblock %}
 
 {% block page_content %}
-
+<ul>
     {% for post in collects %}
-    <p>
+    <ul>
         <a href="{{ post.get_absolute_url }}" target="_blank">
             {{ post.title }}
         </a>
-        <small>
+        <time>
             {{ post.publish|date:'Y-m-d H:i' }}
-        </small>
-        <a href="{% url 'blog:edit' post.id %}" target="_blank">编辑</a>
-    </p>
+        </time>
+    </ul>
+    {% empty %}
+        没有收藏
     {% endfor %}
-
+</ul>
 {% endblock %}
 
 {% block extra_script %}

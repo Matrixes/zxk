@@ -2,15 +2,16 @@
 
 {% load staticfiles %}
 
-{% block title %}文章{% endblock %}
+{% block title %}{{ user.username }}的关注者{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'accounts/home/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/home/follow.css' %}">
 {% endblock %}
 
 {% block nav %}
- <li role="presentation">
+{% if request.user == user %}
+<li role="presentation">
     <a href="{% url 'accounts:myhome' %}">动态</a>
 </li>
 <li role="presentation">
@@ -22,27 +23,41 @@
 <li role="presentation">
     <a href="{% url 'accounts:myshare' %}">分享</a>
 </li>
-{% if request.user == user %}
 <li role="presentation">
     <a href="{% url 'accounts:mydrafts' %}">草稿</a>
 </li>
 <li role="presentation">
     <a href="{% url 'accounts:mycollects' %}">收藏</a>
 </li>
+{% else %}
+<li role="presentation">
+    <a href="{% url 'accounts:user_home' user.username %}">动态</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_posts' user.username %}">文章</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_comments' user.username %}">评论</a>
+</li>
+<li role="presentation">
+    <a href="{% url 'accounts:user_share' user.username %}">分享</a>
+</li>
 {% endif %}
 {% endblock %}
 
 {% block page_content %}
 
+<h2>关注者</h2>
+<ol>
     {% for follower in followers_list %}
-    <p>
-        <a href="#" target="_blank">
+    <li>
+        <a href="{{ follower.get_absolute_url }}" target="_blank">
+            <img src="{{ follower.profile.photo.url }}">
             {{ follower }}
         </a>
-
-    </p>
+    </li>
     {% endfor %}
-
+</ol>
 {% endblock %}
 
 {% block extra_script %}

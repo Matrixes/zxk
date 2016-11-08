@@ -250,7 +250,8 @@ def github_auth(request):
 			login(request, user) # many times str is not callable because login..shit
 			return  HttpResponseRedirect(request.session['to'])
 		else:
-			return HttpResponse("The account is diabled")
+			messages.info(request, '账户被禁用')
+			return redirect(reverse("accounts:login"))
 
 	# create new acount
 
@@ -327,6 +328,7 @@ def myposts(request):
 	posts = user.blog_posts.order_by('-publish')
 	return render(request, 'accounts/home/posts.html', {'user': user, 'posts': posts})
 
+
 @login_required
 def mycomments(request):
 	user = request.user
@@ -340,16 +342,22 @@ def myshare(request):
 	images = user.images_created.all()
 	return render(request, 'accounts/home/share.html', {'user': user, 'images': images})
 
+
 @login_required
 def mydrafts(request):
 	user = request.user
 	drafts = user.blog_posts.filter(status='D')
 	return render(request, 'accounts/home/drafts.html', {'user': user, 'drafts': drafts})
 
+
 @login_required
 def mycollects(request):
 	user = request.user
-	collects = user.collections.post.all()
+	try:
+		collects = user.collections.post.all()
+	except:
+		collects = None
+
 	return render(request, 'accounts/home/collects.html', {'user': user, 'collects': collects})
 
 
@@ -357,14 +365,15 @@ def mycollects(request):
 @login_required
 def myfollowing(request):
 	user = request.user
-	following_list = user.following.all()
+	following_list = user.following.all().order_by('username')
 	return render(request, 'accounts/home/following.html', {'user': user, 'following_list': following_list})
+
 
 # 粉丝列表
 @login_required
 def myfollowers(request):
 	user = request.user
-	followers_list = user.followers.all()
+	followers_list = user.followers.all().order_by('username')
 	return render(request, 'accounts/home/followers.html', {'user': user, 'followers_list': followers_list})
 
 
@@ -383,44 +392,49 @@ def user_home(request, username):
 
 	actions = Action.objects.filter(user_id=user.id)
 	
-	return render(request, 'accounts/other/home.html', {'user': user, 'actions': actions})
+	return render(request, 'accounts/home/home.html', {'user': user, 'actions': actions})
+
 
 def user_posts(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
 		return redirect(reverse('accounts:myposts'))
 	posts = user.blog_posts.order_by('-publish')
-	return render(request, 'accounts/other/posts.html', {'user': user, 'posts': posts})
+	return render(request, 'accounts/home/posts.html', {'user': user, 'posts': posts})
+
 
 def user_comments(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
 		return redirect(reverse('accounts:mycomments'))
 	comments = user.comments.order_by('-created')
-	return render(request, 'accounts/other/comments.html', {'user': user, 'comments': comments})
+	return render(request, 'accounts/home/comments.html', {'user': user, 'comments': comments})
+
 
 def user_share(request, username):
 	user = get_object_or_404(User, username=username, is_active=True)
 	if request.user == user:
 		return redirect(reverse('accounts:myshare'))
 	images = user.images_created.all()
-	return render(request, 'accounts/other/share.html', {'user': user, 'images': images})
+	return render(request, 'accounts/home/share.html', {'user': user, 'images': images})
+
 
 # 关注列表
 def user_following(request, username):
 	user = get_object_or_404(User, username=str(username))
 	if request.user == user:
 		return redirect(reverse('accounts:myfollowing'))
-	following_list = user.following.all()
-	return render(request, 'accounts/other/following.html', {'user': user, 'following_list': following_list})
+	following_list = user.following.all().order_by('username')
+	return render(request, 'accounts/home/following.html', {'user': user, 'following_list': following_list})
+
 
 # 粉丝列表
 def user_followers(request, username):
 	user = get_object_or_404(User, username=str(username))
 	if request.user == user:
 		return redirect(reverse('accounts:myfollowers'))
-	followers_list = user.followers.all()
-	return render(request, 'accounts/other/followers.html', {'user': user, 'followers_list': followers_list})
+	followers_list = user.followers.all().order_by('username')
+	return render(request, 'accounts/home/followers.html', {'user': user, 'followers_list': followers_list})
 
 
 # 为一个对象设置URL，有两个方法

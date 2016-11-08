@@ -28,11 +28,13 @@
             </div>
             
             <div class="col-sm-3 col-md-3 col-lg-3">
+            <!--用户查看自己的页面时的内容-->
             {% if request.user == user %}
                 <li><a href="{% url 'accounts:edit' %}">修改资料</a></li>
                 <li><a href="{% url 'accounts:mydrafts' %}">我的草稿</a></li>
                 <li><a href="{% url 'accounts:mycollects' %}">我的收藏</a></li>
 
+            <!--用户查看别人的页面时的内容-->
             {% else %}
                 <a href="#">查看详细资料</a>  <br />
                 <a href="#">发送私信</a>  <br />
@@ -59,7 +61,7 @@
                         <ul class="nav nav-tabs">
                             {% block nav %}
                             <li role="presentation">
-                                <a href="#">动态</a>
+                                <a href="{% url 'accounts:home' %}">动态</a>
                             </li>
                             <li role="presentation">
                                 <a href="{% url 'accounts:myposts' %}">文章</a>
@@ -71,21 +73,19 @@
                                 <a href="{% url 'accounts:myshare' %}">分享</a>
                             </li>
                     
-                            {% if request.user == user %}
                             <li role="presentation">
                                 <a href="{% url 'accounts:mydrafts' %}">草稿</a>
                             </li>
                             <li role="presentation">
                                 <a href="{% url 'accounts:mycollects' %}">收藏</a>
                             </li>
-                            {% endif %}
                             {% endblock %}
                         </ul>
                     </section>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="col-sm-12 col-md-12 col-lg-12 page-content">
                     {% block page_content %}
 
                     {% endblock %}
@@ -99,36 +99,34 @@
                     {% if user == request.user %}
                     正在关注
                     <a href="{% url 'accounts:myfollowing' %}"> 
-                        <span id='followimg-count'>{{ total_following }}</span>
-                    </a>
-
-                    <br />
-
+                        <span id='followimg-count' class="badge">
+                            {{ total_following }}
+                        </span>
+                    </a> <br />
                     关注者
                     <a href="{% url 'accounts:myfollowers' %}">  
-                        <span id='follower-count'>{{ total_followers }}</span>
+                        <span id='follower-count' class="badge">
+                            {{ total_followers }}
+                        </span>
                     </a>
                     {% else %}
                     正在关注
-                    <a href="{% url 'accounts:user_following' user.username %}"> 
-                        <span id='followimg-count'>{{ total_following }}</span>
-                    </a>
-
-                    <br />
-
+                    <a href="{% url 'accounts:user_following' user.username %}">
+                        <span id='followimg-count' class="badge">
+                            {{ total_following }}
+                        </span>
+                    </a> <br />
                     关注者
-                    <a href="{% url 'accounts:user_followers' user.username %}">  
-                        <span id='follower-count'>{{ total_followers }}</span>
+                    <a href="{% url 'accounts:user_followers' user.username %}">
+                        <span id='follower-count' class="badge">
+                            {{ total_followers }}
+                        </span>
                     </a>
-
                     {% endif %}
                 {% endwith %}
             </aside>
         </div>
-
     </div>
-
-
 </div>
 
 

@@ -16,7 +16,7 @@ urlpatterns = [
 
     # 我的主页相关url
     #url(r'^$', views.index, name='index'),
-    url(r'^myhome/$', views.myhome, name='myhome'),
+    url(r'^home/$', views.myhome, name='myhome'),
     url(r'^myposts/$', views.myposts, name='myposts'),
     url(r'^mycomments/$', views.mycomments, name='mycomments'),
     url(r'^myshare/$', views.myshare, name='myshare'),
