@@ -13,8 +13,10 @@ select.form-control {
 }
 
 /* 富文本编辑器的 */
-#woca {
+#fuwenben {
 	height: 500px;
+	background-color: rgba(255,255,255,0.5); /*没啥用*/
+	word-wrap: break-word;  /*没啥用*/
 }
 
 label {

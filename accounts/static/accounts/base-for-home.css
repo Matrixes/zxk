@@ -62,6 +62,7 @@ section.nav-under-profile ul li {
 .page-content {
 	color: #fff;
 	font-size: 20px;
+	word-wrap: break-word;
 }
 
 .page-content ul li a {

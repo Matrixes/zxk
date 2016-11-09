@@ -44,7 +44,7 @@ class PublishForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'body': forms.Textarea(attrs={'id': 'woca', 'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'id': 'fuwenben', 'class': 'form-control'}),
         }
 
 

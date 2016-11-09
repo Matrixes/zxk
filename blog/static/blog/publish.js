@@ -1,2 +1,2 @@
-var editor = new wangEditor('woca');
+var editor = new wangEditor('fuwenben');
 editor.create();

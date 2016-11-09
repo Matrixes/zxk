@@ -75,10 +75,10 @@
                 <button id="collect" data-id="{{ post.id }}" data-action="{% if request.user.collections in post.collector.all %}cancel{% else %}collect{% endif %}" class="btn" title="收藏">
                     <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                     <span id="collect-text">
-                    {% if request.user.collections not in post.collector.all %}
-                        收藏
-                    {% else %}
+                    {% if request.user.collections in post.collector.all %}
                         取消收藏
+                    {% else %}
+                        收藏
                     {% endif %}
                     </span>
                     <span id="collect-count" class="badge">{{ post.collector.count }}</span>

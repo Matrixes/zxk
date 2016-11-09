@@ -119,6 +119,7 @@ body
 .wmd-panel textarea {
 	width: 100%;
 	font-size: 1.5em;
+	line-height: 1.2em;
 	background-color: rgba(255,255,255,0.5);
 }
 
@@ -126,6 +127,7 @@ body
 	word-wrap: break-word;
 	background-color: rgba(255,255,255,0.5);
 	font-size: 1.3em;
+	line-height: 1.2em;
 }
 
 

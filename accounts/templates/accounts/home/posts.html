@@ -56,9 +56,11 @@
         <time>
             {{ post.publish|date:'Y-m-d H:i' }}
         </time>
+        {% if request.user == user %}
         <a href="{% url 'blog:edit' post.id %}" target="_blank">
             <span class="label label-primary">编辑</span>
         </a>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>

@@ -2,12 +2,12 @@
 
 {% load staticfiles %}
 
-{% block title %} publish{% endblock %}
+{% block title %}醉心客 - 发表文章{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'blog/publish.css' %}" />
     <link rel="stylesheet" href="{% static 'dist/css/wangEditor.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'blog/publish.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
 
             <div class="form-group">
                 <label for="{{ form.body.id_for_label }}">正文</label>
-                <div id='woca1'>
+                <div id='div-fuwenben'>
                     {{ form.body }}
                 </div>
             </div>

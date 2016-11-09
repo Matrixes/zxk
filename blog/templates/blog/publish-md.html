@@ -2,14 +2,12 @@
 
 {% load staticfiles %}
 
-{% block title %}publish-md{% endblock %}
+{% block title %}醉心客 - 发表文章(MD){% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
     {{ form.media }}
-    
     <link rel="stylesheet" href="{% static 'blog/publish.css' %}" />
-    
 {% endblock %}
 
 {% block content %}

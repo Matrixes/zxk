@@ -449,6 +449,7 @@ def user_followers(request, username):
 # AJAX view to follow users
 
 from common.decorators import ajax_required
+
 @ajax_required
 @require_POST
 @login_required
@@ -484,11 +485,13 @@ def collecting(request):
 		try:
 			post = Post.objects.get(id=post_id)
 			if action == 'collect':
-				new_item, status = Collections.objects.get_or_create(user=request.user)
-				new_item.post.add(post)
+				new_item, status = Collection.objects.get_or_create(user=request.user)
+				new_item.posts.add(post)
 				create_action(request.user, '收藏了', post)
 			else:
-				Collections.objects.filter(user=request.user, post=post).delete()
+				# 下面的这个语句错了，会把user的collections直接给删掉，而不是某一收藏内容
+				# Collection.objects.filter(user=request.user, posts=post).delete()
+				Collection.objects.get(user=request.user).posts.remove(post)
 				create_action(request.user, '取消收藏', post)
 
 			return JsonResponse({'status': 'ok'})
