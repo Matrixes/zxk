@@ -240,3 +240,14 @@ PAGEDOWN_SHOW_PREVIEW = True
 #PAGEDOWN_WIDGET_TEMPLATE = 'blog/pagedown.html'
 #PAGEDOWN_WIDGET_CSS = ('blog/pagedown.css',)
 #PAGEDOWN_EXTENSIONS = []
+
+
+# Redis settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+
+
+# Django-redis
+
+# 看不懂......
