@@ -1,0 +1,14 @@
+{% extends "base-shop.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        商品
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

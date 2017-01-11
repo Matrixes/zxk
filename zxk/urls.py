@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
 
     url(r'^images/', include('images.urls', namespace='images')),
+    url(r'^shop/', include('shop.urls', namespace='shop')),
 
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, 
         name='django.contrib.sitemaps.views.sitemap'),
