@@ -1,0 +1,30 @@
+{% extends "./base-shop.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    {% if product %}
+        {{ product.name }}
+    {% else %}
+        商品
+    {% endif %}
+{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-6 col-lg-6 product">
+        <figure>
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/no_image.png' %}{% endif %}">
+            </a>
+        </figure>
+    </div>
+    <div class="col-md-6 col-lg-6">
+        {{ product.name }} <br />
+        {{ product.category }} <br />
+        {{ product.price}} <br />
+        {{ product.description|linebreaks }}
+    </div>
+</div>
+
+{% endblock  %}

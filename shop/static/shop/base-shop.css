@@ -1,0 +1,13 @@
+.product figure img {
+	width: 61.8%;
+	height: 61.8%;
+
+	display: block;
+	margin: 5% auto 2% auto;
+}
+
+.product figcaption {
+	font-size: 2rem;
+	text-align: center;
+	overflow: hidden;
+}

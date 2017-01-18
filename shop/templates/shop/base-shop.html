@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}醉心客 - 商城{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'shop/base-shop.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 col-lg-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li>
+                    <a href="{% url 'shop:product_list_by_category' 'all' %}">
+                        所有分类
+                    </a>
+                </li>
+                {% for category in categories %}
+                <li>
+                    <a href="{{ category.get_absolute_url }}">
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-10 col-lg-10">
+            {% block page_content %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

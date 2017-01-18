@@ -2,18 +2,11 @@
 
 {% load staticfiles %}
 
-{% block title %}
-    {% if category %}
-        {{ category.name }}
-    {% else %}
-        商品
-    {% endif %}
-{% endblock %}
+{% block title %}醉心客 - 商城 - 首页{% endblock %}
 
 {% block page_content %}
 <div class="row">
-    <h1>{{ category }}</h1>
-    {% for product in products %}
+    {% for product in last_products %}
     <div class="col-md-4 col-lg-4 product">
         <figure>
             <a href="{{ product.get_absolute_url }}">
@@ -27,4 +20,6 @@
     </div>
     {% endfor %}
 </div>
+
+
 {% endblock %}
