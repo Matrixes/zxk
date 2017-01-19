@@ -1,5 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
+
 from .models import Category, Product
+from .cart import Cart
+from .forms import CartAddProductForm
 
 
 def index(request):
@@ -23,5 +27,40 @@ def product_list(request, category_slug='all'):
 def product_detail(request, id, slug):
 	categories = Category.objects.all()
 	product = get_object_or_404(Product, id=id, slug=slug, available=True)
-	return render(request, 'shop/product-detail.html', {'categories': categories, 'product': product})
-	
+
+	cart_product_form = CartAddProductForm()
+	return render(request, 
+				  'shop/product-detail.html',  
+				  {'categories': categories, 
+				  'product': product,
+				  'cart_product_form': cart_product_form})
+
+
+# cart
+def cart_detail(request):
+	cart = Cart(request)
+	return render(request, 'shop/cart-detail.html', {'cart': cart})
+
+
+@require_POST
+def cart_add(request, product_id):
+	cart = Cart(request)
+	product = get_object_or_404(Product, id=int(product_id))
+	form = CartAddProductForm(request.POST)
+
+	if form.is_valid():
+		cd = form.cleaned_data
+		cart.add(product=product, 
+				 quantity=cd['quantity'],
+				 update_quantity=cd['update'])
+	return redirect('shop:cart_detail')
+
+
+def cart_remove(request, product_id):
+	cart = Cart(request)
+	product = get_object_or_404(Product, id=product_id)
+	cart.remove(product)
+	return redirect('shop:cart_detail')
+
+
+

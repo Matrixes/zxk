@@ -24,6 +24,11 @@
         {{ product.category }} <br />
         {{ product.price}} <br />
         {{ product.description|linebreaks }}
+        <form action="{% url 'shop:cart_add' product.id %}" method="post">
+            {% csrf_token %}
+            {{ cart_product_form }}
+            <input type="submit" value="加入购物车" />
+        </form>
     </div>
 </div>
 
