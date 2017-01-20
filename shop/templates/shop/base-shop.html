@@ -26,6 +26,22 @@
                 </li>
                 {% endfor %}
             </ul>
+            <!--
+            <a href="{% url 'shop:cart_detail' %}">
+                <button class="btn">我的购物车</button>
+            </a>
+            -->
+            <button class="btn">我的购物车</button> <br />
+            {% with total_items=cart|length %}
+                {% if cart|length > 0 %}
+                    <a href="{% url 'shop:cart_detail' %}">
+                        {{ total_items }} item{{ total_items|pluralize }} <br />
+                        ${{ cart.get_total_price }}
+                    </a>
+                {% else %}
+                    Your cart is empty
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="col-md-10 col-lg-10">
             {% block page_content %}
